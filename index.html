@@ -179,13 +179,13 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   <div class="nav">
     <button class="active" data-page="dashboard">Dashboard</button>
     <button data-page="scorecard">Agent Scorecard</button>
-    <button data-page="leaderboard">Leaderboard</button>
-    <button data-page="agents">Agents</button>
+    <button data-page="leaderboard">Agent Leaderboard</button>
+    <button data-page="agents">Agent List</button>
     <button data-page="activities">Agent Activity KPI</button>
     <button data-page="subteamscorecard">Subteam Leader Scorecard</button>
     <button data-page="coreboard">Subteam Leaderboard</button>
     <button data-page="coreactivity">Subteam Leader KPI</button>
-    <button data-page="records">KPI Records</button>
+    <button data-page="records">Agent KPI Records</button>
     <button data-page="reports">Reports</button>
     <button data-page="settings">Settings</button>
   </div>
@@ -281,7 +281,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div><button class="btn" onclick="saveRecord()">Add Record</button></div>
     </div>
     <datalist id="agentList"></datalist>
-    <div class="card"><div class="actions"><button class="btn2" onclick="exportCsv()">Download CSV</button><button class="ghost" onclick="clearRecords()">Clear All Records</button></div></div>
+    <div class="card"><div class="actions"><button class="btn2" onclick="exportExcel()">Download Excel</button><button class="ghost" onclick="clearRecords()">Clear All Records</button></div></div>
     <div class="card"><div class="tablebox"><table><thead><tr><th>Date</th><th>Agent</th><th>Status</th><th>Activity</th><th>Count</th><th>Points</th><th>Notes</th><th>Action</th></tr></thead><tbody id="recordsRows"></tbody></table></div></div>
   </section>
 
@@ -408,7 +408,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   </section>
 
   <section id="reports" class="page">
-    <div class="card"><div class="actions"><button class="btn2" onclick="exportCsv()">Download All Records CSV</button><button class="btn2" onclick="downloadDashboardPdf()">Download Dashboard PDF</button></div></div>
+    <div class="card"><div class="actions"><button class="btn2" onclick="exportExcel()">Download All Records Excel</button><button class="btn2" onclick="downloadDashboardPdf()">Download Dashboard PDF</button></div></div>
     <div class="charts">
       <div class="card"><h3>Agent Ready-to-Send Message</h3><label>Agent<select id="reportAgentMessageSelect" onchange="generateAgentReportMessage()"><option value="">Select Agent</option></select></label><div class="small" style="margin-top:8px">The message uses the date range selected on the Dashboard.</div><textarea id="agentMessage"></textarea><button class="btn2" onclick="copyMessage()">Copy Agent Message</button></div>
       <div class="card"><h3>Subteam Leader Ready-to-Send Message</h3><label>Subteam Leader / Subteam<select id="reportSubteamMessageSelect" onchange="generateSubteamReportMessage()"><option value="">Select Name</option></select></label><div class="small" style="margin-top:8px">The message uses the date range selected on the Dashboard.</div><textarea id="subteamMessage"></textarea><button class="btn2" onclick="copySubteamMessage()">Copy Subteam Leader Message</button></div>
@@ -697,13 +697,13 @@ const AGENT_RESTRICTED_PAGES=['agents','activities','coreactivity','records','re
 const PAGE_META={
   dashboard:{title:'Agent Performance Overview',subtitle:'Track team activity, points, targets, and overall performance.'},
   scorecard:{title:'Agent Scorecard',subtitle:'Review individual activity, points, targets, and KPI progress.'},
-  leaderboard:{title:'Leaderboard',subtitle:'Compare agent performance and rankings across key activities.'},
-  agents:{title:'Agents',subtitle:'Manage agent names, Subteam Leader assignments, and subteam details.'},
+  leaderboard:{title:'Agent Leaderboard',subtitle:'Compare agent performance and rankings across key activities.'},
+  agents:{title:'Agent List',subtitle:'Manage agent names, Subteam Leader assignments, and subteam details.'},
   activities:{title:'Agent Activity KPI',subtitle:'Set the activities and points used to calculate agent KPIs.'},
   subteamscorecard:{title:'Subteam Leader Scorecard',subtitle:'Review Subteam Leader activity, points, targets, and KPI progress.'},
   coreboard:{title:'Subteam Leaderboard',subtitle:'Compare Subteam Leader and subteam performance by points and activity.'},
   coreactivity:{title:'Subteam Leader KPI',subtitle:'Record and manage KPI activities for Subteam Leaders and subteams.'},
-  records:{title:'KPI Records',subtitle:'Review, add, export, and manage individual KPI records.'},
+  records:{title:'Agent KPI Records',subtitle:'Review, add, export, and manage individual agent KPI records.'},
   reports:{title:'Reports',subtitle:'Review performance summaries and download KPI reports.'},
   settings:{title:'Settings',subtitle:'Configure branding, targets, challenge dates, and the Google Sheets connection.'}
 };
@@ -814,7 +814,10 @@ function renderReports(){
   let subList=Object.entries(subGroups).map(([leader,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.total||0),0),days=uniqueDays(rs),target=days*Number(settings.subteamBaseTarget||150),pct=target?points/target*100:0;return{leader,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct||b.points-a.points||a.leader.localeCompare(b.leader));
   let subBody=document.getElementById('subteamReportRows');if(subBody)subBody.innerHTML=subList.length?subList.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.leader)}</td><td>${x.points.toLocaleString()}</td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="7" class="small">No Subteam Leader performance data is available for the selected date range.</td></tr>';
 }
-function exportCsv(){let csv=Papa.unparse(records);downloadBlob(csv,'TEAM_ANDENG_KPI_RECORDS.csv','text/csv')}
+function exportExcel(){
+  let rows=records.map(function(r){return{Date:r.date,Agent:r.agent,Status:r.status||'',Activity:r.activity,Count:Number(r.count||0),Points:Number(r.points||0),Notes:r.notes||''};});
+  let ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();ws['!cols']=[{wch:12},{wch:24},{wch:14},{wch:32},{wch:10},{wch:12},{wch:36}];XLSX.utils.book_append_sheet(wb,ws,'Agent KPI Records');XLSX.writeFile(wb,'TEAM_ANDENG_AGENT_KPI_RECORDS.xlsx');
+}
 function downloadBlob(data,name,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 function applyBranding(){
   document.documentElement.style.setProperty('--navy',settings.primaryColor||'#17324e');
