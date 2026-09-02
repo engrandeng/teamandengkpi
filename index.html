@@ -147,6 +147,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 .record-actions{display:flex;gap:6px;align-items:center}.record-actions button{width:auto;min-width:58px;min-height:32px;margin:0;padding:6px 10px;font-size:11px}
 #agentNameRows input[type="checkbox"]{width:17px;height:17px;min-height:0;margin:0;padding:0;vertical-align:middle;accent-color:var(--navy);cursor:pointer}
 .agent-add-action{display:flex;align-items:flex-end}.agent-add-action .btn{margin-top:0}
+.scorecard-download-action{display:flex;align-items:flex-end}.scorecard-download-action .btn2{margin-top:0}
 .lb-controls{gap:12px}
 .rank-row{border-radius:12px;border-color:#dce3eb;box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease}
 .rank-row:hover{transform:translateX(2px);box-shadow:0 8px 20px rgba(23,50,78,.09)}
@@ -220,7 +221,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div><label>Agent<select id="scoreAgent" onchange="renderScorecard()"></select></label></div>
       <div><label>Start Date<input type="date" id="scoreStart" onchange="renderScorecard()"></label></div>
       <div><label>End Date<input type="date" id="scoreEnd" onchange="renderScorecard()"></label></div>
-      <div><button class="btn2" onclick="downloadScorecardPdf()">Download PDF</button></div>
+      <div class="scorecard-download-action"><button class="btn2" onclick="downloadScorecardPdf()">Download PDF</button></div>
     </div>
     <div id="scoreCapture">
       <div class="card score-head">
