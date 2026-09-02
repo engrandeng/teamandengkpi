@@ -410,8 +410,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   <section id="reports" class="page">
     <div class="card"><div class="actions"><button class="btn2" onclick="exportCsv()">Download All Records CSV</button><button class="btn2" onclick="downloadDashboardPdf()">Download Dashboard PDF</button></div></div>
     <div class="charts">
-      <div class="card"><h3>Agent Ready-to-Send Message</h3><div class="small">Select an agent and date range in Agent Scorecard to generate this message.</div><textarea id="agentMessage"></textarea><button class="btn2" onclick="copyMessage()">Copy Agent Message</button></div>
-      <div class="card"><h3>Subteam Leader Ready-to-Send Message</h3><div class="small">Select a name and date range in Subteam Leader Scorecard to generate this message.</div><textarea id="subteamMessage"></textarea><button class="btn2" onclick="copySubteamMessage()">Copy Subteam Leader Message</button></div>
+      <div class="card"><h3>Agent Ready-to-Send Message</h3><label>Agent<select id="reportAgentMessageSelect" onchange="generateAgentReportMessage()"><option value="">Select Agent</option></select></label><div class="small" style="margin-top:8px">The message uses the date range selected on the Dashboard.</div><textarea id="agentMessage"></textarea><button class="btn2" onclick="copyMessage()">Copy Agent Message</button></div>
+      <div class="card"><h3>Subteam Leader Ready-to-Send Message</h3><label>Subteam Leader / Subteam<select id="reportSubteamMessageSelect" onchange="generateSubteamReportMessage()"><option value="">Select Name</option></select></label><div class="small" style="margin-top:8px">The message uses the date range selected on the Dashboard.</div><textarea id="subteamMessage"></textarea><button class="btn2" onclick="copySubteamMessage()">Copy Subteam Leader Message</button></div>
     </div>
     <div class="card"><h3>Agent Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Agent</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="reportRows"></tbody></table></div></div>
     <div class="card"><h3>Subteam Leaders Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Subteam Leader / Subteam</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="subteamReportRows"></tbody></table></div></div>
@@ -788,7 +788,25 @@ function actDrag(e,i){_actDrag=i;e.dataTransfer.effectAllowed='move';}
 function actDrop(e,i){e.preventDefault();if(_actDrag===null||_actDrag===i)return;const m=activities.splice(_actDrag,1)[0];activities.splice(i,0,m);_actDrag=null;write(KEYS.activities,activities);pushConfig();renderAll();}
 function editActivity(i,k,v){activities[i][k]=k==='points'?Number(v):v.trim();write(KEYS.activities,activities);pushConfig();renderSelectors()}
 function removeActivity(i){if(confirm('Delete this activity? Existing records will stay unchanged.')){activities.splice(i,1);write(KEYS.activities,activities);pushConfig();renderAll()}}
+function populateReportMessageSelectors(){
+  var agentSel=document.getElementById('reportAgentMessageSelect'),subSel=document.getElementById('reportSubteamMessageSelect');if(!agentSel||!subSel)return;
+  var av=agentSel.value,sv=subSel.value,agents=[...new Set([...agentList,...records.map(function(r){return r.agent;}).filter(Boolean)])].sort();
+  agentSel.innerHTML='<option value="">Select Agent</option>'+agents.map(function(n){return '<option value="'+esc(n)+'" '+(n===av?'selected':'')+'>'+esc(n)+'</option>';}).join('');
+  var subs=[...new Set(coreLeaderList().map(function(c){return c.display;}).concat(coreRecords.map(function(r){return r.leader;}).filter(Boolean)))].sort();
+  subSel.innerHTML='<option value="">Select Name</option>'+subs.map(function(n){return '<option value="'+esc(n)+'" '+(n===sv?'selected':'')+'>'+esc(n)+'</option>';}).join('');
+}
+function generateAgentReportMessage(){
+  var name=document.getElementById('reportAgentMessageSelect').value,s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,name),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),days=uniqueDays(rows),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0,l=calcLevel(pct);
+  agentMessage.value=name?'Hi '+name+', your KPI performance for the selected period is '+pct.toFixed(1)+'%. You earned '+points.toLocaleString()+' points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'. '+(pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.') : '';
+}
+function generateSubteamReportMessage(){
+  var name=document.getElementById('reportSubteamMessageSelect').value,s=dashStart.value,e=dashEnd.value,rows=coreRecords.filter(function(r){return inRange(r,s,e)&&r.leader===name;}),points=rows.reduce(function(t,r){return t+Number(r.total||0);},0),days=uniqueDays(rows),target=days*Number(settings.subteamBaseTarget||150),pct=target?points/target*100:0,l=calcLevel(pct);
+  subteamMessage.value=name?'Hi '+name+', your Subteam Leader KPI performance for the selected period is '+pct.toFixed(1)+'%. You earned '+points.toLocaleString()+' points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'. '+(pct<30?'Let us focus on consistent daily leadership activities.':pct<71?'Good progress. Keep building consistent activity.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.') : '';
+}
 function renderReports(){
+  populateReportMessageSelectors();
+  if(document.getElementById('reportAgentMessageSelect').value)generateAgentReportMessage();
+  if(document.getElementById('reportSubteamMessageSelect').value)generateSubteamReportMessage();
   let s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,''),groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));
   let list=Object.entries(groups).map(([agent,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{agent,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct);
   reportRows.innerHTML=list.length?list.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.agent)}</td><td>${x.points.toLocaleString()}</td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="7" class="small">No agent performance data is available for the selected date range.</td></tr>';
