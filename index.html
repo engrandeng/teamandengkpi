@@ -971,7 +971,7 @@ function buildBoard(cols,rows){
       a.counts[c.label]=(a.counts[c.label]||0)+Number(r.count||0); a.points+=Number(r.points||0);}});});
   return Object.values(map).filter(a=>a.points>0).sort((x,y)=>y.points-x.points||x.name.localeCompare(y.name));
 }
-function lbMedal(i){return i===0?'\U0001F947':i===1?'\U0001F948':i===2?'\U0001F949':'';}
+function lbMedal(i){return i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';}
 function renderBoard(id,cols,data){
   const tb=document.getElementById(id); if(!tb)return;
   if(!data.length){tb.innerHTML='<tr><td colspan="'+(cols.length+3)+'" style="text-align:center;color:var(--muted);padding:18px">Wala pang data para sa period na ito.</td></tr>';return;}
@@ -1030,7 +1030,7 @@ function cActDrag(e,i){_cActDrag=i;e.dataTransfer.effectAllowed='move';}
 function cActDrop(e,i){e.preventDefault();if(_cActDrag===null||_cActDrag===i)return;var m=coreActs.splice(_cActDrag,1)[0];coreActs.splice(i,0,m);_cActDrag=null;write(KEYS.coreActs,coreActs);pushConfig();coreRefresh();}
 function deleteCoreRecord(id){if(!confirm('Delete this record?'))return;coreRecords=coreRecords.filter(function(r){return r.id!==id;});write(KEYS.coreRecords,coreRecords);pushConfig();coreRefresh();}
 function coreSetRange(kind){var s=document.getElementById('coreStart'),e=document.getElementById('coreEnd');if(kind==='all'){s.value='';e.value='';}else{var d=new Date(),y=d.getFullYear(),m=d.getMonth(),pad=function(n){return String(n).padStart(2,'0');};s.value=y+'-'+pad(m+1)+'-01';e.value=y+'-'+pad(m+1)+'-'+pad(new Date(y,m+1,0).getDate());}renderCoreBoard();}
-function coreMedal(i){return i===0?'\U0001F947':i===1?'\U0001F948':i===2?'\U0001F949':'';}
+function coreMedal(i){return i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';}
 function renderCoreBoard(){
   coreFillNameSelect(document.getElementById('coreFilter'),true);
   var f=document.getElementById('coreFilter')?document.getElementById('coreFilter').value:'';
