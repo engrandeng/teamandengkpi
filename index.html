@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TEAM ANDENG KPI Monitoring v1.3</title>
+<link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -38,6 +39,8 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;bord
 .rank-row.top2 .rank-num{background:#cfd4dc}
 .rank-row.top3 .rank-num{background:#e8a869}
 .rank-name{font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.agent-avatar{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;border:1px solid var(--line);border-radius:50%;background:var(--surface-tint);font-size:18px;box-shadow:0 2px 6px rgba(23,50,78,.08)}
+body.exporting-dashboard .agent-avatar{display:none}
 .rank-name .badge{padding:3px 9px;font-size:10px}
 .rank-bar{height:7px;border-radius:99px;background:#eef3f4;overflow:hidden;margin-top:6px}
 .rank-bar i{display:block;height:100%;background:var(--navy);border-radius:99px}
@@ -63,7 +66,7 @@ body.agent-mode #agentPortal{display:block}
 .portal-brand{text-align:center;margin-bottom:16px}
 .portal-brand img{display:none;width:130px;height:130px;object-fit:contain;margin:0 auto 10px}
 .portal-brand h1{margin:0;font-size:24px;color:var(--navy);letter-spacing:.3px}
-.portal-brand p{margin:5px 0 0;color:var(--muted);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.portal-brand p{margin:7px 0 0;color:var(--muted);font-family:'Glacial Indifference','Century Gothic',Futura,sans-serif;font-size:13px;font-weight:700;line-height:1.4;letter-spacing:1.1px;text-transform:uppercase}
 .totals-bar{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .total-tile{background:var(--navy);color:#fff;border-radius:18px;padding:16px 18px;text-align:center;box-shadow:0 10px 24px rgba(6,108,124,.22)}
 .total-tile strong{display:block;font-size:30px;line-height:1.1}
@@ -451,8 +454,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   <div class="portal-wrap">
     <div class="portal-brand">
       <img id="portalLogo" alt="Team Logo">
-      <h1 id="portalTitle">TEAM ANDENG</h1>
-      <p>Activity Tracker</p>
+      <h1 id="portalTitle">Agent KPI Activity Form</h1>
+      <p>Record your progress. Build momentum. Reach your goal.</p>
     </div>
 
     <div class="totals-bar">
@@ -462,7 +465,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
     <div class="card">
       <div class="grid">
-        <div><label>Name<select id="afName" onchange="updateFormTotals()"><option value="">— Select your name —</option></select></label></div>
+        <div><label>Name<select id="afName" onchange="handleAgentNameChange()"><option value="">— Select your name —</option></select></label></div>
+        <div><label>Profile Avatar<select id="afAvatar" onchange="saveAgentAvatar()" disabled><option value="">— Choose an avatar —</option></select></label></div>
         <div><label>Date<input type="date" id="afDate" onchange="updateFormTotals()"></label></div>
         <div><label>Status<select id="afStatus"><option>Full-time</option><option>Part-time</option><option>Rookie</option></select></label></div>
       </div>
@@ -667,11 +671,12 @@ function getApiUrl(){
 }
 function cloudEnabled(){return getApiUrl().indexOf('https://')===0}
 
-const KEYS={records:'TAND_KPI_RECORDS_V1',activities:'TAND_KPI_ACTIVITIES_V1',settings:'TAND_KPI_SETTINGS_V1',agents:'TAND_KPI_AGENTS_V1',coreActs:'TAND_CORE_ACTS_V1',coreMap:'TAND_CORE_MAP_V1',coreRecords:'TAND_CORE_RECORDS_V1'};
+const KEYS={records:'TAND_KPI_RECORDS_V1',activities:'TAND_KPI_ACTIVITIES_V1',settings:'TAND_KPI_SETTINGS_V1',agents:'TAND_KPI_AGENTS_V1',agentAvatars:'TAND_AGENT_AVATARS_V1',coreActs:'TAND_CORE_ACTS_V1',coreMap:'TAND_CORE_MAP_V1',coreRecords:'TAND_CORE_RECORDS_V1'};
 const defaultActivities=[['Client Presentation',20],['Approach (Sell and Recruit)',1],['Closing',200],['Training',5],['Branding',1],['Engage',1],['Setting Appointment',5],['BYB / Table Top',20],['Paid MTM',50],['Paid Exam',50],['Coded',100]];
 let records=read(KEYS.records,[]),activities=read(KEYS.activities,defaultActivities.map(x=>({name:x[0],points:x[1]}))),settings=read(KEYS.settings,{baseTarget:150,subteamBaseTarget:150,subteamChallengeStart:'',subteamChallengeEnd:'',kpiName:'Team Andeng KPI Monitoring System',kpiSubtitle:'',primaryColor:'#17324e',secondaryColor:'#2e6ea0',accentColor:'#fbe6d4',actionColor:'#e2691c',logoData:''}),agentList=read(KEYS.agents,TEAM_AGENTS.slice());
 const defaultCoreActivities=[['JFW / Table Top',30],['Finsem',20],['1on1 Mentoring / Coaching',10],['Prospect Mapping',10],['Catch Up Calls (min 10min)',15]];
-let coreActs=read(KEYS.coreActs,defaultCoreActivities.map(x=>({name:x[0],points:x[1]}))),coreMap=read(KEYS.coreMap,{}),coreRecords=read(KEYS.coreRecords,[]);
+let coreActs=read(KEYS.coreActs,defaultCoreActivities.map(x=>({name:x[0],points:x[1]}))),coreMap=read(KEYS.coreMap,{}),coreRecords=read(KEYS.coreRecords,[]),agentAvatars=read(KEYS.agentAvatars,{});
+const AGENT_AVATAR_OPTIONS=[['🐭','Mickey Mouse'],['🎀','Minnie Mouse'],['🦆','Donald Duck'],['🐶','Goofy'],['🦁','Simba'],['👽','Stitch'],['🧜‍♀️','Ariel'],['❄️','Elsa'],['🏹','Merida'],['🚀','Buzz Lightyear'],['🌹','Belle'],['🐯','Tigger']];
 let charts={};
 function read(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch(e){return f}}function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -720,6 +725,7 @@ function removeAgentName(name){
   if(!confirm('Remove "'+name+'" from the list? Their existing records will not be deleted.'))return;
   agentList=agentList.filter(function(a){return norm(a)!==norm(name);});
   if(coreMap&&Object.prototype.hasOwnProperty.call(coreMap,name)){delete coreMap[name];write(KEYS.coreMap,coreMap);}
+  if(agentAvatars&&Object.prototype.hasOwnProperty.call(agentAvatars,name)){delete agentAvatars[name];write(KEYS.agentAvatars,agentAvatars);}
   write(KEYS.agents,agentList);renderAll();
   if(cloudEnabled()){showToast('⏳ Syncing...');Promise.resolve(pushConfig()).then(function(){showToast('✓ Removed and synced!');}).catch(function(){showToast('✓ Removed (⚠ not synced)');});}
   else showToast('✓ Removed!');
@@ -730,7 +736,7 @@ rankList.innerHTML=summaries.length?summaries.map((x,i)=>`
   <div class="rank-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
     <div class="rank-num">${i+1}</div>
     <div>
-      <div class="rank-name">${esc(x.name)} <span class="badge ${x.level.cls}">${x.level.icon} ${x.level.name}</span></div>
+      <div class="rank-name"><span class="agent-avatar" title="Agent avatar">${esc(agentAvatars[x.name]||'🙂')}</span>${esc(x.name)} <span class="badge ${x.level.cls}">${x.level.icon} ${x.level.name}</span></div>
       <div class="rank-bar"><i style="width:${Math.min(100,x.pct).toFixed(1)}%"></i></div>
     </div>
     <div class="rank-pts"><strong>${x.points.toLocaleString()}</strong><div class="rank-sub">${x.pct.toFixed(1)}% of ${x.target.toLocaleString()} target</div></div>
@@ -828,7 +834,7 @@ function copyMessage(){navigator.clipboard.writeText(agentMessage.value).then(()
 function copySubteamMessage(){navigator.clipboard.writeText(document.getElementById('subteamMessage').value).then(()=>alert('Message copied.'))}
 async function downloadScorecardPdf(){let el=document.getElementById('scoreCapture'),canvas=await html2canvas(el,{scale:2,useCORS:true}),img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),w=190,h=canvas.height*w/canvas.width;pdf.addImage(img,'PNG',10,10,w,h);pdf.save((scoreAgent.value||'AGENT')+'_KPI_SCORECARD.pdf')}
 async function downloadSubteamScorecardPdf(){let el=document.getElementById('subScoreCapture'),canvas=await html2canvas(el,{scale:2,useCORS:true}),img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),w=190,h=canvas.height*w/canvas.width;pdf.addImage(img,'PNG',10,10,w,h);pdf.save((document.getElementById('subScoreName').value||'SUBTEAM_LEADER')+'_KPI_SCORECARD.pdf')}
-async function downloadDashboardPdf(){let el=document.getElementById('dashboard'),canvas=await html2canvas(el,{scale:2,useCORS:true}),img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),w=190,h=canvas.height*w/canvas.width;pdf.addImage(img,'PNG',10,10,w,h);pdf.save('TEAM_ANDENG_KPI_DASHBOARD.pdf')}
+async function downloadDashboardPdf(){document.body.classList.add('exporting-dashboard');try{let el=document.getElementById('dashboard'),canvas=await html2canvas(el,{scale:2,useCORS:true}),img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),w=190,h=canvas.height*w/canvas.width;pdf.addImage(img,'PNG',10,10,w,h);pdf.save('TEAM_ANDENG_KPI_DASHBOARD.pdf')}finally{document.body.classList.remove('exporting-dashboard')}}
 /* ===== AGENT ENTRY FORM ===== */
 function challengeRange(){
   // Use saved challenge range; default = current week (Mon-Sun)
@@ -841,11 +847,12 @@ function challengeRange(){
 }
 function renderAgentForm(){
   // Branding
-  portalTitle.textContent=settings.kpiName||'TEAM ANDENG';
+  portalTitle.textContent='Agent KPI Activity Form';
   portalLogo.src=settings.logoData||DEFAULT_LOGO;portalLogo.style.display='block';
   // Populate the name dropdown from agentList (loaded from the Google Sheet's "Agents" tab)
   let cur=afName.value;
   afName.innerHTML='<option value="">— Select your name —</option>'+agentList.slice().sort().map(a=>`<option ${a===cur?'selected':''}>${esc(a)}</option>`).join('');
+  updateAgentAvatarSelect();
   // Default date = today
   if(!afDate.value)afDate.value=new Date().toISOString().slice(0,10);
   // Activity list from dashboard activities
@@ -856,6 +863,17 @@ function renderAgentForm(){
       <div class="act-total" id="afTot_${i}">0</div>
     </div>`).join('');
   updateFormTotals();
+}
+function updateAgentAvatarSelect(){
+  var sel=document.getElementById('afAvatar'),name=document.getElementById('afName').value.trim();if(!sel)return;
+  sel.innerHTML='<option value="">— Choose an avatar —</option>'+AGENT_AVATAR_OPTIONS.map(function(a){return '<option value="'+a[0]+'">'+a[0]+' '+a[1]+'</option>';}).join('');
+  sel.disabled=!name;sel.value=name?(agentAvatars[name]||''):'';
+}
+function handleAgentNameChange(){updateAgentAvatarSelect();updateFormTotals();}
+function saveAgentAvatar(){
+  var name=document.getElementById('afName').value.trim(),avatar=document.getElementById('afAvatar').value;if(!name)return;
+  if(avatar)agentAvatars[name]=avatar;else delete agentAvatars[name];write(KEYS.agentAvatars,agentAvatars);renderDashboard();
+  if(cloudEnabled())Promise.resolve(pushConfig()).then(function(){showToast('\u2713 Profile avatar saved!');});else showToast('\u2713 Profile avatar saved!');
 }
 function pendingFormPoints(){
   let total=0;
@@ -992,6 +1010,7 @@ function applyCloudConfig(raw){
     if(Array.isArray(cfg.coreActs)&&cfg.coreActs.length){coreActs=cfg.coreActs;write(KEYS.coreActs,coreActs)}
     if(cfg.coreMap&&typeof cfg.coreMap==='object'){coreMap=cfg.coreMap;write(KEYS.coreMap,coreMap)}
     if(Array.isArray(cfg.coreRecords)){coreRecords=cfg.coreRecords;write(KEYS.coreRecords,coreRecords)}
+    if(cfg.agentAvatars&&typeof cfg.agentAvatars==='object'){agentAvatars=cfg.agentAvatars;write(KEYS.agentAvatars,agentAvatars)}
     if(cfg.settings&&typeof cfg.settings==='object'){
       let keepUrl=settings.sheetsApiUrl;
       settings={...settings,...cfg.settings};
@@ -1011,7 +1030,7 @@ async function pushConfig(){
   if(!cloudEnabled())return;
   try{
     let cfgSettings={...settings};delete cfgSettings.sheetsApiUrl;
-    await cloudPost({action:'saveConfig',config:JSON.stringify({activities:activities,agents:agentList,settings:cfgSettings,coreActs:coreActs,coreMap:coreMap,coreRecords:coreRecords})});
+    await cloudPost({action:'saveConfig',config:JSON.stringify({activities:activities,agents:agentList,settings:cfgSettings,coreActs:coreActs,coreMap:coreMap,coreRecords:coreRecords,agentAvatars:agentAvatars})});
   }catch(e){}
 }
 async function cloudLoad(quiet){
@@ -1039,6 +1058,7 @@ async function cloudPost(payload){
 async function downloadScreenshot(){
   let target=document.querySelector('.main')||document.body;
   showToast('⏳ Capturing the screenshot...');
+  document.body.classList.add('exporting-dashboard');
   try{
     let canvas=await html2canvas(target,{scale:2,useCORS:true,backgroundColor:'#f6f9fc',windowWidth:Math.max(1200,target.scrollWidth)});
     let a=document.createElement('a');
@@ -1046,7 +1066,7 @@ async function downloadScreenshot(){
     a.href=canvas.toDataURL('image/png');
     a.click();
     showToast('✓ Screenshot saved!');
-  }catch(e){showToast('⚠ The screenshot could not be captured.')}
+  }catch(e){showToast('⚠ The screenshot could not be captured.')}finally{document.body.classList.remove('exporting-dashboard')}
 }
 
 function init(){
