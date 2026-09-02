@@ -41,6 +41,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;bord
 .rank-name{font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .agent-avatar{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;border:1px solid var(--line);border-radius:50%;background:var(--surface-tint);font-size:18px;box-shadow:0 2px 6px rgba(23,50,78,.08)}
 body.exporting-dashboard .agent-avatar{display:none}
+.avatar-field{display:flex;flex-direction:column;gap:6px}.avatar-prompt{font-size:11px;font-weight:800;color:#3c4b5c}.avatar-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:40px;margin:0;padding:9px 12px;background:#fff;color:var(--text);border:1px solid #cfd8e3;font-weight:700;text-align:left}.avatar-toggle:hover{background:var(--surface-tint)}.avatar-picker{display:none;flex-wrap:wrap;gap:7px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft)}.avatar-picker.open{display:flex}.avatar-option{width:46px!important;height:46px;min-height:46px;margin:0;padding:0;border:1px solid #cfd8e3;border-radius:12px;background:#fff;font-size:27px;line-height:1;box-shadow:0 2px 6px rgba(23,50,78,.06);cursor:pointer}.avatar-option:hover{background:var(--surface-tint);border-color:var(--navy2)}.avatar-option.selected{border:2px solid var(--navy);background:var(--surface-tint);box-shadow:0 0 0 3px color-mix(in srgb,var(--navy2) 14%,transparent)}.avatar-option:disabled{opacity:.38;cursor:not-allowed}
 .rank-name .badge{padding:3px 9px;font-size:10px}
 .rank-bar{height:7px;border-radius:99px;background:#eef3f4;overflow:hidden;margin-top:6px}
 .rank-bar i{display:block;height:100%;background:var(--navy);border-radius:99px}
@@ -73,18 +74,19 @@ body.agent-mode #agentPortal{display:block}
 .total-tile span{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;opacity:.9}
 .total-tile em{display:block;font-style:normal;font-size:10px;opacity:.75;margin-top:3px}
 .act-list{display:flex;flex-direction:column;gap:9px;margin-top:12px}
-.act-row{display:grid;grid-template-columns:minmax(0,1fr) 96px 72px;gap:14px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}
-.act-row .act-name{font-weight:800;font-size:14px}
-.act-row .act-pts{display:block;margin-top:3px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.35;font-weight:600;letter-spacing:0;color:#5f6f82}
-.act-row input{margin-top:0;text-align:center;font-weight:800}
-.act-row .act-total{text-align:right;font-weight:900;color:var(--navy);font-size:15px}
+.act-row{display:grid;grid-template-columns:minmax(0,1fr) 96px 72px;gap:14px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font-family:Arial,Helvetica,sans-serif;letter-spacing:0}
+.act-row .act-name{font-weight:700;font-size:14px;line-height:1.35}
+.act-row .act-pts{display:block;margin-top:3px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.35;font-weight:400;letter-spacing:0;color:#5f6f82}
+.act-row input{margin-top:0;text-align:center;font-family:Arial,Helvetica,sans-serif;font-weight:600}
+.act-row .act-total{text-align:right;font-family:Arial,Helvetica,sans-serif;font-weight:700;color:var(--navy);font-size:15px}
+.entry-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:14px;border-radius:12px;background:var(--gold);font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.35;letter-spacing:0}.entry-total span:first-child{font-weight:700}.entry-total #afEntryPts{font-weight:700;font-size:20px;color:var(--navy)}
 .portal-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:13px 22px;border-radius:999px;font-weight:900;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.3s ease;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:520px){.act-row{grid-template-columns:minmax(0,1fr) 76px 54px;gap:9px;padding:12px}.act-row .act-pts{font-size:11.5px}.totals-bar{grid-template-columns:1fr 1fr}.total-tile strong{font-size:24px}}
 
 /* Agent links provide reporting access without administrative editing controls. */
-body.agent-viewer .nav button[data-page="agents"],body.agent-viewer .nav button[data-page="activities"],body.agent-viewer .nav button[data-page="coreactivity"],body.agent-viewer .nav button[data-page="records"],body.agent-viewer .nav button[data-page="settings"]{display:none}
+body.agent-viewer .nav button[data-page="agents"],body.agent-viewer .nav button[data-page="activities"],body.agent-viewer .nav button[data-page="coreactivity"],body.agent-viewer .nav button[data-page="records"],body.agent-viewer .nav button[data-page="reports"],body.agent-viewer .nav button[data-page="settings"]{display:none}
 body.agent-viewer .agent-form-actions .copy-form-btn{display:none}
 
 /* ===== Refined application theme ===== */
@@ -238,8 +240,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       </div>
       <div class="charts">
         <div class="card full"><h3>Monthly Bar Graph</h3><canvas id="scoreMonthlyChart"></canvas></div>
-        <div class="card"><h3>Activity Breakdown</h3><canvas id="activityChart"></canvas></div>
-        <div class="card"><h3>Ready-to-Send Message</h3><textarea id="agentMessage"></textarea><button class="btn2" onclick="copyMessage()">Copy Message</button></div>
+        <div class="card full"><h3>Activity Breakdown</h3><canvas id="activityChart"></canvas></div>
       </div>
       <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points</th><th>Notes</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
     </div>
@@ -264,8 +265,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       </div>
       <div class="charts">
         <div class="card full"><h3>Monthly Bar Graph</h3><canvas id="subScoreMonthlyChart"></canvas></div>
-        <div class="card"><h3>Activity Breakdown</h3><canvas id="subScoreActivityChart"></canvas></div>
-        <div class="card"><h3>Ready-to-Send Message</h3><textarea id="subteamMessage"></textarea><button class="btn2" onclick="copySubteamMessage()">Copy Message</button></div>
+        <div class="card full"><h3>Activity Breakdown</h3><canvas id="subScoreActivityChart"></canvas></div>
       </div>
       <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points per Activity</th><th>Total Points</th></tr></thead><tbody id="subScoreRows"></tbody></table></div></div>
     </div>
@@ -409,6 +409,10 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
   <section id="reports" class="page">
     <div class="card"><div class="actions"><button class="btn2" onclick="exportCsv()">Download All Records CSV</button><button class="btn2" onclick="downloadDashboardPdf()">Download Dashboard PDF</button></div></div>
+    <div class="charts">
+      <div class="card"><h3>Agent Ready-to-Send Message</h3><div class="small">Select an agent and date range in Agent Scorecard to generate this message.</div><textarea id="agentMessage"></textarea><button class="btn2" onclick="copyMessage()">Copy Agent Message</button></div>
+      <div class="card"><h3>Subteam Leader Ready-to-Send Message</h3><div class="small">Select a name and date range in Subteam Leader Scorecard to generate this message.</div><textarea id="subteamMessage"></textarea><button class="btn2" onclick="copySubteamMessage()">Copy Subteam Leader Message</button></div>
+    </div>
     <div class="card"><h3>Agent Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Agent</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="reportRows"></tbody></table></div></div>
     <div class="card"><h3>Subteam Leaders Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Subteam Leader / Subteam</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="subteamReportRows"></tbody></table></div></div>
   </section>
@@ -466,7 +470,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <div class="card">
       <div class="grid">
         <div><label>Name<select id="afName" onchange="handleAgentNameChange()"><option value="">— Select your name —</option></select></label></div>
-        <div><label>Profile Avatar<select id="afAvatar" onchange="saveAgentAvatar()" disabled><option value="">— Choose an avatar —</option></select></label></div>
+        <div class="avatar-field"><span class="avatar-prompt">Profile emoji</span><button type="button" id="afAvatarToggle" class="avatar-toggle" onclick="toggleAvatarPicker()" disabled><span>Choose profile emoji</span><span>▾</span></button><div id="afAvatarPicker" class="avatar-picker" aria-label="Choose your profile emoji"></div></div>
         <div><label>Date<input type="date" id="afDate" onchange="updateFormTotals()"></label></div>
         <div><label>Status<select id="afStatus"><option>Full-time</option><option>Part-time</option><option>Rookie</option></select></label></div>
       </div>
@@ -476,9 +480,9 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <h3 style="margin:4px 0 2px">Activities</h3>
       <div class="small">Enter the number of activities only — points are computed automatically.</div>
       <div class="act-list" id="afActList"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:12px;border-radius:12px;background:var(--gold)">
-        <span style="font-weight:900">Points for this entry</span>
-        <span id="afEntryPts" style="font-weight:900;font-size:20px;color:var(--navy)">0</span>
+      <div class="entry-total">
+        <span>Total points for this entry</span>
+        <span id="afEntryPts">0</span>
       </div>
     </div>
 
@@ -676,7 +680,7 @@ const defaultActivities=[['Client Presentation',20],['Approach (Sell and Recruit
 let records=read(KEYS.records,[]),activities=read(KEYS.activities,defaultActivities.map(x=>({name:x[0],points:x[1]}))),settings=read(KEYS.settings,{baseTarget:150,subteamBaseTarget:150,subteamChallengeStart:'',subteamChallengeEnd:'',kpiName:'Team Andeng KPI Monitoring System',kpiSubtitle:'',primaryColor:'#17324e',secondaryColor:'#2e6ea0',accentColor:'#fbe6d4',actionColor:'#e2691c',logoData:''}),agentList=read(KEYS.agents,TEAM_AGENTS.slice());
 const defaultCoreActivities=[['JFW / Table Top',30],['Finsem',20],['1on1 Mentoring / Coaching',10],['Prospect Mapping',10],['Catch Up Calls (min 10min)',15]];
 let coreActs=read(KEYS.coreActs,defaultCoreActivities.map(x=>({name:x[0],points:x[1]}))),coreMap=read(KEYS.coreMap,{}),coreRecords=read(KEYS.coreRecords,[]),agentAvatars=read(KEYS.agentAvatars,{});
-const AGENT_AVATAR_OPTIONS=[['🐭','Mickey Mouse'],['🎀','Minnie Mouse'],['🦆','Donald Duck'],['🐶','Goofy'],['🦁','Simba'],['👽','Stitch'],['🧜‍♀️','Ariel'],['❄️','Elsa'],['🏹','Merida'],['🚀','Buzz Lightyear'],['🌹','Belle'],['🐯','Tigger']];
+const AGENT_AVATAR_OPTIONS=[['🐭','Mouse'],['🎀','Bow'],['🦆','Duck'],['🐶','Dog'],['🦁','Lion'],['👽','Alien'],['🧜‍♀️','Mermaid'],['❄️','Snowflake'],['🏹','Archer'],['🚀','Rocket'],['🌹','Rose'],['🐯','Tiger'],['🐼','Panda'],['🐨','Koala'],['🦊','Fox'],['🐰','Rabbit'],['🐸','Frog'],['🦄','Unicorn'],['🐙','Octopus'],['🦋','Butterfly'],['🌟','Star'],['🐬','Dolphin'],['🐻','Bear'],['🦉','Owl'],['🐝','Bee']];
 let charts={};
 function read(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch(e){return f}}function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -689,7 +693,7 @@ function inRange(r,s,e){return (!s||r.date>=s)&&(!e||r.date<=e)}
 function uniqueDays(rows){return new Set(rows.map(r=>r.date).filter(Boolean)).size}
 function filterRows(s,e,a){return records.filter(r=>inRange(r,s,e)&&(!a||norm(r.agent)===norm(a)))}
 function destroyChart(k){if(charts[k]){charts[k].destroy();delete charts[k]}}
-const AGENT_RESTRICTED_PAGES=['agents','activities','coreactivity','records','settings'];
+const AGENT_RESTRICTED_PAGES=['agents','activities','coreactivity','records','reports','settings'];
 const PAGE_META={
   dashboard:{title:'Agent Performance Overview',subtitle:'Track team activity, points, targets, and overall performance.'},
   scorecard:{title:'Agent Scorecard',subtitle:'Review individual activity, points, targets, and KPI progress.'},
@@ -865,14 +869,16 @@ function renderAgentForm(){
   updateFormTotals();
 }
 function updateAgentAvatarSelect(){
-  var sel=document.getElementById('afAvatar'),name=document.getElementById('afName').value.trim();if(!sel)return;
-  sel.innerHTML='<option value="">— Choose an avatar —</option>'+AGENT_AVATAR_OPTIONS.map(function(a){return '<option value="'+a[0]+'">'+a[0]+' '+a[1]+'</option>';}).join('');
-  sel.disabled=!name;sel.value=name?(agentAvatars[name]||''):'';
+  var picker=document.getElementById('afAvatarPicker'),toggle=document.getElementById('afAvatarToggle'),name=document.getElementById('afName').value.trim();if(!picker||!toggle)return;
+  var selected=name?(agentAvatars[name]||''):'';
+  picker.innerHTML=AGENT_AVATAR_OPTIONS.map(function(a){return '<button type="button" class="avatar-option '+(selected===a[0]?'selected':'')+'" aria-label="Select '+esc(a[1])+' emoji" title="Select this emoji" '+(!name?'disabled ':'')+'onclick="selectAgentAvatar(\''+a[0]+'\')">'+a[0]+'</button>';}).join('');
+  toggle.disabled=!name;toggle.firstElementChild.textContent=selected?selected+'  Change profile emoji':'Choose profile emoji';
 }
-function handleAgentNameChange(){updateAgentAvatarSelect();updateFormTotals();}
-function saveAgentAvatar(){
-  var name=document.getElementById('afName').value.trim(),avatar=document.getElementById('afAvatar').value;if(!name)return;
-  if(avatar)agentAvatars[name]=avatar;else delete agentAvatars[name];write(KEYS.agentAvatars,agentAvatars);renderDashboard();
+function toggleAvatarPicker(){var picker=document.getElementById('afAvatarPicker');if(document.getElementById('afAvatarToggle').disabled)return;picker.classList.toggle('open');}
+function handleAgentNameChange(){document.getElementById('afAvatarPicker').classList.remove('open');updateAgentAvatarSelect();updateFormTotals();}
+function selectAgentAvatar(avatar){
+  var name=document.getElementById('afName').value.trim();if(!name)return;
+  agentAvatars[name]=avatar;write(KEYS.agentAvatars,agentAvatars);document.getElementById('afAvatarPicker').classList.remove('open');updateAgentAvatarSelect();renderDashboard();
   if(cloudEnabled())Promise.resolve(pushConfig()).then(function(){showToast('\u2713 Profile avatar saved!');});else showToast('\u2713 Profile avatar saved!');
 }
 function pendingFormPoints(){
