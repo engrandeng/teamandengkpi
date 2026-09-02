@@ -90,8 +90,9 @@ body.agent-mode #agentPortal{display:block}
 @media(max-width:520px){.act-row{grid-template-columns:minmax(0,1fr) 76px 54px;gap:9px;padding:12px}.act-row .act-pts{font-size:11.5px}.totals-bar{grid-template-columns:1fr 1fr}.total-tile strong{font-size:24px}}
 
 /* Agent links provide reporting access without administrative editing controls. */
-body.agent-viewer .nav button[data-page="agents"],body.agent-viewer .nav button[data-page="activities"],body.agent-viewer .nav button[data-page="coreactivity"],body.agent-viewer .nav button[data-page="records"],body.agent-viewer .nav button[data-page="reports"],body.agent-viewer .nav button[data-page="settings"]{display:none}
+body.agent-viewer .nav button[data-page="agents"],body.agent-viewer .nav button[data-page="activities"],body.agent-viewer .nav button[data-page="records"],body.agent-viewer .nav button[data-page="reports"],body.agent-viewer .nav button[data-page="settings"]{display:none}
 body.agent-viewer .agent-form-actions .copy-form-btn{display:none}
+body.agent-viewer .admin-only{display:none!important}
 
 /* ===== Refined application theme ===== */
 :root{--surface:#fff;--surface-soft:#f7f9fc;--surface-tint:#eef4f8;--shadow-sm:0 2px 8px rgba(23,50,78,.06);--shadow-md:0 12px 32px rgba(23,50,78,.10);--radius-lg:18px;--radius-md:12px}
@@ -343,10 +344,10 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
     <div class="card">
       <h3 class="lb-title">🗒️ Recent Records</h3>
-      <div class="actions" style="margin-bottom:12px"><button id="deleteMarkedCoreBtn" class="danger" onclick="deleteMarkedCoreRecords()" disabled>Delete Marked (0)</button><button class="danger" onclick="deleteAllCoreRecords()">Delete All</button></div>
-      <div class="tablebox"><table><thead><tr><th style="width:62px;text-align:center"><label style="color:#fff"><input id="markAllCoreRecords" type="checkbox" onchange="toggleAllCoreRecords(this.checked)" style="width:auto;margin:0 5px 0 0;vertical-align:middle">Mark</label></th><th>Date</th><th>Name</th><th>Activity</th><th>Pts/activity</th><th>Count</th><th>Total</th><th>Action</th></tr></thead><tbody id="coreRecRows"></tbody></table></div>
+      <div class="actions admin-only" style="margin-bottom:12px"><button id="deleteMarkedCoreBtn" class="danger" onclick="deleteMarkedCoreRecords()" disabled>Delete Marked (0)</button><button class="danger" onclick="deleteAllCoreRecords()">Delete All</button></div>
+      <div class="tablebox"><table><thead><tr><th class="admin-only" style="width:62px;text-align:center"><label style="color:#fff"><input id="markAllCoreRecords" type="checkbox" onchange="toggleAllCoreRecords(this.checked)" style="width:auto;margin:0 5px 0 0;vertical-align:middle">Mark</label></th><th>Date</th><th>Name</th><th>Activity</th><th>Pts/activity</th><th>Count</th><th>Total</th><th>Action</th></tr></thead><tbody id="coreRecRows"></tbody></table></div>
     </div>
-    <div class="card">
+    <div class="card admin-only">
       <h3 class="lb-title">⚙️ Admin Tools</h3>
       <div class="notice">Use this only when the administrator needs to change activity names, point values, or their order. It does not submit a Subteam Leader entry.</div>
       <div class="actions"><button class="ghost" onclick="toggleCoreManage()">✏️ Edit Pointing System</button></div>
@@ -366,7 +367,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div class="notice" style="margin-top:12px">Choose a date range and select Apply. Current Month shows this month only, while All Records includes the complete history. Rankings are based on total points.</div>
     </div>
     <div class="card">
-      <h3 class="lb-title">🏆 Subteam Leader Rankings <span style="font-size:12px;color:var(--muted)">(highest to lowest)</span></h3>
+      <h3 class="lb-title">🏆 Subteam Rankings <span style="font-size:12px;color:var(--muted)">(highest to lowest)</span></h3>
       <div class="tablebox"><table><thead><tr><th class="lb-rank">Rank</th><th>Subteam Leader / Subteam</th><th>Active Days</th><th>Total Activities</th><th>Total Points</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="coreLbRows"></tbody></table></div>
     </div>
     <div class="grid2">
@@ -697,7 +698,7 @@ function inRange(r,s,e){return (!s||r.date>=s)&&(!e||r.date<=e)}
 function uniqueDays(rows){return new Set(rows.map(r=>r.date).filter(Boolean)).size}
 function filterRows(s,e,a){return records.filter(r=>inRange(r,s,e)&&(!a||norm(r.agent)===norm(a)))}
 function destroyChart(k){if(charts[k]){charts[k].destroy();delete charts[k]}}
-const AGENT_RESTRICTED_PAGES=['agents','activities','coreactivity','records','reports','settings'];
+const AGENT_RESTRICTED_PAGES=['agents','activities','records','reports','settings'];
 const PAGE_META={
   dashboard:{title:'Agent Performance Overview',subtitle:'Track team activity, points, targets, and overall performance.'},
   scorecard:{title:'Agent Scorecard',subtitle:'Review individual activity, points, targets, and KPI progress.'},
@@ -706,7 +707,7 @@ const PAGE_META={
   activities:{title:'Agent Activity KPI',subtitle:'Set the activities and points used to calculate agent KPIs.'},
   subteamscorecard:{title:'Subteam Leader Scorecard',subtitle:'Review Subteam Leader activity, points, targets, and KPI progress.'},
   coreboard:{title:'Subteam Leaderboard',subtitle:'Compare Subteam Leader and subteam performance by points and activity.'},
-  coreactivity:{title:'Subteam Leader KPI',subtitle:'Record and manage KPI activities for Subteam Leaders and subteams.'},
+  coreactivity:{title:'Subteam Leader KPI',subtitle:'Submit and review KPI activity entries for Subteam Leaders and subteams.'},
   records:{title:'Agent KPI Records',subtitle:'Review, add, export, and manage individual agent KPI records.'},
   reports:{title:'Reports',subtitle:'Review performance summaries and download KPI reports.'},
   settings:{title:'Settings',subtitle:'Configure branding, targets, challenge dates, and the Google Sheets connection.'}
@@ -1275,7 +1276,7 @@ function renderCoreActivity(){
   var rr=document.getElementById('coreRecRows');
   var recs=coreRecords.slice().sort(function(a,b){return (b.date+(b.id||'')).localeCompare(a.date+(a.id||''));}).slice(0,40);
   markedCoreRecordIds.forEach(function(id){if(!coreRecords.some(function(r){return r.id===id;}))markedCoreRecordIds.delete(id);});
-  if(rr)rr.innerHTML=recs.length?recs.map(function(r){return '<tr><td style="text-align:center"><input type="checkbox" aria-label="Mark this record" '+(markedCoreRecordIds.has(r.id)?'checked ':'')+'onchange="markCoreRecord(\''+r.id+'\',this.checked)" style="width:auto;margin:0"></td><td>'+esc(r.date)+'</td><td>'+esc(r.leader)+'</td><td>'+esc(r.activity)+'</td><td>'+r.points+'</td><td>'+r.count+'</td><td><b>'+Number(r.total).toLocaleString()+'</b></td><td><div class="record-actions"><button class="ghost" onclick="editCoreRecord(\''+r.id+'\')">Edit</button><button class="danger" onclick="deleteCoreRecord(\''+r.id+'\')">Delete</button></div></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No records are available.</td></tr>';
+  if(rr)rr.innerHTML=recs.length?recs.map(function(r){return '<tr><td class="admin-only" style="text-align:center"><input type="checkbox" aria-label="Mark this record" '+(markedCoreRecordIds.has(r.id)?'checked ':'')+'onchange="markCoreRecord(\''+r.id+'\',this.checked)" style="width:auto;margin:0"></td><td>'+esc(r.date)+'</td><td>'+esc(r.leader)+'</td><td>'+esc(r.activity)+'</td><td>'+r.points+'</td><td>'+r.count+'</td><td><b>'+Number(r.total).toLocaleString()+'</b></td><td><div class="record-actions"><button class="ghost" onclick="editCoreRecord(\''+r.id+'\')">Edit</button><button class="danger admin-only" onclick="deleteCoreRecord(\''+r.id+'\')">Delete</button></div></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No records are available.</td></tr>';
   updateCoreMarkControls(recs);
 }
 function clearCoreEntryForm(){
