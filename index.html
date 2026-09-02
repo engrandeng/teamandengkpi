@@ -69,16 +69,20 @@ body.agent-mode #agentPortal{display:block}
 .total-tile strong{display:block;font-size:30px;line-height:1.1}
 .total-tile span{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;opacity:.9}
 .total-tile em{display:block;font-style:normal;font-size:10px;opacity:.75;margin-top:3px}
-.act-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-.act-row{display:grid;grid-template-columns:1fr 96px 84px;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.act-list{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.act-row{display:grid;grid-template-columns:minmax(0,1fr) 96px 72px;gap:14px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}
 .act-row .act-name{font-weight:800;font-size:14px}
-.act-row .act-pts{font-size:11px;color:var(--muted);display:block;font-weight:700}
+.act-row .act-pts{display:block;margin-top:3px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.35;font-weight:600;letter-spacing:0;color:#5f6f82}
 .act-row input{margin-top:0;text-align:center;font-weight:800}
 .act-row .act-total{text-align:right;font-weight:900;color:var(--navy);font-size:15px}
 .portal-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:13px 22px;border-radius:999px;font-weight:900;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.3s ease;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:520px){.act-row{grid-template-columns:1fr 78px 70px}.totals-bar{grid-template-columns:1fr 1fr}.total-tile strong{font-size:24px}}
+@media(max-width:520px){.act-row{grid-template-columns:minmax(0,1fr) 76px 54px;gap:9px;padding:12px}.act-row .act-pts{font-size:11.5px}.totals-bar{grid-template-columns:1fr 1fr}.total-tile strong{font-size:24px}}
+
+/* Agent links provide reporting access without administrative editing controls. */
+body.agent-viewer .nav button[data-page="agents"],body.agent-viewer .nav button[data-page="activities"],body.agent-viewer .nav button[data-page="coreactivity"],body.agent-viewer .nav button[data-page="records"],body.agent-viewer .nav button[data-page="settings"]{display:none}
+body.agent-viewer .agent-form-actions .copy-form-btn{display:none}
 
 /* ===== Refined application theme ===== */
 :root{--surface:#fff;--surface-soft:#f7f9fc;--surface-tint:#eef4f8;--shadow-sm:0 2px 8px rgba(23,50,78,.06);--shadow-md:0 12px 32px rgba(23,50,78,.10);--radius-lg:18px;--radius-md:12px}
@@ -99,6 +103,7 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .topbar h1{font-size:25px;line-height:1.15;letter-spacing:-.7px}
 .topbar p{font-size:12px}
 .topbar .actions{justify-content:flex-end}
+.topbar-actions{align-items:center;flex-wrap:nowrap}.refresh-btn{width:auto!important;min-width:92px!important;min-height:36px;padding:7px 12px;font-size:12px}.agent-form-actions{display:flex;flex-direction:column;gap:6px;min-width:205px}.agent-form-actions button{width:100%;min-height:36px;margin:0;padding:7px 13px;font-size:12px}.copy-form-btn{font-size:12px!important;letter-spacing:.01em}
 .page.active{animation:page-in .28s ease both}
 @keyframes page-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .card{border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:16px;border:1px solid rgba(218,225,234,.9);box-shadow:var(--shadow-sm);transition:border-color .2s ease,box-shadow .2s ease}
@@ -139,6 +144,9 @@ tbody tr:hover{background:#eef5f9}
 tbody tr:last-child td{border-bottom:0}
 tfoot th{background:var(--navy);font-size:12px;border-top:1px solid rgba(255,255,255,.18)}
 td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
+.record-actions{display:flex;gap:6px;align-items:center}.record-actions button{width:auto;min-width:58px;min-height:32px;margin:0;padding:6px 10px;font-size:11px}
+#agentNameRows input[type="checkbox"]{width:17px;height:17px;min-height:0;margin:0;padding:0;vertical-align:middle;accent-color:var(--navy);cursor:pointer}
+.agent-add-action{display:flex;align-items:flex-end}.agent-add-action .btn{margin-top:0}
 .lb-controls{gap:12px}
 .rank-row{border-radius:12px;border-color:#dce3eb;box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease}
 .rank-row:hover{transform:translateX(2px);box-shadow:0 8px 20px rgba(23,50,78,.09)}
@@ -148,9 +156,9 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 .total-tile{border-radius:15px;box-shadow:0 10px 24px rgba(23,50,78,.16)}
 .act-row{border-color:#d9e2eb;box-shadow:var(--shadow-sm)}
 .toast{font-size:13px;box-shadow:0 14px 38px rgba(23,50,78,.28)}
-@media(max-width:1100px){.main{padding:22px}.topbar{margin:-22px -22px 22px;padding:17px 22px}.topbar{align-items:flex-start;flex-direction:column}.topbar .actions{width:100%;justify-content:flex-start}.topbar .actions button{flex:1 1 160px}}
+@media(max-width:1100px){.main{padding:22px}.topbar{margin:-22px -22px 22px;padding:17px 22px}.topbar{align-items:flex-start;flex-direction:column}.topbar .actions{width:100%;justify-content:flex-start}.topbar .actions>button{flex:0 0 auto}.agent-form-actions{min-width:205px}}
 @media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{padding:10px 12px 7px}.brand{min-height:0;padding:3px 4px 10px}.brand #brandLogo{width:48px;height:48px}.nav{flex-direction:row}.main{padding:16px}.topbar{position:relative;margin:-16px -16px 18px;padding:16px}.card{padding:17px;border-radius:15px}.nav button.active:before{display:none}}
-@media(max-width:600px){.topbar h1{font-size:22px}.topbar .actions button{flex:1 1 100%;width:100%}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{min-height:96px;padding:15px}.stat strong{font-size:23px}.card{padding:15px}.actions{align-items:stretch}.actions button{width:100%}.tablebox{border-radius:10px}th,td{padding:10px}.totals-bar{gap:9px}}
+@media(max-width:600px){.topbar h1{font-size:22px}.topbar-actions{align-items:stretch!important}.topbar-actions .refresh-btn{width:92px!important;align-self:flex-start}.agent-form-actions{flex:1;min-width:190px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{min-height:96px;padding:15px}.stat strong{font-size:23px}.card{padding:15px}.actions{align-items:stretch}.actions button{width:100%}.tablebox{border-radius:10px}th,td{padding:10px}.totals-bar{gap:9px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.page.active{animation:none}*{transition-duration:.01ms!important}}
 </style>
 </head>
@@ -159,26 +167,33 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 <aside class="sidebar">
   <div class="brand">
     <img id="brandLogo" alt="Team Andeng Logo">
-    <span id="brandName">TEAM ANDENG KPI</span>
-    <small id="brandSubtitle">KPI MONITORING SYSTEM</small>
+    <span id="brandName">Team Andeng KPI Monitoring System</span>
+    <small id="brandSubtitle" class="hidden"></small>
   </div>
   <div class="nav">
     <button class="active" data-page="dashboard">Dashboard</button>
     <button data-page="scorecard">Agent Scorecard</button>
-    <button data-page="records">KPI Records</button>
     <button data-page="leaderboard">Leaderboard</button>
     <button data-page="agents">Agents</button>
-    <button data-page="coreactivity">Subteam Leader Activity</button>
+    <button data-page="activities">Agent Activity KPI</button>
+    <button data-page="subteamscorecard">Subteam Leader Scorecard</button>
     <button data-page="coreboard">Subteam Leaderboard</button>
-    <button data-page="activities">Activity Management</button>
+    <button data-page="coreactivity">Subteam Leader KPI</button>
+    <button data-page="records">KPI Records</button>
     <button data-page="reports">Reports</button>
     <button data-page="settings">Settings</button>
   </div>
 </aside>
 <main class="main">
   <div class="topbar">
-    <div><h1 id="pageTitle">KPI Dashboard</h1><p id="appSubtitle">Independent KPI application</p></div>
-    <div class="actions"><button class="ghost" onclick="cloudLoad()">↻ Refresh Data</button><button class="btn2" onclick="copyAgentLink()">Copy Agent Form Link</button><button class="ghost" onclick="openAgentForm()">Open Agent Form</button></div>
+    <div><h1 id="pageTitle">Agent Performance Overview</h1><p id="appSubtitle">Track team activity, points, targets, and overall performance.</p></div>
+    <div class="actions topbar-actions">
+      <button class="ghost refresh-btn" onclick="cloudLoad()" title="Refresh data">↻ Refresh</button>
+      <div class="agent-form-actions">
+        <button class="ghost" onclick="openAgentForm()">Open Agent Form</button>
+        <button class="btn2 copy-form-btn" onclick="copyAgentLink()">🔗 Copy Agent Form Link</button>
+      </div>
+    </div>
   </div>
 
   <section id="dashboard" class="page active">
@@ -226,6 +241,32 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     </div>
   </section>
 
+  <section id="subteamscorecard" class="page">
+    <div class="card grid">
+      <div><label>Subteam Leader / Subteam<select id="subScoreName" onchange="renderSubteamScorecard()"><option value="">Select Name</option></select></label></div>
+      <div><label>Start Date<input type="date" id="subScoreStart" onchange="renderSubteamScorecard()"></label></div>
+      <div><label>End Date<input type="date" id="subScoreEnd" onchange="renderSubteamScorecard()"></label></div>
+      <div><button class="btn2" onclick="downloadSubteamScorecardPdf()">Download PDF</button></div>
+    </div>
+    <div id="subScoreCapture">
+      <div class="card score-head">
+        <div><div id="subScoreMedal" class="medal push">☹</div></div>
+        <div><h2 id="subScoreTitle">Select a Subteam Leader</h2><div class="stats">
+          <div class="stat"><strong id="subScorePoints">0</strong><span>Total Points</span></div>
+          <div class="stat"><strong id="subScoreTarget">0</strong><span>Subteam Leader Target</span></div>
+          <div class="stat"><strong id="subScorePct">0%</strong><span>KPI Percentage</span></div>
+          <div class="stat"><strong id="subScoreLevel">Push Harder</strong><span>Performance Level</span></div>
+        </div></div>
+      </div>
+      <div class="charts">
+        <div class="card full"><h3>Monthly Bar Graph</h3><canvas id="subScoreMonthlyChart"></canvas></div>
+        <div class="card"><h3>Activity Breakdown</h3><canvas id="subScoreActivityChart"></canvas></div>
+        <div class="card"><h3>Ready-to-Send Message</h3><textarea id="subteamMessage"></textarea><button class="btn2" onclick="copySubteamMessage()">Copy Message</button></div>
+      </div>
+      <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points per Activity</th><th>Total Points</th></tr></thead><tbody id="subScoreRows"></tbody></table></div></div>
+    </div>
+  </section>
+
   <section id="records" class="page">
     <div class="card grid">
       <div><label>Date<input type="date" id="recDate"></label></div>
@@ -245,23 +286,31 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div class="lb-controls">
         <label>From<input type="date" id="lbStart"></label>
         <label>To<input type="date" id="lbEnd"></label>
-        <button class="btn2" onclick="renderLeaderboard()">Apply</button>
-        <button class="ghost" onclick="lbSetRange('month')">This Month</button>
-        <button class="ghost" onclick="lbSetRange('all')">All Time</button>
+        <button class="btn2 compact-apply" onclick="renderLeaderboard()">Apply</button>
+        <span class="quick-range-label">Quick view:</span>
+        <button class="ghost range-shortcut" onclick="lbSetRange('month')">Current Month</button>
+        <button class="ghost range-shortcut" onclick="lbSetRange('all')">All Records</button>
       </div>
-      <div class="notice">Agents are ranked by the total points earned from the activities on this board. Rankings are updated directly from the records.</div>
+      <div class="notice">Choose a date range and select Apply. Current Month shows this month only, while All Records includes the complete history. Rankings are based on total points.</div>
     </div>
     <div class="card">
-      <h3 class="lb-title">🏆 Selling</h3>
+      <h3 class="lb-title">🏆 Agent Rankings <span style="font-size:12px;color:var(--muted)">(highest to lowest)</span></h3>
       <div class="tablebox"><table>
-        <thead><tr><th class="lb-rank">Rank</th><th>Display Name</th><th>Client Presentation</th><th>Closing</th><th>Points</th></tr></thead>
+        <thead><tr><th class="lb-rank">Rank</th><th>Agent</th><th>Active Days</th><th>Total Activities</th><th>Total Points</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead>
+        <tbody id="lbOverall"></tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3 class="lb-title">📊 Selling Activity Breakdown</h3>
+      <div class="tablebox"><table>
+        <thead><tr><th class="lb-rank">Rank</th><th>Agent</th><th>Client Presentation</th><th>Closing</th><th>Points</th></tr></thead>
         <tbody id="lbSelling"></tbody>
       </table></div>
     </div>
     <div class="card">
-      <h3 class="lb-title">🏆 Recruiting</h3>
+      <h3 class="lb-title">📊 Recruiting Activity Breakdown</h3>
       <div class="tablebox"><table>
-        <thead><tr><th class="lb-rank">Rank</th><th>Display Name</th><th>MTM</th><th>Exam</th><th>Coded</th><th>Points</th></tr></thead>
+        <thead><tr><th class="lb-rank">Rank</th><th>Agent</th><th>MTM</th><th>Exam</th><th>Coded</th><th>Points</th></tr></thead>
         <tbody id="lbRecruiting"></tbody>
       </table></div>
     </div>
@@ -269,7 +318,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
   <section id="coreactivity" class="page">
     <div class="card">
-      <h3 class="lb-title">📝 Encode Subteam Leader Activity</h3>
+      <h3 class="lb-title">📝 Encode Subteam Leader KPI</h3>
       <div class="grid">
         <div><label>Subteam Leader / Subteam<select id="coreName"></select></label></div>
         <div><label>Date<input type="date" id="coreDate"></label></div>
@@ -285,7 +334,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
 
     <div class="card">
-      <h3 class="lb-title">🗒️ Recent Core Records</h3>
+      <h3 class="lb-title">🗒️ Recent Records</h3>
       <div class="actions" style="margin-bottom:12px"><button id="deleteMarkedCoreBtn" class="danger" onclick="deleteMarkedCoreRecords()" disabled>Delete Marked (0)</button><button class="danger" onclick="deleteAllCoreRecords()">Delete All</button></div>
       <div class="tablebox"><table><thead><tr><th style="width:62px;text-align:center"><label style="color:#fff"><input id="markAllCoreRecords" type="checkbox" onchange="toggleAllCoreRecords(this.checked)" style="width:auto;margin:0 5px 0 0;vertical-align:middle">Mark</label></th><th>Date</th><th>Name</th><th>Activity</th><th>Pts/activity</th><th>Count</th><th>Total</th><th>Action</th></tr></thead><tbody id="coreRecRows"></tbody></table></div>
     </div>
@@ -294,17 +343,18 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   <section id="coreboard" class="page">
     <div class="card">
       <div class="lb-controls">
-        <label>Subteam Leader<select id="coreFilter"></select></label>
         <label>From<input type="date" id="coreStart"></label>
         <label>To<input type="date" id="coreEnd"></label>
-        <button class="btn2" onclick="renderCoreBoard()">Apply</button>
-        <button class="ghost" onclick="coreSetRange('month')">This Month</button>
-        <button class="ghost" onclick="coreSetRange('all')">All Time</button>
+        <button class="btn2 compact-apply" onclick="renderCoreBoard()">Apply</button>
+        <span class="quick-range-label">Quick view:</span>
+        <button class="ghost range-shortcut" onclick="coreSetRange('month')">Current Month</button>
+        <button class="ghost range-shortcut" onclick="coreSetRange('all')">All Records</button>
       </div>
+      <div class="notice" style="margin-top:12px">Choose a date range and select Apply. Current Month shows this month only, while All Records includes the complete history. Rankings are based on total points.</div>
     </div>
     <div class="card">
       <h3 class="lb-title">🏆 Subteam Leader Rankings <span style="font-size:12px;color:var(--muted)">(highest to lowest)</span></h3>
-      <div class="tablebox"><table><thead><tr><th class="lb-rank">Rank</th><th>Subteam Leader / Subteam</th><th>Total Points</th></tr></thead><tbody id="coreLbRows"></tbody></table></div>
+      <div class="tablebox"><table><thead><tr><th class="lb-rank">Rank</th><th>Subteam Leader / Subteam</th><th>Active Days</th><th>Total Activities</th><th>Total Points</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="coreLbRows"></tbody></table></div>
     </div>
     <div class="grid2">
       <div class="card">
@@ -325,10 +375,10 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   <section id="agents" class="page">
     <div class="card grid">
       <div><label>Agent Name<input id="newAgentName" placeholder="e.g. Juan Dela Cruz"></label></div>
-      <div><button class="btn" onclick="addAgentName()">Add Agent</button></div>
+      <div class="agent-add-action"><button class="btn" onclick="addAgentName()">Add Agent</button></div>
     </div>
     <div class="card">
-      <div class="notice">The names listed here will appear in the Agent Form. Check <b>Subteam Leader</b> to include an agent in the Subteam Leader Activity and Leaderboard. If a <b>Subteam Name</b> is provided, it will be displayed in the lists and leaderboard. Changes are saved to Google Sheets.</div>
+      <div class="notice">The names listed here will appear in the Agent Form. To designate an agent as a <b>Subteam Leader</b>, select the checkbox in the Subteam Leader column and enter the <b>Subteam Name</b> in the corresponding field. The Subteam Name will then appear on the Subteam Leader KPI page, leaderboard, and related lists. Changes are saved to Google Sheets.</div>
       <div class="actions" style="margin-bottom:12px">
         <button class="btn2" onclick="syncNow()">⬆ Sync Agents &amp; Settings to Google Sheets</button>
         <button class="ghost" onclick="cloudLoad()">↻ Refresh from Google Sheets</button>
@@ -351,22 +401,26 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   <section id="reports" class="page">
     <div class="card"><div class="actions"><button class="btn2" onclick="exportCsv()">Download All Records CSV</button><button class="btn2" onclick="downloadDashboardPdf()">Download Dashboard PDF</button></div></div>
     <div class="card"><h3>Agent Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Agent</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="reportRows"></tbody></table></div></div>
+    <div class="card"><h3>Subteam Leaders Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Subteam Leader / Subteam</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="subteamReportRows"></tbody></table></div></div>
   </section>
 
   <section id="settings" class="page">
     <div class="card">
       <div class="notice">The standalone app uses separate storage keys and will not modify other monitoring apps’ data.</div>
       <div class="grid">
-        <div><label>KPI App Name<input id="kpiName" placeholder="TEAM ANDENG KPI"></label></div>
-        <div><label>KPI Subtitle<input id="kpiSubtitle" placeholder="KPI MONITORING SYSTEM"></label></div>
+        <div><label>KPI App Name<input id="kpiName" placeholder="Team Andeng KPI Monitoring System"></label></div>
+        <input type="hidden" id="kpiSubtitle" value="">
         <div><label>Logo Image<input type="file" id="logoUpload" accept="image/*" onchange="previewLogo(event)"></label></div>
         <div><label>Primary Color<input type="color" id="primaryColor" value="#17324e" oninput="previewBranding()"></label></div>
         <div><label>Secondary Color<input type="color" id="secondaryColor" value="#2e6ea0" oninput="previewBranding()"></label></div>
         <div><label>Accent Color<input type="color" id="accentColor" value="#fbe6d4" oninput="previewBranding()"></label></div>
         <div><label>Action Color<input type="color" id="actionColor" value="#e2691c" oninput="previewBranding()"></label></div>
-        <div><label>Base Daily Target<input type="number" id="baseTarget" min="1" value="150"></label></div>
-        <div><label>Challenge Start Date<input type="date" id="challengeStart"></label></div>
-        <div><label>Challenge End Date<input type="date" id="challengeEnd"></label></div>
+        <div><label>Agent Base Daily Target<input type="number" id="baseTarget" min="1" value="150"></label></div>
+        <div><label>Agent Challenge Start Date<input type="date" id="challengeStart"></label></div>
+        <div><label>Agent Challenge End Date<input type="date" id="challengeEnd"></label></div>
+        <div><label>Subteam Leader Base Daily Target<input type="number" id="subteamBaseTarget" min="1" value="150"></label></div>
+        <div><label>Subteam Leader Start Date<input type="date" id="subteamChallengeStart"></label></div>
+        <div><label>Subteam Leader End Date<input type="date" id="subteamChallengeEnd"></label></div>
         <div style="grid-column:1/-1"><label>Google Apps Script Web App URL (for the Google Sheets connection)<input id="sheetsApiUrl" placeholder="https://script.google.com/macros/s/.../exec"></label></div>
         <div><button class="btn" onclick="saveSettings()">Save Settings</button></div>
         <div><button class="ghost" onclick="resetBranding()">Reset Branding</button></div>
@@ -413,7 +467,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div class="small">Enter the number of activities only — points are computed automatically.</div>
       <div class="act-list" id="afActList"></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:12px;border-radius:12px;background:var(--gold)">
-        <span style="font-weight:900">Points this entry</span>
+        <span style="font-weight:900">Points for this entry</span>
         <span id="afEntryPts" style="font-weight:900;font-size:20px;color:var(--navy)">0</span>
       </div>
     </div>
@@ -609,7 +663,7 @@ function cloudEnabled(){return getApiUrl().indexOf('https://')===0}
 
 const KEYS={records:'TAND_KPI_RECORDS_V1',activities:'TAND_KPI_ACTIVITIES_V1',settings:'TAND_KPI_SETTINGS_V1',agents:'TAND_KPI_AGENTS_V1',coreActs:'TAND_CORE_ACTS_V1',coreMap:'TAND_CORE_MAP_V1',coreRecords:'TAND_CORE_RECORDS_V1'};
 const defaultActivities=[['Client Presentation',20],['Approach (Sell and Recruit)',1],['Closing',200],['Training',5],['Branding',1],['Engage',1],['Setting Appointment',5],['BYB / Table Top',20],['Paid MTM',50],['Paid Exam',50],['Coded',100]];
-let records=read(KEYS.records,[]),activities=read(KEYS.activities,defaultActivities.map(x=>({name:x[0],points:x[1]}))),settings=read(KEYS.settings,{baseTarget:150,kpiName:'TEAM ANDENG KPI',kpiSubtitle:'KPI MONITORING SYSTEM',primaryColor:'#17324e',secondaryColor:'#2e6ea0',accentColor:'#fbe6d4',actionColor:'#e2691c',logoData:''}),agentList=read(KEYS.agents,TEAM_AGENTS.slice());
+let records=read(KEYS.records,[]),activities=read(KEYS.activities,defaultActivities.map(x=>({name:x[0],points:x[1]}))),settings=read(KEYS.settings,{baseTarget:150,subteamBaseTarget:150,subteamChallengeStart:'',subteamChallengeEnd:'',kpiName:'Team Andeng KPI Monitoring System',kpiSubtitle:'',primaryColor:'#17324e',secondaryColor:'#2e6ea0',accentColor:'#fbe6d4',actionColor:'#e2691c',logoData:''}),agentList=read(KEYS.agents,TEAM_AGENTS.slice());
 const defaultCoreActivities=[['JFW / Table Top',30],['Finsem',20],['1on1 Mentoring / Coaching',10],['Prospect Mapping',10],['Catch Up Calls (min 10min)',15]];
 let coreActs=read(KEYS.coreActs,defaultCoreActivities.map(x=>({name:x[0],points:x[1]}))),coreMap=read(KEYS.coreMap,{}),coreRecords=read(KEYS.coreRecords,[]);
 let charts={};
@@ -624,8 +678,25 @@ function inRange(r,s,e){return (!s||r.date>=s)&&(!e||r.date<=e)}
 function uniqueDays(rows){return new Set(rows.map(r=>r.date).filter(Boolean)).size}
 function filterRows(s,e,a){return records.filter(r=>inRange(r,s,e)&&(!a||norm(r.agent)===norm(a)))}
 function destroyChart(k){if(charts[k]){charts[k].destroy();delete charts[k]}}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');document.getElementById('pageTitle').textContent=b.textContent;if(b.dataset.page==='scorecard')renderScorecard();if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard')renderLeaderboard();if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard')renderCoreBoard()});
-function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate'].forEach(id=>document.getElementById(id).value=today)}
+const AGENT_RESTRICTED_PAGES=['agents','activities','coreactivity','records','settings'];
+const PAGE_META={
+  dashboard:{title:'Agent Performance Overview',subtitle:'Track team activity, points, targets, and overall performance.'},
+  scorecard:{title:'Agent Scorecard',subtitle:'Review individual activity, points, targets, and KPI progress.'},
+  leaderboard:{title:'Leaderboard',subtitle:'Compare agent performance and rankings across key activities.'},
+  agents:{title:'Agents',subtitle:'Manage agent names, Subteam Leader assignments, and subteam details.'},
+  activities:{title:'Agent Activity KPI',subtitle:'Set the activities and points used to calculate agent KPIs.'},
+  subteamscorecard:{title:'Subteam Leader Scorecard',subtitle:'Review Subteam Leader activity, points, targets, and KPI progress.'},
+  coreboard:{title:'Subteam Leaderboard',subtitle:'Compare Subteam Leader and subteam performance by points and activity.'},
+  coreactivity:{title:'Subteam Leader KPI',subtitle:'Record and manage KPI activities for Subteam Leaders and subteams.'},
+  records:{title:'KPI Records',subtitle:'Review, add, export, and manage individual KPI records.'},
+  reports:{title:'Reports',subtitle:'Review performance summaries and download KPI reports.'},
+  settings:{title:'Settings',subtitle:'Configure branding, targets, challenge dates, and the Google Sheets connection.'}
+};
+function isAgentViewer(){try{return sessionStorage.getItem('TAND_AGENT_VIEWER')==='1'}catch(e){return false}}
+function applyAgentViewerMode(){document.body.classList.toggle('agent-viewer',isAgentViewer())}
+function updatePageMeta(page){var meta=PAGE_META[page]||PAGE_META.dashboard;document.getElementById('pageTitle').textContent=meta.title;document.getElementById('appSubtitle').textContent=meta.subtitle;}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='scorecard')renderScorecard();if(b.dataset.page==='subteamscorecard')renderSubteamScorecard();if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard')renderLeaderboard();if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard')renderCoreBoard()});
+function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort();['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
 function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderAgents();coreRefresh()}
 function renderAgents(){var el=document.getElementById('agentNameRows');if(!el)return;el.innerHTML=agentList.slice().sort().map(function(a){var q=esc(a).replace(/'/g,"\\'");var isCore=Object.prototype.hasOwnProperty.call(coreMap,a);var sub=isCore?esc(coreMap[a]||''):'';return '<tr><td>'+esc(a)+'</td><td style="text-align:center"><input type="checkbox" '+(isCore?'checked':'')+" onchange=\"toggleCore('"+q+"',this.checked)\"></td><td><input placeholder=\"(optional)\" value=\""+sub+'" '+(isCore?'':'disabled')+" onchange=\"setSubteam('"+q+"',this.value)\"></td><td><button class=\"danger\" onclick=\"removeAgentName('"+q+"')\">Delete</button></td></tr>";}).join('')||'<tr><td colspan="4" class="small">No agents yet. Add an agent above or upload a file.</td></tr>';}
@@ -671,6 +742,19 @@ let monthly={};rows.forEach(r=>monthly[r.date.slice(0,7)]=(monthly[r.date.slice(
 let byAct={};rows.forEach(r=>byAct[r.activity]=(byAct[r.activity]||0)+Number(r.points||0));destroyChart('activity');charts.activity=new Chart(activityChart,{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true}});
 agentMessage.value=a?`Hi ${a}, your KPI performance for the selected period is ${pct.toFixed(1)}%. You earned ${points.toLocaleString()} points against a target of ${target.toLocaleString()}. Your current level is ${l.name}. ${pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.'}`:'';
 }
+function renderSubteamScorecard(){
+  var sel=document.getElementById('subScoreName');coreFillNameSelect(sel,false);
+  var name=sel.value,s=document.getElementById('subScoreStart').value,e=document.getElementById('subScoreEnd').value;
+  var rows=coreRecords.filter(function(r){return inRange(r,s,e)&&(!name||r.leader===name);}).sort(function(a,b){return b.date.localeCompare(a.date);});
+  var points=rows.reduce(function(t,r){return t+Number(r.total||0);},0),days=uniqueDays(rows),target=Number(settings.subteamBaseTarget||150)*days,pct=target?points/target*100:0,l=calcLevel(pct);
+  document.getElementById('subScoreTitle').textContent=name||'Select a Subteam Leader';
+  document.getElementById('subScorePoints').textContent=points.toLocaleString();document.getElementById('subScoreTarget').textContent=target.toLocaleString();document.getElementById('subScorePct').textContent=pct.toFixed(1)+'%';document.getElementById('subScoreLevel').textContent=l.name;
+  var medal=document.getElementById('subScoreMedal');medal.className='medal '+l.cls;medal.textContent=l.icon;
+  document.getElementById('subScoreRows').innerHTML=rows.length?rows.map(function(r){return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.activity)+'</td><td>'+Number(r.count||0).toLocaleString()+'</td><td>'+Number(r.points||0).toLocaleString()+'</td><td><b>'+Number(r.total||0).toLocaleString()+'</b></td></tr>';}).join(''):'<tr><td colspan="5" class="small">No activity records are available for the selected period.</td></tr>';
+  var monthly={};rows.forEach(function(r){var m=r.date.slice(0,7);monthly[m]=(monthly[m]||0)+Number(r.total||0);});var months=Object.keys(monthly).sort();destroyChart('subScoreMonthly');charts.subScoreMonthly=new Chart(document.getElementById('subScoreMonthlyChart'),{type:'bar',data:{labels:months,datasets:[{label:'Points',data:months.map(function(m){return monthly[m];}),backgroundColor:settings.actionColor||'#e2691c',borderRadius:6}]},options:{responsive:true,scales:{y:{beginAtZero:true}}}});
+  var byAct={};rows.forEach(function(r){byAct[r.activity]=(byAct[r.activity]||0)+Number(r.total||0);});destroyChart('subScoreActivity');charts.subScoreActivity=new Chart(document.getElementById('subScoreActivityChart'),{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
+  document.getElementById('subteamMessage').value=name?'Hi '+name+', your Subteam Leader KPI performance for the selected period is '+pct.toFixed(1)+'%. You earned '+points.toLocaleString()+' points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'. '+(pct<30?'Let us focus on consistent daily leadership activities.':pct<71?'Good progress. Keep building consistent activity.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.') : '';
+}
 async function saveRecord(){let date=recDate.value,agent=recAgent.value.trim(),activity=recActivity.value,count=Number(recCount.value||0),notes=recNotes.value.trim(),cfg=getActivity(activity);if(!date||!agent||!activity||count<=0)return alert('Complete Date, Agent, Activity, and Count.');let id=[date,norm(agent),norm(activity),count,norm(notes)].join('|');if(records.some(r=>r.key===id))return alert('Duplicate record detected.');let row={id:uid(),key:id,date,agent,activity,count,points:count*Number(cfg?.points||0),notes};
 if(cloudEnabled()){showToast('⏳ Saving...');try{let out=await cloudPost({action:'add',records:[row]});if(!out.ok)throw 0;recNotes.value='';await cloudLoad(true);showToast('✓ Record saved!')}catch(e){showToast('⚠ The record could not be saved. Please try again.')}return}
 records.push(row);write(KEYS.records,records);recNotes.value='';renderAll()}
@@ -688,7 +772,14 @@ function actDrag(e,i){_actDrag=i;e.dataTransfer.effectAllowed='move';}
 function actDrop(e,i){e.preventDefault();if(_actDrag===null||_actDrag===i)return;const m=activities.splice(_actDrag,1)[0];activities.splice(i,0,m);_actDrag=null;write(KEYS.activities,activities);pushConfig();renderAll();}
 function editActivity(i,k,v){activities[i][k]=k==='points'?Number(v):v.trim();write(KEYS.activities,activities);pushConfig();renderSelectors()}
 function removeActivity(i){if(confirm('Delete this activity? Existing records will stay unchanged.')){activities.splice(i,1);write(KEYS.activities,activities);pushConfig();renderAll()}}
-function renderReports(){let s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,'');let groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));let list=Object.entries(groups).map(([agent,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{agent,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct);reportRows.innerHTML=list.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.agent)}</td><td>${x.points}</td><td>${x.days}</td><td>${x.target}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join('')}
+function renderReports(){
+  let s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,''),groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));
+  let list=Object.entries(groups).map(([agent,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{agent,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct);
+  reportRows.innerHTML=list.length?list.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.agent)}</td><td>${x.points.toLocaleString()}</td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="7" class="small">No agent performance data is available for the selected date range.</td></tr>';
+  let subRows=coreRecords.filter(r=>inRange(r,s,e)),subGroups={};subRows.forEach(r=>(subGroups[r.leader]??=[]).push(r));
+  let subList=Object.entries(subGroups).map(([leader,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.total||0),0),days=uniqueDays(rs),target=days*Number(settings.subteamBaseTarget||150),pct=target?points/target*100:0;return{leader,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct||b.points-a.points||a.leader.localeCompare(b.leader));
+  let subBody=document.getElementById('subteamReportRows');if(subBody)subBody.innerHTML=subList.length?subList.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.leader)}</td><td>${x.points.toLocaleString()}</td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="7" class="small">No Subteam Leader performance data is available for the selected date range.</td></tr>';
+}
 function exportCsv(){let csv=Papa.unparse(records);downloadBlob(csv,'TEAM_ANDENG_KPI_RECORDS.csv','text/csv')}
 function downloadBlob(data,name,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 function applyBranding(){
@@ -696,9 +787,9 @@ function applyBranding(){
   document.documentElement.style.setProperty('--navy2',settings.secondaryColor||'#2e6ea0');
   document.documentElement.style.setProperty('--gold',settings.accentColor||'#fbe6d4');
   document.documentElement.style.setProperty('--red',settings.actionColor||'#e2691c');
-  brandName.textContent=settings.kpiName||'TEAM ANDENG KPI';
-  brandSubtitle.textContent=settings.kpiSubtitle||'KPI MONITORING SYSTEM';
-  appSubtitle.textContent=(settings.kpiName||'KPI')+' standalone monitoring application';
+  brandName.textContent='Team Andeng KPI Monitoring System';
+  brandSubtitle.textContent='';
+  var activePage=document.querySelector('.page.active');updatePageMeta(activePage?activePage.id:'dashboard');
   document.title=settings.kpiName||'KPI Monitoring';
   brandLogo.src=settings.logoData||DEFAULT_LOGO;brandLogo.style.display='block';
 }
@@ -716,18 +807,21 @@ function previewLogo(ev){
   reader.readAsDataURL(file);
 }
 function saveSettings(){
-  settings={...settings,baseTarget:Number(baseTarget.value||150),kpiName:kpiName.value.trim()||'TEAM ANDENG KPI',kpiSubtitle:kpiSubtitle.value.trim()||'KPI MONITORING SYSTEM',primaryColor:primaryColor.value,secondaryColor:secondaryColor.value,accentColor:accentColor.value,actionColor:actionColor.value,challengeStart:challengeStart.value||'',challengeEnd:challengeEnd.value||'',sheetsApiUrl:sheetsApiUrl.value.trim()};
+  settings={...settings,baseTarget:Number(baseTarget.value||150),subteamBaseTarget:Number(subteamBaseTarget.value||150),subteamChallengeStart:subteamChallengeStart.value||'',subteamChallengeEnd:subteamChallengeEnd.value||'',kpiName:kpiName.value.trim()||'Team Andeng KPI Monitoring System',kpiSubtitle:'',primaryColor:primaryColor.value,secondaryColor:secondaryColor.value,accentColor:accentColor.value,actionColor:actionColor.value,challengeStart:challengeStart.value||'',challengeEnd:challengeEnd.value||'',sheetsApiUrl:sheetsApiUrl.value.trim()};
+  if(settings.subteamChallengeStart)subScoreStart.value=settings.subteamChallengeStart;if(settings.subteamChallengeEnd)subScoreEnd.value=settings.subteamChallengeEnd;
   write(KEYS.settings,settings);applyBranding();renderAll();pushConfig();alert('Branding and KPI settings were saved and synced across all connected devices.');
 }
 function resetBranding(){
-  settings={...settings,kpiName:'TEAM ANDENG KPI',kpiSubtitle:'KPI MONITORING SYSTEM',primaryColor:'#17324e',secondaryColor:'#2e6ea0',accentColor:'#fbe6d4',actionColor:'#e2691c',logoData:''};
+  settings={...settings,kpiName:'Team Andeng KPI Monitoring System',kpiSubtitle:'',primaryColor:'#17324e',secondaryColor:'#2e6ea0',accentColor:'#fbe6d4',actionColor:'#e2691c',logoData:''};
   write(KEYS.settings,settings);loadSettingsToForm();applyBranding();pushConfig();
 }
 function loadSettingsToForm(){
-  baseTarget.value=settings.baseTarget||150;sheetsApiUrl.value=settings.sheetsApiUrl||'';challengeStart.value=settings.challengeStart||'';challengeEnd.value=settings.challengeEnd||'';kpiName.value=settings.kpiName||'TEAM ANDENG KPI';kpiSubtitle.value=settings.kpiSubtitle||'KPI MONITORING SYSTEM';primaryColor.value=settings.primaryColor||'#17324e';secondaryColor.value=settings.secondaryColor||'#2e6ea0';accentColor.value=settings.accentColor||'#fbe6d4';actionColor.value=settings.actionColor||'#e2691c';
+  baseTarget.value=settings.baseTarget||150;subteamBaseTarget.value=settings.subteamBaseTarget||150;subteamChallengeStart.value=settings.subteamChallengeStart||'';subteamChallengeEnd.value=settings.subteamChallengeEnd||'';sheetsApiUrl.value=settings.sheetsApiUrl||'';challengeStart.value=settings.challengeStart||'';challengeEnd.value=settings.challengeEnd||'';kpiName.value=settings.kpiName||'Team Andeng KPI Monitoring System';kpiSubtitle.value='';primaryColor.value=settings.primaryColor||'#17324e';secondaryColor.value=settings.secondaryColor||'#2e6ea0';accentColor.value=settings.accentColor||'#fbe6d4';actionColor.value=settings.actionColor||'#e2691c';
 }
 function copyMessage(){navigator.clipboard.writeText(agentMessage.value).then(()=>alert('Message copied.'))}
+function copySubteamMessage(){navigator.clipboard.writeText(document.getElementById('subteamMessage').value).then(()=>alert('Message copied.'))}
 async function downloadScorecardPdf(){let el=document.getElementById('scoreCapture'),canvas=await html2canvas(el,{scale:2,useCORS:true}),img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),w=190,h=canvas.height*w/canvas.width;pdf.addImage(img,'PNG',10,10,w,h);pdf.save((scoreAgent.value||'AGENT')+'_KPI_SCORECARD.pdf')}
+async function downloadSubteamScorecardPdf(){let el=document.getElementById('subScoreCapture'),canvas=await html2canvas(el,{scale:2,useCORS:true}),img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),w=190,h=canvas.height*w/canvas.width;pdf.addImage(img,'PNG',10,10,w,h);pdf.save((document.getElementById('subScoreName').value||'SUBTEAM_LEADER')+'_KPI_SCORECARD.pdf')}
 async function downloadDashboardPdf(){let el=document.getElementById('dashboard'),canvas=await html2canvas(el,{scale:2,useCORS:true}),img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),w=190,h=canvas.height*w/canvas.width;pdf.addImage(img,'PNG',10,10,w,h);pdf.save('TEAM_ANDENG_KPI_DASHBOARD.pdf')}
 /* ===== AGENT ENTRY FORM ===== */
 function challengeRange(){
@@ -867,6 +961,7 @@ function openAgentForm(){
 }
 function viewDashboard(){
   document.body.classList.remove('agent-mode');
+  applyAgentViewerMode();
   let u=new URL(location.href);u.searchParams.delete('view');
   history.replaceState(null,'',u.toString());
   renderAll();
@@ -951,9 +1046,11 @@ async function downloadScreenshot(){
 function init(){
   seedDates();loadSettingsToForm();applyBranding();renderAll();
   if(new URLSearchParams(location.search).get('view')==='agent'){
+    try{sessionStorage.setItem('TAND_AGENT_VIEWER','1')}catch(e){}
+    applyAgentViewerMode();
     document.body.classList.add('agent-mode');
     renderAgentForm();
-  }
+  }else applyAgentViewerMode();
   if(cloudEnabled())cloudLoad(true).then(()=>{if(document.body.classList.contains('agent-mode'))updateFormTotals()});
 }
 
@@ -1065,19 +1162,26 @@ function renderBoard(id,cols,data){
     return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(a.name)+'</td>'+cells+'<td><b>'+a.points.toLocaleString()+'</b></td></tr>';
   }).join('');
 }
+function renderOverallAgentLeaderboard(rows){
+  const groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));
+  const list=Object.entries(groups).map(([name,rs])=>{const days=uniqueDays(rs),activities=rs.reduce((t,r)=>t+Number(r.count||0),0),points=rs.reduce((t,r)=>t+Number(r.points||0),0),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{name,days,activities,points,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name));
+  const tb=document.getElementById('lbOverall');if(!tb)return;
+  tb.innerHTML=list.length?list.map((x,i)=>{const m=lbMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(x.name)+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No agent ranking data is available for this period.</td></tr>';
+}
 function renderLeaderboard(){
   const sEl=document.getElementById('lbStart'),eEl=document.getElementById('lbEnd');
   if(sEl&&!sEl.value&&!eEl.value&&!renderLeaderboard._init){renderLeaderboard._init=1;lbSetRange('month');return;}
   renderLeaderboard._init=1;
   const s=sEl?sEl.value:'',e=eEl?eEl.value:'';
   const rows=records.filter(r=>inRange(r,s,e));
+  renderOverallAgentLeaderboard(rows);
   renderBoard('lbSelling',LB_BOARDS.selling,buildBoard(LB_BOARDS.selling,rows));
   renderBoard('lbRecruiting',LB_BOARDS.recruiting,buildBoard(LB_BOARDS.recruiting,rows));
 }
 
 /* ================= Subteam Leader: Activity + Leaderboard ================= */
 var markedCoreRecordIds=new Set();
-function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active'))renderCoreBoard();}
+function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard'),c=document.getElementById('subteamscorecard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active'))renderCoreBoard();if(c&&c.classList.contains('active'))renderSubteamScorecard();}
 function coreLeaderList(){return agentList.filter(function(n){return Object.prototype.hasOwnProperty.call(coreMap,n);}).map(function(n){var sTxt=(coreMap[n]||'').trim();return {name:n,display:sTxt?sTxt:n};}).sort(function(a,b){return a.display.localeCompare(b.display);});}
 function coreFillNameSelect(sel,withAll){if(!sel)return;var v=sel.value;var list=coreLeaderList();sel.innerHTML=(withAll?'<option value="">All Subteam Leaders</option>':'<option value="">Select Name</option>')+list.map(function(c){return '<option value="'+esc(c.display)+'" '+(c.display===v?'selected':'')+'>'+esc(c.display)+'</option>';}).join('');}
 function updateCoreTotal(){var grand=0;coreActs.forEach(function(a,i){var ci=document.getElementById('cc_'+i);if(!ci)return;var c=Number(ci.value||0),t=Number(a.points)*c;grand+=t;var te=document.getElementById('ct_'+i);if(te)te.textContent=t.toLocaleString();});var g=document.getElementById('coreGrand');if(g)g.textContent=grand.toLocaleString();}
@@ -1094,7 +1198,7 @@ function renderCoreActivity(){
   var rr=document.getElementById('coreRecRows');
   var recs=coreRecords.slice().sort(function(a,b){return (b.date+(b.id||'')).localeCompare(a.date+(a.id||''));}).slice(0,40);
   markedCoreRecordIds.forEach(function(id){if(!coreRecords.some(function(r){return r.id===id;}))markedCoreRecordIds.delete(id);});
-  if(rr)rr.innerHTML=recs.length?recs.map(function(r){return '<tr><td style="text-align:center"><input type="checkbox" aria-label="Mark this record" '+(markedCoreRecordIds.has(r.id)?'checked ':'')+'onchange="markCoreRecord(\''+r.id+'\',this.checked)" style="width:auto;margin:0"></td><td>'+esc(r.date)+'</td><td>'+esc(r.leader)+'</td><td>'+esc(r.activity)+'</td><td>'+r.points+'</td><td>'+r.count+'</td><td><b>'+Number(r.total).toLocaleString()+'</b></td><td><button class="danger" onclick="deleteCoreRecord(\''+r.id+'\')">Delete</button></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No records are available.</td></tr>';
+  if(rr)rr.innerHTML=recs.length?recs.map(function(r){return '<tr><td style="text-align:center"><input type="checkbox" aria-label="Mark this record" '+(markedCoreRecordIds.has(r.id)?'checked ':'')+'onchange="markCoreRecord(\''+r.id+'\',this.checked)" style="width:auto;margin:0"></td><td>'+esc(r.date)+'</td><td>'+esc(r.leader)+'</td><td>'+esc(r.activity)+'</td><td>'+r.points+'</td><td>'+r.count+'</td><td><b>'+Number(r.total).toLocaleString()+'</b></td><td><div class="record-actions"><button class="ghost" onclick="editCoreRecord(\''+r.id+'\')">Edit</button><button class="danger" onclick="deleteCoreRecord(\''+r.id+'\')">Delete</button></div></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No records are available.</td></tr>';
   updateCoreMarkControls(recs);
 }
 function saveCore(){
@@ -1123,6 +1227,13 @@ function updateCoreMarkControls(visibleRecords){
 function markCoreRecord(id,on){if(on)markedCoreRecordIds.add(id);else markedCoreRecordIds.delete(id);var recs=coreRecords.slice().sort(function(a,b){return (b.date+(b.id||'')).localeCompare(a.date+(a.id||''));}).slice(0,40);updateCoreMarkControls(recs);}
 function toggleAllCoreRecords(on){coreRecords.slice().sort(function(a,b){return (b.date+(b.id||'')).localeCompare(a.date+(a.id||''));}).slice(0,40).forEach(function(r){if(on)markedCoreRecordIds.add(r.id);else markedCoreRecordIds.delete(r.id);});renderCoreActivity();}
 function persistCoreRecordDeletion(message){write(KEYS.coreRecords,coreRecords);coreRefresh();if(cloudEnabled()){showToast('\u23f3 Saving...');Promise.resolve(pushConfig()).then(function(){showToast('\u2713 '+message);}).catch(function(){showToast('\u26a0 Deleted locally, but the change was not synced.');});}else showToast('\u2713 '+message);}
+function editCoreRecord(id){
+  var record=coreRecords.find(function(r){return r.id===id;});if(!record)return;
+  var value=prompt('Enter the corrected count for "'+record.activity+'":',record.count);if(value===null)return;
+  var count=Number(String(value).trim());if(!Number.isInteger(count)||count<1)return alert('Enter a whole number greater than zero. Use Delete if you want to remove the record.');
+  record.count=count;record.total=Number(record.points||0)*count;write(KEYS.coreRecords,coreRecords);coreRefresh();
+  if(cloudEnabled()){showToast('\u23f3 Saving correction...');Promise.resolve(pushConfig()).then(function(){showToast('\u2713 Record updated and synced!');}).catch(function(){showToast('\u26a0 Updated locally, but the change was not synced.');});}else showToast('\u2713 Record updated!');
+}
 function deleteCoreRecord(id){if(!confirm('Delete this record?'))return;coreRecords=coreRecords.filter(function(r){return r.id!==id;});markedCoreRecordIds.delete(id);persistCoreRecordDeletion('Deleted!');}
 function deleteMarkedCoreRecords(){var n=markedCoreRecordIds.size;if(!n)return;if(!confirm('Delete '+n+' marked core record'+(n===1?'':'s')+'? This cannot be undone.'))return;coreRecords=coreRecords.filter(function(r){return !markedCoreRecordIds.has(r.id);});markedCoreRecordIds.clear();persistCoreRecordDeletion(n+' marked record'+(n===1?'':'s')+' deleted!');}
 function deleteAllCoreRecords(){var n=coreRecords.length;if(!n)return alert('There are no Subteam Leader records to delete.');if(!confirm('Delete ALL '+n+' core records? This will erase the entire Subteam Leader activity history and cannot be undone.'))return;coreRecords=[];markedCoreRecordIds.clear();persistCoreRecordDeletion('All core records deleted!');}
@@ -1136,9 +1247,9 @@ function renderCoreBoard(){
   renderCoreBoard._init=1;
   var s=sEl?sEl.value:'',e=eEl?eEl.value:'';
   var rows=coreRecords.filter(function(r){return inRange(r,s,e)&&(!f||r.leader===f);});
-  var byL={};rows.forEach(function(r){byL[r.leader]=(byL[r.leader]||0)+Number(r.total||0);});
-  var lb=Object.keys(byL).map(function(n){return{name:n,pts:byL[n]};}).sort(function(a,b){return b.pts-a.pts||a.name.localeCompare(b.name);});
-  document.getElementById('coreLbRows').innerHTML=lb.length?lb.map(function(x,i){var m=coreMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(x.name)+'</td><td><b>'+x.pts.toLocaleString()+'</b></td></tr>';}).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:16px">No data matches the selected filter and period.</td></tr>';
+  var byL={};rows.forEach(function(r){(byL[r.leader]=byL[r.leader]||[]).push(r);});
+  var lb=Object.keys(byL).map(function(n){var rs=byL[n],days=uniqueDays(rs),activities=rs.reduce(function(t,r){return t+Number(r.count||0);},0),pts=rs.reduce(function(t,r){return t+Number(r.total||0);},0),target=days*Number(settings.subteamBaseTarget||150),pct=target?pts/target*100:0;return{name:n,days:days,activities:activities,pts:pts,target:target,pct:pct,level:calcLevel(pct)};}).sort(function(a,b){return b.pts-a.pts||b.pct-a.pct||a.name.localeCompare(b.name);});
+  document.getElementById('coreLbRows').innerHTML=lb.length?lb.map(function(x,i){var m=coreMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(x.name)+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.pts.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:16px">No Subteam Leader ranking data is available for this period.</td></tr>';
   var byAct={};rows.forEach(function(r){var k=r.activity;byAct[k]=byAct[k]||{count:0,points:0};byAct[k].count+=Number(r.count||0);byAct[k].points+=Number(r.total||0);});
   var brk=Object.keys(byAct).map(function(n){return{name:n,count:byAct[n].count,points:byAct[n].points};}).sort(function(a,b){return b.points-a.points;});
   document.getElementById('coreBreakRows').innerHTML=brk.length?brk.map(function(x){return '<tr><td>'+esc(x.name)+'</td><td>'+x.count+'</td><td>'+x.points.toLocaleString()+'</td></tr>';}).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:16px">No data is available.</td></tr>';
@@ -1168,6 +1279,9 @@ init();
 .lb-controls{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
 .lb-controls label{display:flex;flex-direction:column;font-size:12px;font-weight:700;color:var(--muted);gap:4px}
 .lb-controls input{border:1px solid var(--line);border-radius:10px;padding:8px}
+.lb-controls button{width:auto;min-height:40px;margin-top:0;padding:8px 14px;white-space:nowrap}
+.lb-controls .compact-apply{width:auto;min-width:72px;min-height:40px;padding:8px 14px;flex:0 0 auto}
+.quick-range-label{align-self:center;margin-left:4px;color:var(--muted);font-size:11px;font-weight:800}.lb-controls .range-shortcut{min-width:112px}
 .lb-title{margin:0 0 12px;color:var(--navy)}
 th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
 .lb-medal{font-size:19px}
