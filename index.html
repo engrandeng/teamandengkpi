@@ -323,13 +323,13 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
         <div><label>Subteam Leader / Subteam<select id="coreName"></select></label></div>
         <div><label>Date<input type="date" id="coreDate"></label></div>
       </div>
-      <div class="notice" style="margin:10px 0">Enter the <b>Count</b> for each activity. Total = Points × Count. Save the entries for the selected name and date. If the dropdown is empty, assign Subteam Leaders in the <b>Agents</b> tab first.</div>
+      <div class="notice" style="margin:10px 0"><b>How to submit an entry:</b> 1) Select your name and the activity date. 2) Enter the completed count for each applicable activity; leave the others at zero. 3) Review the Grand Total, then select <b>Submit Entry</b>. To correct a submitted count, use Edit under Recent Records.</div>
       <div class="tablebox"><table>
         <thead><tr><th>Activity</th><th>Points</th><th>Count</th><th>Total</th></tr></thead>
         <tbody id="coreEncodeRows"></tbody>
         <tfoot><tr><th colspan="3" style="text-align:right">Grand Total</th><th id="coreGrand">0</th></tr></tfoot>
       </table></div>
-      <div class="actions" style="margin-top:12px"><button class="btn" onclick="saveCore()">Save Activity</button><button class="ghost" onclick="toggleCoreManage()">✏️ Edit Activities</button></div>
+      <div class="actions" style="margin-top:12px"><button class="btn" onclick="saveCore()">Submit Entry</button><button class="ghost" onclick="clearCoreEntryForm()">Clear Entries</button></div>
     </div>
 
 
@@ -337,6 +337,11 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <h3 class="lb-title">🗒️ Recent Records</h3>
       <div class="actions" style="margin-bottom:12px"><button id="deleteMarkedCoreBtn" class="danger" onclick="deleteMarkedCoreRecords()" disabled>Delete Marked (0)</button><button class="danger" onclick="deleteAllCoreRecords()">Delete All</button></div>
       <div class="tablebox"><table><thead><tr><th style="width:62px;text-align:center"><label style="color:#fff"><input id="markAllCoreRecords" type="checkbox" onchange="toggleAllCoreRecords(this.checked)" style="width:auto;margin:0 5px 0 0;vertical-align:middle">Mark</label></th><th>Date</th><th>Name</th><th>Activity</th><th>Pts/activity</th><th>Count</th><th>Total</th><th>Action</th></tr></thead><tbody id="coreRecRows"></tbody></table></div>
+    </div>
+    <div class="card">
+      <h3 class="lb-title">⚙️ Admin Tools</h3>
+      <div class="notice">Use this only when the administrator needs to change activity names, point values, or their order. It does not submit a Subteam Leader entry.</div>
+      <div class="actions"><button class="ghost" onclick="toggleCoreManage()">✏️ Edit Pointing System</button></div>
     </div>
   </section>
 
@@ -1201,6 +1206,11 @@ function renderCoreActivity(){
   if(rr)rr.innerHTML=recs.length?recs.map(function(r){return '<tr><td style="text-align:center"><input type="checkbox" aria-label="Mark this record" '+(markedCoreRecordIds.has(r.id)?'checked ':'')+'onchange="markCoreRecord(\''+r.id+'\',this.checked)" style="width:auto;margin:0"></td><td>'+esc(r.date)+'</td><td>'+esc(r.leader)+'</td><td>'+esc(r.activity)+'</td><td>'+r.points+'</td><td>'+r.count+'</td><td><b>'+Number(r.total).toLocaleString()+'</b></td><td><div class="record-actions"><button class="ghost" onclick="editCoreRecord(\''+r.id+'\')">Edit</button><button class="danger" onclick="deleteCoreRecord(\''+r.id+'\')">Delete</button></div></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No records are available.</td></tr>';
   updateCoreMarkControls(recs);
 }
+function clearCoreEntryForm(){
+  var hasValues=coreActs.some(function(a,i){var el=document.getElementById('cc_'+i);return el&&Number(el.value||0)>0;});
+  if(hasValues&&!confirm('Clear all counts currently entered in this form?'))return;
+  coreActs.forEach(function(a,i){var el=document.getElementById('cc_'+i);if(el)el.value='';});updateCoreTotal();
+}
 function saveCore(){
   var name=document.getElementById('coreName').value,date=document.getElementById('coreDate').value;
   if(!name)return alert('Select a Subteam Leader or Subteam. Assign Subteam Leaders in the Agents tab first if the list is empty.');
@@ -1210,8 +1220,8 @@ function saveCore(){
   if(!added)return alert('Enter a count for at least one activity.');
   write(KEYS.coreRecords,coreRecords);
   coreActs.forEach(function(a,i){var ci=document.getElementById('cc_'+i);if(ci)ci.value='';});updateCoreTotal();
-  if(cloudEnabled()){showToast('\u23f3 Saving...');Promise.resolve(pushConfig()).then(function(){renderCoreActivity();showToast('\u2713 Saved and synced!');}).catch(function(){renderCoreActivity();showToast('\u2713 Saved locally (\u26a0 not synced)');});}
-  else{renderCoreActivity();showToast('\u2713 Activity saved!');}
+  if(cloudEnabled()){showToast('\u23f3 Submitting entry...');Promise.resolve(pushConfig()).then(function(){renderCoreActivity();showToast('\u2713 Entry submitted and synced!');}).catch(function(){renderCoreActivity();showToast('\u2713 Entry submitted locally (\u26a0 not synced)');});}
+  else{renderCoreActivity();showToast('\u2713 Entry submitted!');}
 }
 function addCoreAct(){var n=document.getElementById('coreActName').value.trim(),pp=Number(document.getElementById('coreActPoints').value);if(!n||isNaN(pp)||pp<0)return alert('Enter activity name and points.');if(coreActs.some(function(a){return norm(a.name)===norm(n);}))return alert('Nandiyan na.');coreActs.push({name:n,points:pp});write(KEYS.coreActs,coreActs);document.getElementById('coreActName').value='';document.getElementById('coreActPoints').value='';pushConfig();coreRefresh();}
 function editCoreAct(i,k,v){coreActs[i][k]=k==='points'?Number(v):v.trim();write(KEYS.coreActs,coreActs);pushConfig();coreRefresh();}
@@ -1307,8 +1317,8 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
 </div>
 <div id="coreManageModal" class="lbmodal" style="display:none">
   <div class="lbmodal-box" style="max-width:600px;max-height:85vh;overflow:auto">
-    <h3>⚙️ Manage Core Activities</h3>
-    <div class="muted small">Drag ⠿ to reorder activities. Add or edit the points as needed.</div>
+    <h3>⚙️ Edit Pointing System</h3>
+    <div class="muted small">Add activities, change point values, or drag ⠿ to reorder the list.</div>
     <div class="grid" style="margin:12px 0">
       <div><label>Activity<input id="coreActName"></label></div>
       <div><label>Points<input type="number" id="coreActPoints" min="0"></label></div>
