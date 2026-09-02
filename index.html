@@ -41,6 +41,10 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;bord
 .rank-name{font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .agent-avatar{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;border:1px solid var(--line);border-radius:50%;background:var(--surface-tint);font-size:18px;box-shadow:0 2px 6px rgba(23,50,78,.08)}
 body.exporting-dashboard .agent-avatar{display:none}
+body.exporting-dashboard .page.active{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+body.exporting-dashboard .main,body.exporting-dashboard #dashboard{opacity:1!important;filter:none!important}
+body.exporting-dashboard .topbar{backdrop-filter:none!important;background:#fff!important}
+body.exporting-dashboard .camera-btn{visibility:hidden!important}
 .avatar-field{display:flex;flex-direction:column;gap:6px}.avatar-prompt{font-size:11px;font-weight:800;color:#3c4b5c}.avatar-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:40px;margin:0;padding:9px 12px;background:#fff;color:var(--text);border:1px solid #cfd8e3;font-weight:700;text-align:left}.avatar-toggle:hover{background:var(--surface-tint)}.avatar-picker{display:none;flex-wrap:wrap;gap:7px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft)}.avatar-picker.open{display:flex}.avatar-option{width:46px!important;height:46px;min-height:46px;margin:0;padding:0;border:1px solid #cfd8e3;border-radius:12px;background:#fff;font-size:27px;line-height:1;box-shadow:0 2px 6px rgba(23,50,78,.06);cursor:pointer}.avatar-option:hover{background:var(--surface-tint);border-color:var(--navy2)}.avatar-option.selected{border:2px solid var(--navy);background:var(--surface-tint);box-shadow:0 0 0 3px color-mix(in srgb,var(--navy2) 14%,transparent)}.avatar-option:disabled{opacity:.38;cursor:not-allowed}
 .rank-name .badge{padding:3px 9px;font-size:10px}
 .rank-bar{height:7px;border-radius:99px;background:#eef3f4;overflow:hidden;margin-top:6px}
@@ -1087,10 +1091,30 @@ async function downloadScreenshot(){
   showToast('⏳ Capturing the screenshot...');
   document.body.classList.add('exporting-dashboard');
   try{
-    let canvas=await html2canvas(target,{scale:2,useCORS:true,backgroundColor:'#f6f9fc',windowWidth:Math.max(1200,target.scrollWidth)});
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
+    let scale=Math.min(3,Math.max(2,window.devicePixelRatio||1));
+    let canvas=await html2canvas(target,{
+      scale:scale,
+      useCORS:true,
+      allowTaint:false,
+      backgroundColor:'#eff3f8',
+      width:target.scrollWidth,
+      height:target.scrollHeight,
+      windowWidth:Math.max(1200,target.scrollWidth),
+      windowHeight:target.scrollHeight,
+      scrollX:0,
+      scrollY:0,
+      imageTimeout:15000,
+      onclone:function(doc){
+        doc.body.classList.add('exporting-dashboard');
+        let page=doc.querySelector('#dashboard');
+        if(page){page.style.animation='none';page.style.opacity='1';page.style.transform='none';page.style.filter='none'}
+      }
+    });
     let a=document.createElement('a');
     a.download='team-andeng-dashboard-'+new Date().toISOString().slice(0,10)+'.png';
-    a.href=canvas.toDataURL('image/png');
+    a.href=canvas.toDataURL('image/png',1);
     a.click();
     showToast('✓ Screenshot saved!');
   }catch(e){showToast('⚠ The screenshot could not be captured.')}finally{document.body.classList.remove('exporting-dashboard')}
