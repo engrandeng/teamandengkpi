@@ -48,6 +48,7 @@ body.exporting-dashboard .page.active{animation:none!important;opacity:1!importa
 body.exporting-dashboard .main,body.exporting-dashboard #dashboard{opacity:1!important;filter:none!important}
 body.exporting-dashboard .topbar{backdrop-filter:none!important;background:#fff!important}
 body.exporting-dashboard .camera-btn{visibility:hidden!important}
+body.capturing-screenshot .topbar-actions{display:none!important}
 body.capturing-screenshot .screenshot-exclude{display:none!important}
 .avatar-field{display:flex;flex-direction:column;gap:6px}.avatar-prompt{font-size:11px;font-weight:800;color:#3c4b5c}.avatar-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:40px;margin:0;padding:9px 12px;background:#fff;color:var(--text);border:1px solid #cfd8e3;font-weight:700;text-align:left}.avatar-toggle:hover{background:var(--surface-tint)}.avatar-picker{display:none;flex-wrap:wrap;gap:7px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft)}.avatar-picker.open{display:flex}.avatar-option{width:46px!important;height:46px;min-height:46px;margin:0;padding:0;border:1px solid #cfd8e3;border-radius:12px;background:#fff;font-size:27px;line-height:1;box-shadow:0 2px 6px rgba(23,50,78,.06);cursor:pointer}.avatar-option:hover{background:var(--surface-tint);border-color:var(--navy2)}.avatar-option.selected{border:2px solid var(--navy);background:var(--surface-tint);box-shadow:0 0 0 3px color-mix(in srgb,var(--navy2) 14%,transparent)}.avatar-option:disabled{opacity:.38;cursor:not-allowed}
 .rank-name .badge{padding:3px 9px;font-size:10px}
@@ -303,7 +304,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
   <section id="subteamscorecard" class="page">
     <div class="card grid">
-      <div><label>Subteam Leader / Subteam<select id="subScoreName" onchange="renderSubteamScorecard()"><option value="">Select Name</option></select></label></div>
+      <div><label>Subteam<select id="subScoreName" onchange="renderSubteamScorecard()"><option value="">Select Subteam</option></select></label></div>
       <div><label>Start Date<input type="date" id="subScoreStart" onchange="renderSubteamScorecard()"></label></div>
       <div><label>End Date<input type="date" id="subScoreEnd" onchange="renderSubteamScorecard()"></label></div>
       <div class="scorecard-download-action"><button class="btn2" onclick="downloadSubteamScorecardPdf()">Download PDF</button></div>
@@ -394,7 +395,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <div class="card">
       <h3 class="lb-title">📝 Encode Subteam Leader KPI</h3>
       <div class="grid">
-        <div><label>Subteam Leader / Subteam<select id="coreName"></select></label></div>
+        <div><label>Subteam<select id="coreName"></select></label></div>
         <div><label>Date<input type="date" id="coreDate"></label></div>
       </div>
       <div class="notice" style="margin:10px 0"><b>How to submit an entry:</b> 1) Select your name and the activity date. 2) Enter the completed count for each applicable activity; leave the others at zero. 3) Review the Grand Total, then select <b>Submit Entry</b>. To correct a submitted count, use Edit under Recent Records.</div>
@@ -825,10 +826,24 @@ const PAGE_META={
   reports:{title:'Reports',subtitle:'Review performance summaries and download KPI reports.'},
   settings:{title:'Settings',subtitle:'Configure branding, targets, challenge dates, and the Google Sheets connection.'}
 };
+const UI_STATE_KEY='TAND_KPI_UI_STATE_V1';
+const UI_STATE_FIELDS=['dashStart','dashEnd','dashAgent','lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd','coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd'];
+let uiState=read(UI_STATE_KEY,{fields:{},agentView:'leaderboard',coreView:'leaderboard'});
+function saveUiState(){write(UI_STATE_KEY,uiState)}
+function rememberUiField(el){if(!el||UI_STATE_FIELDS.indexOf(el.id)===-1)return;uiState.fields=uiState.fields||{};uiState.fields[el.id]=el.value;saveUiState()}
+function restoreUiFields(ids){
+  (ids||UI_STATE_FIELDS).forEach(function(id){
+    var el=document.getElementById(id),value=uiState.fields&&uiState.fields[id];
+    if(!el||value===undefined)return;
+    if(el.tagName==='SELECT'&&!Array.from(el.options).some(function(option){return option.value===value;}))return;
+    el.value=value;
+  });
+}
 function isAgentViewer(){try{return sessionStorage.getItem('TAND_AGENT_VIEWER')==='1'}catch(e){return false}}
 function applyAgentViewerMode(){document.body.classList.toggle('agent-viewer',isAgentViewer())}
 function updatePageMeta(page){var meta=PAGE_META[page]||PAGE_META.dashboard;document.getElementById('pageTitle').textContent=meta.title;document.getElementById('appSubtitle').textContent=meta.subtitle;}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard')renderAgentHub();if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard')renderCoreHub()});
+document.addEventListener('change',function(event){rememberUiField(event.target)});
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}});
 function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart','teamScoreStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate','teamScoreEnd'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort();['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
 function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderAgents();agentRefresh();coreRefresh()}
@@ -910,7 +925,7 @@ function renderSubteamScorecard(){
   var sel=document.getElementById('subScoreName');coreFillNameSelect(sel,false);
   var name=sel.value,s=document.getElementById('subScoreStart').value,e=document.getElementById('subScoreEnd').value;
   var performance=leaderPerformance(name,s,e),rows=performance.leaderRows.slice().sort(function(a,b){return b.date.localeCompare(a.date);}),agentRows=performance.agentRows.slice().sort(function(a,b){return b.date.localeCompare(a.date);}),points=performance.points,target=performance.target,pct=performance.pct,l=performance.level;
-  document.getElementById('subScoreTitle').textContent=name?leaderLabel(name):'Select a Subteam Leader';
+  document.getElementById('subScoreTitle').textContent=name||'Select a Subteam';
   document.getElementById('subScoreLeaderPoints').textContent=performance.leaderPoints.toLocaleString();document.getElementById('subScoreAgentPoints').textContent=performance.agentPoints.toLocaleString();document.getElementById('subScorePoints').textContent=points.toLocaleString();document.getElementById('subScoreTarget').textContent=target.toLocaleString();document.getElementById('subScorePct').textContent=pct.toFixed(1)+'%';document.getElementById('subScoreLevel').textContent=l.name;
   var medal=document.getElementById('subScoreMedal');medal.className='medal '+l.cls;medal.textContent=l.icon;
   document.getElementById('subScoreRows').innerHTML=rows.length?rows.map(function(r){return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.activity)+'</td><td>'+Number(r.count||0).toLocaleString()+'</td><td>'+Number(r.points||0).toLocaleString()+'</td><td><b>'+Number(r.total||0).toLocaleString()+'</b></td></tr>';}).join(''):'<tr><td colspan="5" class="small">No activity records are available for the selected period.</td></tr>';
@@ -926,7 +941,7 @@ function selectedDateList(start,end){
   return out;
 }
 function renderTeamScorecard(){
-  var select=document.getElementById('teamScoreName'),current=select.value,teams=subteamNames();
+  var select=document.getElementById('teamScoreName'),current=select.value||(uiState.fields&&uiState.fields.teamScoreName)||'',teams=subteamNames();
   select.innerHTML='<option value="">Select Subteam</option>'+teams.map(function(team){return '<option value="'+esc(team)+'" '+(team===current?'selected':'')+'>'+esc(team)+'</option>';}).join('');
   var team=select.value,start=document.getElementById('teamScoreStart').value,end=document.getElementById('teamScoreEnd').value,dates=selectedDateList(start,end);
   var members=team?agentList.filter(function(agent){return agentSubteams[agent]===team||String(coreMap[agent]||'').trim()===team;}).sort():[];
@@ -1290,16 +1305,23 @@ async function downloadScreenshot(kind){
   try{
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
     await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
-    let scale=Math.min(3,Math.max(2,window.devicePixelRatio||1));
+    const desktopCaptureWidth=1440;
+    const desktopCaptureHeight=900;
     let canvas=await html2canvas(target,{
-      scale:scale,
+      scale:2,
       useCORS:true,
       allowTaint:false,
       backgroundColor:'#eff3f8',
       imageTimeout:15000,
+      windowWidth:desktopCaptureWidth,
+      windowHeight:desktopCaptureHeight,
+      scrollX:0,
+      scrollY:0,
       onclone:function(doc){
         doc.body.classList.add('exporting-dashboard');
         doc.body.classList.add('capturing-screenshot');
+        doc.documentElement.style.width=desktopCaptureWidth+'px';
+        doc.body.style.width=desktopCaptureWidth+'px';
         let page=doc.querySelector('#dashboard');
         if(page){page.style.animation='none';page.style.opacity='1';page.style.transform='none';page.style.filter='none'}
       }
@@ -1323,6 +1345,7 @@ function setupAgentHub(){
 }
 function showAgentView(view){
   agentHubView=view==='scorecard'?'scorecard':'leaderboard';
+  uiState.agentView=agentHubView;saveUiState();
   var leaderboard=document.getElementById('agentLeaderboardView'),scorecard=document.getElementById('agentScorecardView'),leaderboardTab=document.getElementById('agentLeaderboardTab'),scorecardTab=document.getElementById('agentScorecardTab'),showScorecard=agentHubView==='scorecard';
   leaderboard.classList.toggle('hidden',showScorecard);scorecard.classList.toggle('hidden',!showScorecard);
   leaderboardTab.classList.toggle('active',!showScorecard);scorecardTab.classList.toggle('active',showScorecard);
@@ -1339,6 +1362,7 @@ function setupCoreHub(){
 }
 function showCoreView(view){
   coreHubView=view==='scorecard'||view==='subteam'?view:'leaderboard';
+  uiState.coreView=coreHubView;saveUiState();
   var leaderboard=document.getElementById('coreLeaderboardView'),scorecard=document.getElementById('coreScorecardView'),subteam=document.getElementById('subteamScorecardView'),leaderboardTab=document.getElementById('coreLeaderboardTab'),scorecardTab=document.getElementById('coreScorecardTab'),subteamTab=document.getElementById('subteamScorecardTab');
   leaderboard.classList.toggle('hidden',coreHubView!=='leaderboard');scorecard.classList.toggle('hidden',coreHubView!=='scorecard');subteam.classList.toggle('hidden',coreHubView!=='subteam');
   leaderboardTab.classList.toggle('active',coreHubView==='leaderboard');scorecardTab.classList.toggle('active',coreHubView==='scorecard');subteamTab.classList.toggle('active',coreHubView==='subteam');
@@ -1383,6 +1407,9 @@ document.addEventListener('keydown',function(event){if(event.key==='Escape'&&doc
 function init(){
   if(new URLSearchParams(location.search).get('mobilePreview')==='1')document.body.classList.add('mobile-preview-frame');
   setupAgentHub();setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();
+  agentHubView=uiState.agentView==='scorecard'?'scorecard':'leaderboard';
+  coreHubView=uiState.coreView==='scorecard'||uiState.coreView==='subteam'?uiState.coreView:'leaderboard';
+  restoreUiFields();
   if(new URLSearchParams(location.search).get('view')==='agent'){
     try{sessionStorage.setItem('TAND_AGENT_VIEWER','1')}catch(e){}
     applyAgentViewerMode();
@@ -1522,7 +1549,7 @@ var markedCoreRecordIds=new Set();
 function agentRefresh(){var page=document.getElementById('leaderboard');if(page&&page.classList.contains('active')){if(agentHubView==='scorecard')renderScorecard();else renderLeaderboard();}}
 function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active')){if(coreHubView==='scorecard')renderSubteamScorecard();else if(coreHubView==='subteam')renderTeamScorecard();else renderCoreBoard();}}
 function coreLeaderList(){return agentList.filter(function(n){return Object.prototype.hasOwnProperty.call(coreMap,n);}).map(function(n){var sTxt=(coreMap[n]||'').trim();return {name:n,display:sTxt?sTxt:n};}).sort(function(a,b){return a.display.localeCompare(b.display);});}
-function coreFillNameSelect(sel,withAll){if(!sel)return;var v=sel.value;var list=coreLeaderList();sel.innerHTML=(withAll?'<option value="">All Subteam Leaders</option>':'<option value="">Select Name</option>')+list.map(function(c){var label=c.name===c.display?c.name:c.name+' — '+c.display;return '<option value="'+esc(c.display)+'" '+(c.display===v?'selected':'')+'>'+esc(label)+'</option>';}).join('');}
+function coreFillNameSelect(sel,withAll){if(!sel)return;var v=sel.value||(uiState.fields&&uiState.fields[sel.id])||'';var list=coreLeaderList();sel.innerHTML=(withAll?'<option value="">All Subteams</option>':'<option value="">Select Subteam</option>')+list.map(function(c){return '<option value="'+esc(c.display)+'" '+(c.display===v?'selected':'')+'>'+esc(c.display)+'</option>';}).join('');}
 function updateCoreTotal(){var grand=0;coreActs.forEach(function(a,i){var ci=document.getElementById('cc_'+i);if(!ci)return;var c=Number(ci.value||0),t=Number(a.points)*c;grand+=t;var te=document.getElementById('ct_'+i);if(te)te.textContent=t.toLocaleString();});var g=document.getElementById('coreGrand');if(g)g.textContent=grand.toLocaleString();}
 function toggleCoreManage(){document.getElementById('coreManageModal').style.display='flex';if(typeof renderCoreActivity==='function')renderCoreActivity();}
 function closeCoreManage(){document.getElementById('coreManageModal').style.display='none';}
@@ -1652,7 +1679,7 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
   .stat{min-width:0;min-height:88px;padding:14px}.stat strong{font-size:22px;overflow-wrap:anywhere}.stat span{font-size:10px;line-height:1.3}
   label{font-size:11px}input,select,textarea,button{font-size:16px;min-height:44px}button{touch-action:manipulation}
-  .actions{gap:8px}.actions button{min-height:44px}
+  .actions{gap:8px;align-items:center}.actions button{width:auto;min-width:104px;min-height:42px;padding:8px 13px;font-size:13px;flex:0 1 auto}
   .tablebox{width:100%;max-height:62vh;border-radius:10px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   table{min-width:680px;font-size:12px}th,td{padding:10px 11px}thead th{height:44px}
   .rank-row{grid-template-columns:38px minmax(0,1fr);gap:9px;padding:10px}.rank-num{width:34px;height:34px}.rank-pts{grid-column:2;text-align:left;min-width:0}.rank-sub{text-align:left}
@@ -1667,6 +1694,7 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
   #agentNameRows .danger{width:104px}#agentPortal{padding:14px 10px calc(28px + env(safe-area-inset-bottom))}.portal-wrap{width:100%}.portal-brand h1{font-size:21px}.total-tile{padding:13px 10px}.total-tile strong{font-size:23px}
   .lbmodal{align-items:flex-end;padding:0}.lbmodal-box{max-height:88dvh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom))}
   .toast{bottom:calc(16px + env(safe-area-inset-bottom));max-width:calc(100% - 24px);padding:11px 16px;border-radius:10px;text-align:center}
+  .portal-actions button,.access-gate-box .btn{width:100%;min-height:44px}
 }
 @media(max-width:380px){
   .main{padding-inline:9px}.topbar{margin-inline:-9px;padding-inline:10px}.card{padding:12px}.stats{gap:7px}.stat{padding:12px}.stat strong{font-size:20px}
