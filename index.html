@@ -75,6 +75,11 @@ body.access-gated .app,body.access-gated #agentPortal{visibility:hidden}
 .access-gate{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px;background:var(--bg)}
 .access-gate-box{width:min(420px,100%);padding:28px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 55px rgba(23,50,78,.16);text-align:center}
 .access-gate-box img{display:block;width:92px;height:92px;margin:0 auto 14px;object-fit:contain}.access-gate-box h2{margin:0;color:var(--navy)}.access-gate-box p{margin:7px 0 18px;color:var(--muted);font-size:13px}.access-gate-box label{text-align:left}.access-gate-box .btn{margin-top:12px}.access-error{min-height:20px;margin-top:10px;color:#b42318;font-size:12px;font-weight:700}
+body.mobile-preview-frame .mobile-preview-launch{display:none!important}
+.mobile-preview-modal{position:fixed;inset:0;z-index:10020;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(15,28,43,.72);backdrop-filter:blur(5px)}
+.phone-preview{width:422px;max-width:100%;height:min(850px,calc(100dvh - 36px));display:flex;flex-direction:column;padding:10px;background:#182536;border:1px solid rgba(255,255,255,.2);border-radius:28px;box-shadow:0 25px 70px rgba(0,0,0,.4)}
+.phone-preview-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:2px 4px 8px;color:#fff}.phone-preview-bar strong{font-size:13px}.phone-preview-close{width:40px;height:40px;min-height:40px;margin:0;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.13);color:#fff;font-size:22px;cursor:pointer}
+.phone-preview-screen{flex:1;width:390px;max-width:100%;min-height:0;margin:auto;border:0;border-radius:18px;background:#fff}
 .portal-wrap{max-width:640px;margin:0 auto}
 .portal-brand{text-align:center;margin-bottom:16px}
 .portal-brand img{display:none;width:130px;height:130px;object-fit:contain;margin:0 auto 10px}
@@ -495,7 +500,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <div class="card grid">
       <div><label>Activity Name<input id="activityName"></label></div>
       <div><label>Points per Activity<input type="number" id="activityPoints" min="0"></label></div>
-      <div><button class="btn" onclick="addActivity()">Add Activity</button></div>
+      <div class="agent-add-action"><button class="btn" onclick="addActivity()">Add Activity</button></div>
     </div>
     <div class="card"><div class="tablebox"><table><thead><tr><th></th><th>Activity</th><th>Points</th><th>Actions</th></tr></thead><tbody id="activityRows"></tbody></table></div></div>
   </section>
@@ -511,6 +516,12 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   </section>
 
   <section id="settings" class="page">
+    <div class="card mobile-preview-launch">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <div><h3 style="margin:0 0 4px">Mobile Preview</h3><div class="small">Open a live phone-sized view of this monitoring system.</div></div>
+        <button class="btn2" style="width:auto;margin:0" onclick="openMobilePreview()">Preview Mobile Mode</button>
+      </div>
+    </div>
     <div class="card">
       <div class="notice">The standalone app uses separate storage keys and will not modify other monitoring apps’ data.</div>
       <div class="grid">
@@ -1358,7 +1369,19 @@ async function unlockTeamAccess(event){
   else if(teamAccessCode)error.textContent='Unable to verify access. Check the connection and try again.';
   button.disabled=false;button.textContent='Continue';
 }
+function openMobilePreview(){
+  var modal=document.getElementById('mobilePreviewModal'),frame=document.getElementById('mobilePreviewFrame'),url=new URL(location.href);
+  url.searchParams.delete('view');url.searchParams.set('mobilePreview','1');url.hash='';
+  frame.src=url.toString();modal.style.display='flex';document.body.dataset.previewOverflow=document.body.style.overflow||'';document.body.style.overflow='hidden';
+  document.querySelector('.phone-preview-close').focus();
+}
+function closeMobilePreview(){
+  var modal=document.getElementById('mobilePreviewModal'),frame=document.getElementById('mobilePreviewFrame');
+  modal.style.display='none';frame.src='about:blank';document.body.style.overflow=document.body.dataset.previewOverflow||'';delete document.body.dataset.previewOverflow;
+}
+document.addEventListener('keydown',function(event){if(event.key==='Escape'&&document.getElementById('mobilePreviewModal').style.display!=='none')closeMobilePreview();});
 function init(){
+  if(new URLSearchParams(location.search).get('mobilePreview')==='1')document.body.classList.add('mobile-preview-frame');
   setupAgentHub();setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();
   if(new URLSearchParams(location.search).get('view')==='agent'){
     try{sessionStorage.setItem('TAND_AGENT_VIEWER','1')}catch(e){}
@@ -1609,11 +1632,53 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
 .drag-h{cursor:grab;user-select:none;text-align:center;color:var(--muted);font-size:18px;width:40px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+@media(max-width:768px){
+  html,body{max-width:100%;overflow-x:hidden}
+  body{font-size:14px;-webkit-text-size-adjust:100%}
+  .app{display:block;min-height:100dvh}
+  .sidebar{position:sticky;top:0;z-index:60;width:100%;height:auto;padding:calc(8px + env(safe-area-inset-top)) 10px 8px;border-right:0;border-bottom:1px solid var(--line)}
+  .brand{min-height:0;flex-direction:row;justify-content:flex-start;gap:10px;padding:2px 4px 9px;margin:0 0 7px;text-align:left}
+  .brand #brandLogo{width:42px;height:42px;flex:0 0 42px;margin:0}.brand #brandName{font-size:15px;text-align:left}.brand small{display:none!important}
+  .nav{flex-direction:row;gap:6px;overflow-x:auto;padding:0 0 5px;scrollbar-width:thin;overscroll-behavior-x:contain}
+  .nav button{flex:0 0 auto;min-height:44px;padding:10px 13px;white-space:nowrap;font-size:12px}
+  .main{min-width:0;padding:12px 12px calc(22px + env(safe-area-inset-bottom))}
+  .topbar{position:relative;top:auto;z-index:1;align-items:stretch;flex-direction:column;margin:-12px -12px 14px;padding:14px 12px;gap:12px}
+  .topbar h1{font-size:21px;line-height:1.2}.topbar p{font-size:11px;line-height:1.4}
+  .topbar .topbar-actions{display:grid;grid-template-columns:88px minmax(0,1fr);align-items:stretch;gap:8px;width:100%}
+  .topbar-actions .refresh-btn{width:88px!important;min-width:0!important;min-height:44px;align-self:stretch!important}
+  .agent-form-actions{min-width:0;gap:7px}.agent-form-actions button{min-height:44px;padding:8px 10px;font-size:12px}
+  .card{padding:14px;margin-bottom:12px;border-radius:14px}.card:hover{box-shadow:var(--shadow-sm)}
+  .grid{grid-template-columns:1fr;gap:11px}.charts,.dash-layout{grid-template-columns:1fr;gap:12px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+  .stat{min-width:0;min-height:88px;padding:14px}.stat strong{font-size:22px;overflow-wrap:anywhere}.stat span{font-size:10px;line-height:1.3}
+  label{font-size:11px}input,select,textarea,button{font-size:16px;min-height:44px}button{touch-action:manipulation}
+  .actions{gap:8px}.actions button{min-height:44px}
+  .tablebox{width:100%;max-height:62vh;border-radius:10px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  table{min-width:680px;font-size:12px}th,td{padding:10px 11px}thead th{height:44px}
+  .rank-row{grid-template-columns:38px minmax(0,1fr);gap:9px;padding:10px}.rank-num{width:34px;height:34px}.rank-pts{grid-column:2;text-align:left;min-width:0}.rank-sub{text-align:left}
+  .score-head{grid-template-columns:1fr}.score-identity{flex-direction:row;justify-content:flex-start;padding:16px;border-right:0;border-bottom:1px solid var(--line);text-align:left}.score-content{padding:12px}
+  .score-head .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.score-head .stat{min-height:86px;padding:13px}.score-head .stat strong{font-size:21px}
+  .medal-shell{width:70px;height:70px;flex:0 0 70px}.score-head .medal{width:50px;height:50px;font-size:22px}
+  .hub-view-bar{align-items:flex-start}.core-view-tabs{display:flex!important;grid-template-columns:none!important;width:calc(100% - 54px)!important;overflow-x:auto;padding:4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .core-view-tabs button{flex:0 0 auto;width:auto!important;min-width:138px;min-height:42px;scroll-snap-align:start;font-size:12px}
+  .camera-btn{flex:0 0 44px;width:44px;height:44px;min-height:44px;margin:0}
+  .lb-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lb-controls label{min-width:0}.lb-controls input{width:100%;margin:0}.lb-controls .compact-apply{width:100%;min-width:0}.quick-range-label{grid-column:1/-1;margin:2px 0 -3px}.lb-controls .range-shortcut{width:100%;min-width:0}
+  .act-row{grid-template-columns:minmax(0,1fr) 72px 52px;gap:8px;padding:11px}.act-row input{min-width:0;padding:8px}.entry-total{padding:12px}
+  #agentNameRows .danger{width:104px}#agentPortal{padding:14px 10px calc(28px + env(safe-area-inset-bottom))}.portal-wrap{width:100%}.portal-brand h1{font-size:21px}.total-tile{padding:13px 10px}.total-tile strong{font-size:23px}
+  .lbmodal{align-items:flex-end;padding:0}.lbmodal-box{max-height:88dvh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom))}
+  .toast{bottom:calc(16px + env(safe-area-inset-bottom));max-width:calc(100% - 24px);padding:11px 16px;border-radius:10px;text-align:center}
+}
+@media(max-width:380px){
+  .main{padding-inline:9px}.topbar{margin-inline:-9px;padding-inline:10px}.card{padding:12px}.stats{gap:7px}.stat{padding:12px}.stat strong{font-size:20px}
+  .topbar .topbar-actions{grid-template-columns:76px minmax(0,1fr)}.topbar-actions .refresh-btn{width:76px!important;padding-inline:5px;font-size:11px}
+  .act-row{grid-template-columns:minmax(0,1fr) 64px 44px;gap:6px}.act-row .act-name{font-size:13px}.act-row .act-total{font-size:13px}
+}
 .lbmodal{position:fixed;inset:0;background:rgba(20,30,45,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px}
 .lbmodal-box{background:#fff;border-radius:20px;padding:22px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .lbmodal-box h3{margin:0 0 6px;color:var(--navy)}
 .lbmodal-box textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:10px;font-size:14px;resize:vertical;margin:10px 0;font-family:inherit}
 .small{font-size:12px}
+@media(max-width:768px){.lbmodal{align-items:flex-end;padding:0}.lbmodal-box{max-height:88dvh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom))}}
 </style>
 <div id="importModal" class="lbmodal" style="display:none">
   <div class="lbmodal-box">
@@ -1654,6 +1719,12 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
       <button class="btn" id="confirmSubmitBtn" onclick="submitAgentForm(true)">Confirm &amp; Submit</button>
       <button class="ghost" onclick="closeSubmitReview()">Go Back &amp; Review</button>
     </div>
+  </div>
+</div>
+<div id="mobilePreviewModal" class="mobile-preview-modal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="mobilePreviewTitle" onclick="if(event.target===this)closeMobilePreview()">
+  <div class="phone-preview">
+    <div class="phone-preview-bar"><strong id="mobilePreviewTitle">Mobile Mode Preview</strong><button class="phone-preview-close" onclick="closeMobilePreview()" aria-label="Close mobile preview" title="Close">&times;</button></div>
+    <iframe id="mobilePreviewFrame" class="phone-preview-screen" title="Live mobile preview of Team Andeng KPI"></iframe>
   </div>
 </div>
 </body>
