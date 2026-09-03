@@ -25,7 +25,7 @@ label{font-size:12px;font-weight:800;color:#344054}input,select,textarea,button{
 .btn{border:0;background:linear-gradient(90deg,var(--navy),var(--navy2));color:#fff;font-weight:800;cursor:pointer}.btn2{border:0;background:var(--navy);color:#fff;font-weight:800;cursor:pointer}.ghost{background:#fff;color:var(--navy);border:1px solid var(--navy);font-weight:800;cursor:pointer}.danger{background:#ef4444;color:#fff;border:0;font-weight:800;cursor:pointer}
 .actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{width:auto;min-width:120px}.tablebox{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:460px}
 table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;border-bottom:1px solid #edf0f5;text-align:left;vertical-align:top}th{background:var(--navy);color:#fff;position:sticky;top:0}tr:hover{background:#f8fafc}
-.badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900}.push{background:#fee2e2;color:#991b1b}.bronze{background:#f4c38a;color:#6b3b13}.silver{background:#e5e7eb;color:#374151}.gold{background:#fde68a;color:#713f12}.diamond{background:#cffafe;color:#155e75}
+.badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900}.start{background:#e8eef5;color:#344054}.push{background:#fee2e2;color:#991b1b}.bronze{background:#f4c38a;color:#6b3b13}.silver{background:#e5e7eb;color:#374151}.gold{background:#fde68a;color:#713f12}.diamond{background:#cffafe;color:#155e75}
 .card canvas{max-height:320px!important}
 .camera-btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:linear-gradient(160deg,#2b3440,#0f151d);color:#fff;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 2px rgba(255,255,255,.25),0 4px 10px rgba(0,0,0,.22);transition:.15s}
 .camera-btn:hover{transform:scale(1.07)}
@@ -39,12 +39,16 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;bord
 .rank-row.top2 .rank-num{background:#cfd4dc}
 .rank-row.top3 .rank-num{background:#e8a869}
 .rank-name{font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rank-name-button,.table-link{width:auto;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--navy);font:inherit;font-weight:800;text-align:left;cursor:pointer;box-shadow:none}
+.rank-name-button:hover,.table-link:hover{color:var(--navy2);text-decoration:underline;transform:none!important}
+.rank-name-button:focus-visible,.table-link:focus-visible{outline:2px solid var(--navy2);outline-offset:3px}
 .agent-avatar{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;border:1px solid var(--line);border-radius:50%;background:var(--surface-tint);font-size:18px;box-shadow:0 2px 6px rgba(23,50,78,.08)}
 body.exporting-dashboard .agent-avatar{display:none}
 body.exporting-dashboard .page.active{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
 body.exporting-dashboard .main,body.exporting-dashboard #dashboard{opacity:1!important;filter:none!important}
 body.exporting-dashboard .topbar{backdrop-filter:none!important;background:#fff!important}
 body.exporting-dashboard .camera-btn{visibility:hidden!important}
+body.capturing-screenshot .screenshot-exclude{display:none!important}
 .avatar-field{display:flex;flex-direction:column;gap:6px}.avatar-prompt{font-size:11px;font-weight:800;color:#3c4b5c}.avatar-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:40px;margin:0;padding:9px 12px;background:#fff;color:var(--text);border:1px solid #cfd8e3;font-weight:700;text-align:left}.avatar-toggle:hover{background:var(--surface-tint)}.avatar-picker{display:none;flex-wrap:wrap;gap:7px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft)}.avatar-picker.open{display:flex}.avatar-option{width:46px!important;height:46px;min-height:46px;margin:0;padding:0;border:1px solid #cfd8e3;border-radius:12px;background:#fff;font-size:27px;line-height:1;box-shadow:0 2px 6px rgba(23,50,78,.06);cursor:pointer}.avatar-option:hover{background:var(--surface-tint);border-color:var(--navy2)}.avatar-option.selected{border:2px solid var(--navy);background:var(--surface-tint);box-shadow:0 0 0 3px color-mix(in srgb,var(--navy2) 14%,transparent)}.avatar-option:disabled{opacity:.38;cursor:not-allowed}
 .rank-name .badge{padding:3px 9px;font-size:10px}
 .rank-bar{height:7px;border-radius:99px;background:#eef3f4;overflow:hidden;margin-top:6px}
@@ -59,7 +63,7 @@ body.exporting-dashboard .camera-btn{visibility:hidden!important}
 .ap-pts{font-weight:900;color:var(--navy);font-size:15px;white-space:nowrap}
 @media(max-width:900px){.dash-layout{grid-template-columns:1fr}}
 .medal{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font-size:28px;font-weight:900;margin:auto;border:5px solid rgba(255,255,255,.75);box-shadow:inset 0 4px 10px rgba(255,255,255,.75),inset 0 -7px 12px rgba(0,0,0,.2),0 10px 25px rgba(7,26,51,.2)}
-.medal.push{background:#ef4444;color:#fff}.medal.bronze{background:#b87333;color:#fff}.medal.silver{background:#cfd4dc;color:#182033}.medal.gold{background:#d4af37;color:#2d2100}.medal.diamond{background:#b9f3ff;color:#073344}
+.medal.start{background:#dfe7f0;color:#344054}.medal.push{background:#ef4444;color:#fff}.medal.bronze{background:#b87333;color:#fff}.medal.silver{background:#cfd4dc;color:#182033}.medal.gold{background:#d4af37;color:#2d2100}.medal.diamond{background:#b9f3ff;color:#073344}
 .score-head{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center}.small{font-size:12px;color:var(--muted)}.notice{padding:10px 12px;border-radius:10px;background:#eff6ff;color:#1e3a8a;font-weight:700;margin-bottom:12px}.hidden{display:none!important}
 @media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:sticky;top:0;z-index:50;height:auto;padding:12px 12px 8px;box-shadow:0 6px 18px rgba(6,108,124,.08)}.brand{min-height:0;flex-direction:row;gap:12px;padding:4px 4px 12px;margin-bottom:8px}.brand #brandLogo{width:52px;height:52px;margin:0}.brand #brandName{font-size:17px;text-align:left}.brand small{text-align:left;margin-top:2px;font-size:11px}.nav{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding-bottom:8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;cursor:grab}.nav.dragging{cursor:grabbing}.sidebar.dragging{cursor:grabbing;user-select:none}.nav::-webkit-scrollbar{height:6px}.nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}.nav button{width:auto;flex:0 0 auto;white-space:nowrap;margin:0;padding:11px 15px;scroll-snap-align:start}.nav button.active,.nav button:hover{transform:none}.charts{grid-template-columns:1fr}.main{padding:14px}.score-head{grid-template-columns:1fr}}
 
@@ -67,6 +71,10 @@ body.exporting-dashboard .camera-btn{visibility:hidden!important}
 #agentPortal{display:none;min-height:100vh;padding:26px 14px 60px;background:var(--bg)}
 body.agent-mode .app{display:none}
 body.agent-mode #agentPortal{display:block}
+body.access-gated .app,body.access-gated #agentPortal{visibility:hidden}
+.access-gate{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px;background:var(--bg)}
+.access-gate-box{width:min(420px,100%);padding:28px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 55px rgba(23,50,78,.16);text-align:center}
+.access-gate-box img{display:block;width:92px;height:92px;margin:0 auto 14px;object-fit:contain}.access-gate-box h2{margin:0;color:var(--navy)}.access-gate-box p{margin:7px 0 18px;color:var(--muted);font-size:13px}.access-gate-box label{text-align:left}.access-gate-box .btn{margin-top:12px}.access-error{min-height:20px;margin-top:10px;color:#b42318;font-size:12px;font-weight:700}
 .portal-wrap{max-width:640px;margin:0 auto}
 .portal-brand{text-align:center;margin-bottom:16px}
 .portal-brand img{display:none;width:130px;height:130px;object-fit:contain;margin:0 auto 10px}
@@ -137,7 +145,7 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .score-identity{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-width:0;padding:28px 22px;background:var(--surface-tint);border-right:1px solid var(--line);text-align:center}
 .medal-shell{width:108px;height:108px;display:grid;place-items:center;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:0 12px 26px rgba(23,50,78,.12),inset 0 0 0 7px rgba(238,244,248,.9)}
 .score-head .medal{width:76px;height:76px;margin:0;border:0;font-size:30px;box-shadow:inset 0 2px 5px rgba(255,255,255,.65),0 5px 12px rgba(23,50,78,.18)}
-.score-head .medal.push{background:#e9505b}.score-head .medal.bronze{background:#bd7b43}.score-head .medal.silver{background:#d8dde5}.score-head .medal.gold{background:#e2b93b}.score-head .medal.diamond{background:#aee7ee}
+.score-head .medal.start{background:#dfe7f0}.score-head .medal.push{background:#e9505b}.score-head .medal.bronze{background:#bd7b43}.score-head .medal.silver{background:#d8dde5}.score-head .medal.gold{background:#e2b93b}.score-head .medal.diamond{background:#aee7ee}
 .score-identity-text{min-width:0}.score-eyebrow{margin-bottom:4px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:0;text-transform:uppercase}
 .score-identity h2{margin:0;max-width:100%;font-size:21px;line-height:1.2;letter-spacing:0;overflow-wrap:anywhere;color:var(--navy)}
 .score-content{display:flex;align-items:center;min-width:0;padding:24px}
@@ -164,9 +172,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .danger{padding-inline:14px;box-shadow:0 5px 12px rgba(239,68,68,.14)}
 .actions{align-items:center;gap:9px}
 .actions button{min-width:unset}
-.core-view-tabs{display:inline-grid;grid-template-columns:repeat(2,minmax(150px,1fr));gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--surface-tint)}
+.core-view-tabs{display:inline-grid;grid-template-columns:repeat(var(--tab-count,2),minmax(150px,1fr));gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--surface-tint)}
 .core-view-tabs button{width:auto;min-height:38px;margin:0;padding:8px 16px;border:0;background:transparent;color:var(--navy);font-weight:800;box-shadow:none}
 .core-view-tabs button.active{background:#fff;box-shadow:0 3px 10px rgba(23,50,78,.12)}
+.hub-view-bar{display:flex;align-items:center;justify-content:space-between;gap:14px}
 @media(max-width:520px){.core-view-tabs{display:grid;grid-template-columns:1fr;width:100%}.core-view-tabs button{width:100%}}
 .notice{border-left:4px solid var(--navy2);padding:12px 14px;background:var(--surface-tint);color:#294761;font-size:12px;line-height:1.55}
 .tablebox{border-radius:13px;border-color:#d8e0e9;background:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
@@ -202,6 +211,16 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 </style>
 </head>
 <body>
+<div id="accessGate" class="access-gate" style="display:none">
+  <form class="access-gate-box" onsubmit="unlockTeamAccess(event)">
+    <img id="accessGateLogo" alt="Team logo">
+    <h2>Team Access</h2>
+    <p>Enter the private Team Andeng access code to continue.</p>
+    <label>Access Code<input id="teamAccessInput" type="password" autocomplete="current-password" required></label>
+    <button id="teamAccessButton" class="btn" type="submit">Continue</button>
+    <div id="teamAccessError" class="access-error" role="alert"></div>
+  </form>
+</div>
 <div class="app">
 <aside class="sidebar">
   <div class="brand">
@@ -211,7 +230,6 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
   </div>
   <div class="nav">
     <button class="active" data-page="dashboard">Dashboard</button>
-    <button data-page="scorecard">Agent Scorecard</button>
     <button data-page="leaderboard">Agent Leaderboard</button>
     <button data-page="agents">Agent List</button>
     <button data-page="activities">Agent Activity KPI</button>
@@ -249,7 +267,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <div class="dash-layout">
       <div class="card"><h3 style="display:flex;align-items:center;justify-content:space-between">🏆 Agent Rank List <button class="camera-btn" onclick="downloadScreenshot()" title="Download the dashboard as an image">📷</button></h3><div id="rankList"></div></div>
       <div class="card"><h3>Activity Points</h3><div id="actPointsList"></div></div>
-      <div class="card full"><h3>Daily Activity</h3><canvas id="dailyChart"></canvas></div>
+      <div class="card full screenshot-exclude"><h3>Daily Activity</h3><canvas id="dailyChart"></canvas></div>
     </div>
   </section>
 
@@ -270,11 +288,11 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
           <div class="stat"><strong id="scoreLevel">Push Harder</strong><span>Performance Level</span></div>
         </div></div>
       </div>
+      <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points</th><th>Notes</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
       <div class="charts">
         <div class="card full"><h3>Monthly Bar Graph</h3><canvas id="scoreMonthlyChart"></canvas></div>
         <div class="card full"><h3>Activity Breakdown</h3><canvas id="activityChart"></canvas></div>
       </div>
-      <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points</th><th>Notes</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
     </div>
   </section>
 
@@ -322,6 +340,16 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
   <section id="leaderboard" class="page">
     <div class="card">
+      <div class="hub-view-bar">
+        <div class="core-view-tabs" role="tablist" aria-label="Agent performance views">
+          <button id="agentLeaderboardTab" class="active" role="tab" aria-selected="true" onclick="showAgentView('leaderboard')">Leaderboard</button>
+          <button id="agentScorecardTab" role="tab" aria-selected="false" onclick="showAgentView('scorecard')">Agent Scorecard</button>
+        </div>
+        <button class="camera-btn" onclick="downloadScreenshot('agent')" title="Download the current Agent Leaderboard view as an image">📷</button>
+      </div>
+    </div>
+    <div id="agentLeaderboardView">
+    <div class="card">
       <div class="lb-controls">
         <label>From<input type="date" id="lbStart"></label>
         <label>To<input type="date" id="lbEnd"></label>
@@ -353,6 +381,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
         <tbody id="lbRecruiting"></tbody>
       </table></div>
     </div>
+    </div>
+    <div id="agentScorecardView" class="hidden"></div>
   </section>
 
   <section id="coreactivity" class="page">
@@ -386,9 +416,13 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
   <section id="coreboard" class="page">
     <div class="card">
-      <div class="core-view-tabs" role="tablist" aria-label="Subteam performance views">
-        <button id="coreLeaderboardTab" class="active" role="tab" aria-selected="true" onclick="showCoreView('leaderboard')">Leaderboard</button>
-        <button id="coreScorecardTab" role="tab" aria-selected="false" onclick="showCoreView('scorecard')">Leader Scorecard</button>
+      <div class="hub-view-bar">
+        <div class="core-view-tabs" style="--tab-count:3" role="tablist" aria-label="Subteam performance views">
+          <button id="coreLeaderboardTab" class="active" role="tab" aria-selected="true" onclick="showCoreView('leaderboard')">Leaderboard</button>
+          <button id="coreScorecardTab" role="tab" aria-selected="false" onclick="showCoreView('scorecard')">Leader Scorecard</button>
+          <button id="subteamScorecardTab" role="tab" aria-selected="false" onclick="showCoreView('subteam')">Subteam Scorecard</button>
+        </div>
+        <button class="camera-btn" onclick="downloadScreenshot('subteam')" title="Download the current Subteam Leaderboard view as an image">📷</button>
       </div>
     </div>
     <div id="coreLeaderboardView">
@@ -405,7 +439,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     </div>
     <div class="card">
       <h3 class="lb-title">🏆 Subteam Rankings <span style="font-size:12px;color:var(--muted)">(highest to lowest)</span></h3>
-      <div class="tablebox"><table><thead><tr><th class="lb-rank">Rank</th><th>Subteam Leader / Subteam</th><th>Active Days</th><th>Total Activities</th><th>Leader KPI</th><th>Agent KPI</th><th>Combined</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="coreLbRows"></tbody></table></div>
+      <div class="tablebox"><table><thead><tr><th class="lb-rank">Rank</th><th>Subteam</th><th>Active Days</th><th>Total Activities</th><th>Leader KPI</th><th>Agent KPI</th><th>Combined</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="coreLbRows"></tbody></table></div>
     </div>
     <div class="grid2">
       <div class="card">
@@ -417,12 +451,27 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
         <canvas id="coreBreakChart"></canvas>
       </div>
     </div>
-    <div class="card">
+    <div class="card screenshot-exclude">
       <h3 class="lb-title">📈 Daily Activity (Total Points)</h3>
       <canvas id="coreDailyChart"></canvas>
     </div>
     </div>
     <div id="coreScorecardView" class="hidden"></div>
+    <div id="subteamScorecardView" class="hidden">
+      <div class="card grid">
+        <div><label>Subteam<select id="teamScoreName" onchange="renderTeamScorecard()"><option value="">Select Subteam</option></select></label></div>
+        <div><label>Start Date<input type="date" id="teamScoreStart" onchange="renderTeamScorecard()"></label></div>
+        <div><label>End Date<input type="date" id="teamScoreEnd" onchange="renderTeamScorecard()"></label></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="teamScorePoints">0</strong><span>Subteam Agent Points</span></div>
+        <div class="stat"><strong id="teamScoreMembers">0</strong><span>Assigned Agents</span></div>
+        <div class="stat"><strong id="teamScoreActive">0</strong><span>Agents with Activity</span></div>
+        <div class="stat"><strong id="teamScoreDays">0</strong><span>Productive Days</span></div>
+      </div>
+      <div class="card"><h3>Agent Performance Summary</h3><div class="tablebox"><table><thead><tr><th>Agent</th><th>Active Days</th><th>Activities</th><th>Points</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="teamScoreSummaryRows"></tbody></table></div></div>
+      <div class="card"><h3>Daily Agent Productivity</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Agent</th><th>Activities</th><th>Points</th><th>Daily Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="teamScoreDailyRows"></tbody></table></div></div>
+    </div>
   </section>
 
   <section id="agents" class="page">
@@ -485,8 +534,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     </div>
 
     <div class="card">
-      <h3 style="margin:4px 0 10px">🔧 Google Apps Script — Backend Code (v4)</h3>
-      <div class="notice">Paste this code into your Google Sheet under <b>Extensions → Apps Script</b>. Whenever the app is updated, copy the latest code from here. After pasting it, select <b>Deploy → Manage deployments → ✏️ Edit → New version → Deploy</b>, then paste the Web App URL into the Settings field above.</div>
+      <h3 style="margin:4px 0 10px">🔧 Google Apps Script — Secure Backend Code (v5)</h3>
+      <div class="notice">Before deploying, open <b>Project Settings → Script Properties</b> in Apps Script and add a property named <b>TEAM_ACCESS_CODE</b> with a strong private code known only to your team. Then paste this backend code and select <b>Deploy → Manage deployments → Edit → New version → Deploy</b>. Never place the access code inside this HTML or share it in the form URL.</div>
       <div class="actions">
         <button class="btn2" onclick="copyAppsScript()">📋 Copy Apps Script</button>
         <button class="ghost" onclick="toggleAppsScript()">👁 View / Hide Code</button>
@@ -538,7 +587,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 </div>
 <script type="text/plain" id="appsScriptCode">
 // ============================================================
-// TEAM ANDENG KPI — Google Apps Script backend (v4 - settings sync)
+// TEAM ANDENG KPI — Google Apps Script backend (v5 - team access control)
 // Paste this into Extensions > Apps Script in your Google Sheet.
 // Replace the old code, then redeploy it as a NEW VERSION.
 // ============================================================
@@ -548,6 +597,9 @@ const AGENTS_SHEET = 'Agents';
 const CONFIG_SHEET = 'Config';
 
 function doGet(e) {
+  if (!isAuthorized_(e && e.parameter && e.parameter.accessCode)) {
+    return json_({ ok: false, error: 'unauthorized' });
+  }
   const sh = getSheet_();
   const rows = sh.getDataRange().getValues();
   rows.shift();
@@ -575,7 +627,7 @@ function doGet(e) {
   cvals.shift();
   var config = cvals.map(function(r) { return String(r[0] || '').replace(/^#/, ''); }).join('');
 
-  return json_({ ok: true, records: data, agents: agents, config: config || null });
+  return json_({ ok: true, securityVersion: 5, records: data, agents: agents, config: config || null });
 }
 
 function doPost(e) {
@@ -583,6 +635,9 @@ function doPost(e) {
   lock.tryLock(10000);
   try {
     const body = JSON.parse(e.postData.contents);
+    if (!isAuthorized_(body.accessCode)) {
+      return json_({ ok: false, error: 'unauthorized' });
+    }
 
     if (body.action === 'add') {
       const sh = getSheet_();
@@ -643,6 +698,11 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function isAuthorized_(providedCode) {
+  const expectedCode = PropertiesService.getScriptProperties().getProperty('TEAM_ACCESS_CODE');
+  return Boolean(expectedCode) && String(providedCode || '') === expectedCode;
 }
 
 function getSheet_() {
@@ -710,6 +770,8 @@ const TEAM_AGENTS=[
    This is the Web App URL for the TEAM ANDENG Google Sheet.
    ============================================================ */
 const SHEETS_API_URL="";
+let teamAccessCode='';
+try{teamAccessCode=sessionStorage.getItem('TAND_TEAM_ACCESS_CODE')||''}catch(e){}
 
 function getApiUrl(){
   // Priority: 1) the "api" URL parameter from a shared link, 2) Dashboard Settings, 3) the hardcoded URL above
@@ -718,6 +780,7 @@ function getApiUrl(){
   return SHEETS_API_URL;
 }
 function cloudEnabled(){return getApiUrl().indexOf('https://')===0}
+function authorizedApiUrl(){let url=new URL(getApiUrl());url.searchParams.set('accessCode',teamAccessCode);return url.toString()}
 
 const KEYS={records:'TAND_KPI_RECORDS_V1',activities:'TAND_KPI_ACTIVITIES_V1',settings:'TAND_KPI_SETTINGS_V1',agents:'TAND_KPI_AGENTS_V1',agentAvatars:'TAND_AGENT_AVATARS_V1',agentSubteams:'TAND_AGENT_SUBTEAMS_V1',coreActs:'TAND_CORE_ACTS_V1',coreMap:'TAND_CORE_MAP_V1',coreRecords:'TAND_CORE_RECORDS_V1'};
 const defaultActivities=[['Client Presentation',20],['Approach (Sell and Recruit)',1],['Closing',200],['Training',5],['Branding',1],['Engage',1],['Setting Appointment',5],['BYB / Table Top',20],['Paid MTM',50],['Paid Exam',50],['Coded',100]];
@@ -732,7 +795,7 @@ function norm(v){return String(v??'').trim().toLowerCase().replace(/\s+/g,' ')}
 function uid(){return 'KPI_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8)}
 function isoDate(v){if(!v)return '';let d=new Date(v);if(isNaN(d))return String(v).slice(0,10);return d.toISOString().slice(0,10)}
 function getActivity(name){return activities.find(a=>norm(a.name)===norm(name))}
-function calcLevel(p){if(p<30)return {name:'Push Harder',cls:'push',icon:'💪'};if(p<=50)return{name:'Bronze',cls:'bronze',icon:'🥉'};if(p<=70)return{name:'Silver',cls:'silver',icon:'🥈'};if(p<150)return{name:'Gold',cls:'gold',icon:'🥇'};return{name:'Diamond',cls:'diamond',icon:'💎'}}
+function calcLevel(p){if(p<=0)return{name:'Start Now',cls:'start',icon:'🚀'};if(p<30)return{name:'Push Harder',cls:'push',icon:'💪'};if(p<=50)return{name:'Bronze',cls:'bronze',icon:'🥉'};if(p<=70)return{name:'Silver',cls:'silver',icon:'🥈'};if(p<150)return{name:'Gold',cls:'gold',icon:'🥇'};return{name:'Diamond',cls:'diamond',icon:'💎'}}
 function inRange(r,s,e){return (!s||r.date>=s)&&(!e||r.date<=e)}
 function uniqueDays(rows){return new Set(rows.map(r=>r.date).filter(Boolean)).size}
 function filterRows(s,e,a){return records.filter(r=>inRange(r,s,e)&&(!a||norm(r.agent)===norm(a)))}
@@ -754,10 +817,10 @@ const PAGE_META={
 function isAgentViewer(){try{return sessionStorage.getItem('TAND_AGENT_VIEWER')==='1'}catch(e){return false}}
 function applyAgentViewerMode(){document.body.classList.toggle('agent-viewer',isAgentViewer())}
 function updatePageMeta(page){var meta=PAGE_META[page]||PAGE_META.dashboard;document.getElementById('pageTitle').textContent=meta.title;document.getElementById('appSubtitle').textContent=meta.subtitle;}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='scorecard')renderScorecard();if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard')renderLeaderboard();if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard')renderCoreHub()});
-function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard')renderAgentHub();if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard')renderCoreHub()});
+function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart','teamScoreStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate','teamScoreEnd'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort();['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
-function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderAgents();coreRefresh()}
+function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderAgents();agentRefresh();coreRefresh()}
 function subteamNames(){return [...new Set(Object.values(coreMap).map(function(v){return String(v||'').trim();}).filter(Boolean))].sort(function(a,b){return a.localeCompare(b);});}
 function renderAgents(){
   var el=document.getElementById('agentNameRows');if(!el)return;var teams=subteamNames();
@@ -788,13 +851,23 @@ function removeAgentName(name){
   if(cloudEnabled()){showToast('⏳ Syncing...');Promise.resolve(pushConfig()).then(function(){showToast('✓ Removed and synced!');}).catch(function(){showToast('✓ Removed (⚠ not synced)');});}
   else showToast('✓ Removed!');
 }
+function openAgentScorecard(encodedName){
+  var name=decodeURIComponent(encodedName),button=document.querySelector('.nav button[data-page="leaderboard"]');
+  scoreStart.value=dashStart.value;scoreEnd.value=dashEnd.value;scoreAgent.value=name;
+  if(button)button.click();showAgentView('scorecard');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function openRankedAgentScorecard(encodedName){
+  scoreStart.value=lbStart.value;scoreEnd.value=lbEnd.value;scoreAgent.value=decodeURIComponent(encodedName);
+  showAgentView('scorecard');window.scrollTo({top:0,behavior:'smooth'});
+}
 function renderDashboard(){let s=dashStart.value,e=dashEnd.value,a=dashAgent.value,rows=filterRows(s,e,a);let agents={};rows.forEach(r=>(agents[r.agent]??=[]).push(r));let summaries=Object.entries(agents).map(([name,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=Number(settings.baseTarget||150)*days,pct=target?points/target*100:0;return{name,points,days,target,pct,level:calcLevel(pct)}}).sort((x,y)=>y.pct-x.pct);let totalPoints=rows.reduce((t,r)=>t+Number(r.points||0),0),totalTarget=summaries.reduce((t,x)=>t+x.target,0),pct=totalTarget?totalPoints/totalTarget*100:0;teamPoints.textContent=totalPoints.toLocaleString();teamTarget.textContent=totalTarget.toLocaleString();teamPct.textContent=pct.toFixed(1)+'%';agentCount.textContent=summaries.length;
 // 🏆 Rank list na may levels
 rankList.innerHTML=summaries.length?summaries.map((x,i)=>`
   <div class="rank-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
     <div class="rank-num">${i+1}</div>
     <div>
-      <div class="rank-name"><span class="agent-avatar" title="Agent avatar">${esc(agentAvatars[x.name]||'🙂')}</span>${esc(x.name)} <span class="badge ${x.level.cls}">${x.level.icon} ${x.level.name}</span></div>
+      <div class="rank-name"><span class="agent-avatar" title="Agent avatar">${esc(agentAvatars[x.name]||'🙂')}</span><button class="rank-name-button" onclick="openAgentScorecard('${encodeURIComponent(x.name)}')">${esc(x.name)}</button> <span class="badge ${x.level.cls}">${x.level.icon} ${x.level.name}</span></div>
       <div class="rank-bar"><i style="width:${Math.min(100,x.pct).toFixed(1)}%"></i></div>
     </div>
     <div class="rank-pts"><strong>${x.points.toLocaleString()}</strong><div class="rank-sub">${x.pct.toFixed(1)}% of ${x.target.toLocaleString()} target</div></div>
@@ -834,6 +907,25 @@ function renderSubteamScorecard(){
   var leaderMonthly={},agentMonthly={};rows.forEach(function(r){var m=r.date.slice(0,7);leaderMonthly[m]=(leaderMonthly[m]||0)+Number(r.total||0);});agentRows.forEach(function(r){var m=r.date.slice(0,7);agentMonthly[m]=(agentMonthly[m]||0)+Number(r.points||0);});var months=[...new Set(Object.keys(leaderMonthly).concat(Object.keys(agentMonthly)))].sort();destroyChart('subScoreMonthly');charts.subScoreMonthly=new Chart(document.getElementById('subScoreMonthlyChart'),{type:'bar',data:{labels:months,datasets:[{label:'Leader KPI',data:months.map(function(m){return leaderMonthly[m]||0;}),backgroundColor:settings.actionColor||'#e2691c',borderRadius:6},{label:'Agent KPI',data:months.map(function(m){return agentMonthly[m]||0;}),backgroundColor:settings.secondaryColor||'#2e6ea0',borderRadius:6}]},options:{responsive:true,scales:{y:{beginAtZero:true}}}});
   var byAct={};rows.forEach(function(r){byAct['Leader: '+r.activity]=(byAct['Leader: '+r.activity]||0)+Number(r.total||0);});agentRows.forEach(function(r){byAct['Agent: '+r.activity]=(byAct['Agent: '+r.activity]||0)+Number(r.points||0);});destroyChart('subScoreActivity');charts.subScoreActivity=new Chart(document.getElementById('subScoreActivityChart'),{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
   document.getElementById('subteamMessage').value=name?'Hi '+(performance.agentName||name)+', your combined performance for the selected period is '+pct.toFixed(1)+'%. You earned '+performance.leaderPoints.toLocaleString()+' Leader KPI points and '+performance.agentPoints.toLocaleString()+' Agent KPI points, for '+points.toLocaleString()+' combined points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'.':'';
+}
+function selectedDateList(start,end){
+  if(!start||!end||start>end)return [];
+  var out=[],cursor=new Date(start+'T00:00:00'),last=new Date(end+'T00:00:00'),guard=0;
+  while(cursor<=last&&guard<367){out.push(localDateValue(cursor));cursor.setDate(cursor.getDate()+1);guard++;}
+  return out;
+}
+function renderTeamScorecard(){
+  var select=document.getElementById('teamScoreName'),current=select.value,teams=subteamNames();
+  select.innerHTML='<option value="">Select Subteam</option>'+teams.map(function(team){return '<option value="'+esc(team)+'" '+(team===current?'selected':'')+'>'+esc(team)+'</option>';}).join('');
+  var team=select.value,start=document.getElementById('teamScoreStart').value,end=document.getElementById('teamScoreEnd').value,dates=selectedDateList(start,end);
+  var members=team?agentList.filter(function(agent){return agentSubteams[agent]===team||String(coreMap[agent]||'').trim()===team;}).sort():[];
+  var memberKeys=new Set(members.map(norm)),teamRows=records.filter(function(r){return inRange(r,start,end)&&memberKeys.has(norm(r.agent));}),base=Number(settings.baseTarget||150);
+  var totalPoints=teamRows.reduce(function(t,r){return t+Number(r.points||0);},0),activeAgents=new Set(teamRows.map(function(r){return norm(r.agent);})).size,productiveDays=uniqueDays(teamRows);
+  document.getElementById('teamScorePoints').textContent=totalPoints.toLocaleString();document.getElementById('teamScoreMembers').textContent=members.length.toLocaleString();document.getElementById('teamScoreActive').textContent=activeAgents.toLocaleString();document.getElementById('teamScoreDays').textContent=productiveDays.toLocaleString();
+  var summaries=members.map(function(agent){var rows=teamRows.filter(function(r){return norm(r.agent)===norm(agent);}),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),activities=rows.reduce(function(t,r){return t+Number(r.count||0);},0),target=dates.length*base,pct=target?points/target*100:0;return{agent:agent,days:uniqueDays(rows),activities:activities,points:points,target:target,pct:pct,level:calcLevel(pct)};}).sort(function(a,b){return b.points-a.points||a.agent.localeCompare(b.agent);});
+  document.getElementById('teamScoreSummaryRows').innerHTML=summaries.length?summaries.map(function(x){return '<tr><td>'+esc(x.agent)+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="7" class="small">No agents are assigned to this subteam.</td></tr>';
+  var daily=[];members.forEach(function(agent){dates.slice().reverse().forEach(function(date){var rows=teamRows.filter(function(r){return r.date===date&&norm(r.agent)===norm(agent);}),activities=rows.reduce(function(t,r){return t+Number(r.count||0);},0),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),pct=base?points/base*100:0;daily.push({date:date,agent:agent,activities:activities,points:points,pct:pct,level:calcLevel(pct)});});});
+  document.getElementById('teamScoreDailyRows').innerHTML=daily.length?daily.map(function(x){return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.agent)+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+base.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="7" class="small">Select a subteam and date range to view daily productivity.</td></tr>';
 }
 async function saveRecord(){let date=recDate.value,agent=recAgent.value.trim(),activity=recActivity.value,count=Number(recCount.value||0),notes=recNotes.value.trim(),cfg=getActivity(activity);if(!date||!agent||!activity||count<=0)return alert('Complete Date, Agent, Activity, and Count.');let id=[date,norm(agent),norm(activity),count,norm(notes)].join('|');if(records.some(r=>r.key===id))return alert('Duplicate record detected.');let row={id:uid(),key:id,date,agent,activity,count,points:count*Number(cfg?.points||0),notes};
 if(cloudEnabled()){showToast('⏳ Saving...');try{let out=await cloudPost({action:'add',records:[row]});if(!out.ok)throw 0;recNotes.value='';await cloudLoad(true);showToast('✓ Record saved!')}catch(e){showToast('⚠ The record could not be saved. Please try again.')}return}
@@ -1153,10 +1245,13 @@ async function pushConfig(){
 }
 async function cloudLoad(quiet){
   if(!cloudEnabled())return;
+  if(!teamAccessCode){showAccessGate();return false;}
   try{
     if(!quiet)showToast('⏳ Loading data...');
-    let res=await fetch(getApiUrl());
+    let res=await fetch(authorizedApiUrl());
     let data=await res.json();
+    if(!data.ok&&data.error==='unauthorized'){lockTeamAccess('The access code is incorrect or has expired.');return false;}
+    if(data.ok&&data.securityVersion!==5){lockTeamAccess('The secure backend has not been deployed yet. Update the Apps Script to version 5 first.');return false;}
     if(data.ok){
       records=(data.records||[]).map(r=>({...r,date:normDate(r.date),count:Number(r.count||0),points:Number(r.points||0)})).filter(r=>r.id&&r.id!=='id'&&r.agent&&r.agent!=='agent');
       write(KEYS.records,records);
@@ -1165,18 +1260,22 @@ async function cloudLoad(quiet){
       renderAll();
       if(document.body.classList.contains('agent-mode')){renderAgentForm();updateFormTotals()}
       if(!quiet)showToast('✓ Data updated');
+      return true;
     }
-  }catch(e){showToast('⚠ The data could not be loaded: '+(e&&e.message?e.message:'connection error'))}
+  }catch(e){showToast('⚠ The data could not be loaded: '+(e&&e.message?e.message:'connection error'));return false;}
 }
 async function cloudPost(payload){
+  if(!teamAccessCode){showAccessGate();return{ok:false,error:'unauthorized'};}
+  payload={...payload,accessCode:teamAccessCode};
   let res=await fetch(getApiUrl(),{method:'POST',body:JSON.stringify(payload)});
-  return res.json();
+  let data=await res.json();if(!data.ok&&data.error==='unauthorized')lockTeamAccess('The access code is incorrect or has expired.');return data;
 }
 
-async function downloadScreenshot(){
+async function downloadScreenshot(kind){
   let target=document.querySelector('.main')||document.body;
   showToast('⏳ Capturing the screenshot...');
   document.body.classList.add('exporting-dashboard');
+  document.body.classList.add('capturing-screenshot');
   try{
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
     await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
@@ -1186,28 +1285,41 @@ async function downloadScreenshot(){
       useCORS:true,
       allowTaint:false,
       backgroundColor:'#eff3f8',
-      width:target.scrollWidth,
-      height:target.scrollHeight,
-      windowWidth:Math.max(1200,target.scrollWidth),
-      windowHeight:target.scrollHeight,
-      scrollX:0,
-      scrollY:0,
       imageTimeout:15000,
       onclone:function(doc){
         doc.body.classList.add('exporting-dashboard');
+        doc.body.classList.add('capturing-screenshot');
         let page=doc.querySelector('#dashboard');
         if(page){page.style.animation='none';page.style.opacity='1';page.style.transform='none';page.style.filter='none'}
       }
     });
-    let a=document.createElement('a');
-    a.download='team-andeng-dashboard-'+new Date().toISOString().slice(0,10)+'.png';
+    let a=document.createElement('a'),fileName='TEAM_ANDENG_DASHBOARD.png';
+    if(kind==='agent')fileName=agentHubView==='scorecard'?'TEAM_ANDENG_AGENT_SCORECARD.png':'TEAM_ANDENG_AGENT_LEADERBOARD.png';
+    if(kind==='subteam')fileName=coreHubView==='scorecard'?'TEAM_ANDENG_LEADER_SCORECARD.png':coreHubView==='subteam'?'TEAM_ANDENG_SUBTEAM_SCORECARD.png':'TEAM_ANDENG_SUBTEAM_LEADERBOARD.png';
+    a.download=fileName;
     a.href=canvas.toDataURL('image/png',1);
-    a.click();
+    document.body.appendChild(a);a.click();a.remove();
     showToast('✓ Screenshot saved!');
-  }catch(e){showToast('⚠ The screenshot could not be captured.')}finally{document.body.classList.remove('exporting-dashboard')}
+  }catch(e){showToast('⚠ The screenshot could not be captured.')}finally{document.body.classList.remove('exporting-dashboard');document.body.classList.remove('capturing-screenshot')}
 }
 
-let coreHubView='leaderboard';
+let agentHubView='leaderboard',coreHubView='leaderboard';
+function setupAgentHub(){
+  var source=document.getElementById('scorecard'),target=document.getElementById('agentScorecardView');
+  if(!source||!target)return;
+  while(source.firstChild)target.appendChild(source.firstChild);
+  source.remove();
+}
+function showAgentView(view){
+  agentHubView=view==='scorecard'?'scorecard':'leaderboard';
+  var leaderboard=document.getElementById('agentLeaderboardView'),scorecard=document.getElementById('agentScorecardView'),leaderboardTab=document.getElementById('agentLeaderboardTab'),scorecardTab=document.getElementById('agentScorecardTab'),showScorecard=agentHubView==='scorecard';
+  leaderboard.classList.toggle('hidden',showScorecard);scorecard.classList.toggle('hidden',!showScorecard);
+  leaderboardTab.classList.toggle('active',!showScorecard);scorecardTab.classList.toggle('active',showScorecard);
+  leaderboardTab.setAttribute('aria-selected',String(!showScorecard));scorecardTab.setAttribute('aria-selected',String(showScorecard));
+  document.getElementById('appSubtitle').textContent=showScorecard?'Review one agent’s KPI activity and performance.':PAGE_META.leaderboard.subtitle;
+  if(showScorecard)renderScorecard();else renderLeaderboard();
+}
+function renderAgentHub(){showAgentView(agentHubView);}
 function setupCoreHub(){
   var source=document.getElementById('subteamscorecard'),target=document.getElementById('coreScorecardView');
   if(!source||!target)return;
@@ -1215,25 +1327,46 @@ function setupCoreHub(){
   source.remove();
 }
 function showCoreView(view){
-  coreHubView=view==='scorecard'?'scorecard':'leaderboard';
-  var leaderboard=document.getElementById('coreLeaderboardView'),scorecard=document.getElementById('coreScorecardView'),leaderboardTab=document.getElementById('coreLeaderboardTab'),scorecardTab=document.getElementById('coreScorecardTab');
-  var showScorecard=coreHubView==='scorecard';
-  leaderboard.classList.toggle('hidden',showScorecard);scorecard.classList.toggle('hidden',!showScorecard);
-  leaderboardTab.classList.toggle('active',!showScorecard);scorecardTab.classList.toggle('active',showScorecard);
-  leaderboardTab.setAttribute('aria-selected',String(!showScorecard));scorecardTab.setAttribute('aria-selected',String(showScorecard));
-  document.getElementById('appSubtitle').textContent=showScorecard?'Review one leader’s leadership and agent KPI performance.':PAGE_META.coreboard.subtitle;
-  if(showScorecard)renderSubteamScorecard();else renderCoreBoard();
+  coreHubView=view==='scorecard'||view==='subteam'?view:'leaderboard';
+  var leaderboard=document.getElementById('coreLeaderboardView'),scorecard=document.getElementById('coreScorecardView'),subteam=document.getElementById('subteamScorecardView'),leaderboardTab=document.getElementById('coreLeaderboardTab'),scorecardTab=document.getElementById('coreScorecardTab'),subteamTab=document.getElementById('subteamScorecardTab');
+  leaderboard.classList.toggle('hidden',coreHubView!=='leaderboard');scorecard.classList.toggle('hidden',coreHubView!=='scorecard');subteam.classList.toggle('hidden',coreHubView!=='subteam');
+  leaderboardTab.classList.toggle('active',coreHubView==='leaderboard');scorecardTab.classList.toggle('active',coreHubView==='scorecard');subteamTab.classList.toggle('active',coreHubView==='subteam');
+  leaderboardTab.setAttribute('aria-selected',String(coreHubView==='leaderboard'));scorecardTab.setAttribute('aria-selected',String(coreHubView==='scorecard'));subteamTab.setAttribute('aria-selected',String(coreHubView==='subteam'));
+  document.getElementById('appSubtitle').textContent=coreHubView==='scorecard'?'Review one leader’s leadership and agent KPI performance.':coreHubView==='subteam'?'Review daily productivity for agents assigned to a subteam.':PAGE_META.coreboard.subtitle;
+  if(coreHubView==='scorecard')renderSubteamScorecard();else if(coreHubView==='subteam')renderTeamScorecard();else renderCoreBoard();
 }
 function renderCoreHub(){showCoreView(coreHubView);}
+function openLeaderScorecard(encodedName){
+  var name=decodeURIComponent(encodedName);
+  subScoreStart.value=coreStart.value;subScoreEnd.value=coreEnd.value;subScoreName.value=name;
+  showCoreView('scorecard');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showAccessGate(message){
+  document.body.classList.add('access-gated');
+  var gate=document.getElementById('accessGate'),logo=document.getElementById('accessGateLogo'),error=document.getElementById('teamAccessError');
+  gate.style.display='grid';logo.src=settings.logoData||DEFAULT_LOGO;error.textContent=message||'';
+  setTimeout(function(){document.getElementById('teamAccessInput').focus();},0);
+}
+function hideAccessGate(){document.body.classList.remove('access-gated');document.getElementById('accessGate').style.display='none';document.getElementById('teamAccessError').textContent='';document.getElementById('teamAccessInput').value='';}
+function lockTeamAccess(message){teamAccessCode='';try{sessionStorage.removeItem('TAND_TEAM_ACCESS_CODE')}catch(e){}showAccessGate(message||'Enter the team access code to continue.');}
+async function unlockTeamAccess(event){
+  event.preventDefault();var input=document.getElementById('teamAccessInput'),button=document.getElementById('teamAccessButton'),error=document.getElementById('teamAccessError'),code=input.value.trim();if(!code)return;
+  button.disabled=true;button.textContent='Checking...';error.textContent='';teamAccessCode=code;
+  var allowed=await cloudLoad(true);
+  if(allowed){try{sessionStorage.setItem('TAND_TEAM_ACCESS_CODE',teamAccessCode)}catch(e){}hideAccessGate();}
+  else if(teamAccessCode)error.textContent='Unable to verify access. Check the connection and try again.';
+  button.disabled=false;button.textContent='Continue';
+}
 function init(){
-  setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();
+  setupAgentHub();setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();
   if(new URLSearchParams(location.search).get('view')==='agent'){
     try{sessionStorage.setItem('TAND_AGENT_VIEWER','1')}catch(e){}
     applyAgentViewerMode();
     document.body.classList.add('agent-mode');
     renderAgentForm();
   }else applyAgentViewerMode();
-  if(cloudEnabled())cloudLoad(true).then(()=>{if(document.body.classList.contains('agent-mode'))updateFormTotals()});
+  if(cloudEnabled()){if(!teamAccessCode)showAccessGate();else cloudLoad(true).then(()=>{if(document.body.classList.contains('agent-mode'))updateFormTotals()});}
 }
 
 /* ---------- Bulk import agents (Excel / CSV / PDF) ---------- */
@@ -1348,7 +1481,7 @@ function renderOverallAgentLeaderboard(rows){
   const groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));
   const list=Object.entries(groups).map(([name,rs])=>{const days=uniqueDays(rs),activities=rs.reduce((t,r)=>t+Number(r.count||0),0),points=rs.reduce((t,r)=>t+Number(r.points||0),0),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{name,days,activities,points,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name));
   const tb=document.getElementById('lbOverall');if(!tb)return;
-  tb.innerHTML=list.length?list.map((x,i)=>{const m=lbMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(x.name)+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No agent ranking data is available for this period.</td></tr>';
+  tb.innerHTML=list.length?list.map((x,i)=>{const m=lbMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td><button class="table-link" onclick="openRankedAgentScorecard(\''+encodeURIComponent(x.name)+'\')">'+esc(x.name)+'</button></td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No agent ranking data is available for this period.</td></tr>';
 }
 function renderLeaderboard(){
   const sEl=document.getElementById('lbStart'),eEl=document.getElementById('lbEnd');
@@ -1363,7 +1496,8 @@ function renderLeaderboard(){
 
 /* ================= Subteam Leader: Activity + Leaderboard ================= */
 var markedCoreRecordIds=new Set();
-function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active')){if(coreHubView==='scorecard')renderSubteamScorecard();else renderCoreBoard();}}
+function agentRefresh(){var page=document.getElementById('leaderboard');if(page&&page.classList.contains('active')){if(agentHubView==='scorecard')renderScorecard();else renderLeaderboard();}}
+function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active')){if(coreHubView==='scorecard')renderSubteamScorecard();else if(coreHubView==='subteam')renderTeamScorecard();else renderCoreBoard();}}
 function coreLeaderList(){return agentList.filter(function(n){return Object.prototype.hasOwnProperty.call(coreMap,n);}).map(function(n){var sTxt=(coreMap[n]||'').trim();return {name:n,display:sTxt?sTxt:n};}).sort(function(a,b){return a.display.localeCompare(b.display);});}
 function coreFillNameSelect(sel,withAll){if(!sel)return;var v=sel.value;var list=coreLeaderList();sel.innerHTML=(withAll?'<option value="">All Subteam Leaders</option>':'<option value="">Select Name</option>')+list.map(function(c){var label=c.name===c.display?c.name:c.name+' — '+c.display;return '<option value="'+esc(c.display)+'" '+(c.display===v?'selected':'')+'>'+esc(label)+'</option>';}).join('');}
 function updateCoreTotal(){var grand=0;coreActs.forEach(function(a,i){var ci=document.getElementById('cc_'+i);if(!ci)return;var c=Number(ci.value||0),t=Number(a.points)*c;grand+=t;var te=document.getElementById('ct_'+i);if(te)te.textContent=t.toLocaleString();});var g=document.getElementById('coreGrand');if(g)g.textContent=grand.toLocaleString();}
@@ -1436,7 +1570,7 @@ function renderCoreBoard(){
   var rows=coreRecords.filter(function(r){return inRange(r,s,e)&&(!f||r.leader===f);});
   var names=[...new Set(coreLeaderList().map(function(x){return x.display;}).concat(coreRecords.filter(function(r){return inRange(r,s,e);}).map(function(r){return r.leader;})))].filter(function(n){return !f||n===f;});
   var lb=names.map(function(n){return leaderPerformance(n,s,e);}).filter(function(x){return x.points>0;}).sort(function(a,b){return b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name);});
-  document.getElementById('coreLbRows').innerHTML=lb.length?lb.map(function(x,i){var m=coreMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(leaderLabel(x.name))+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td>'+x.leaderPoints.toLocaleString()+'</td><td>'+x.agentPoints.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:16px">No Subteam Leader ranking data is available for this period.</td></tr>';
+  document.getElementById('coreLbRows').innerHTML=lb.length?lb.map(function(x,i){var m=coreMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td><button class="table-link" onclick="openLeaderScorecard(\''+encodeURIComponent(x.name)+'\')">'+esc(x.name)+'</button></td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td>'+x.leaderPoints.toLocaleString()+'</td><td>'+x.agentPoints.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:16px">No Subteam Leader ranking data is available for this period.</td></tr>';
   var byAct={};rows.forEach(function(r){var k=r.activity;byAct[k]=byAct[k]||{count:0,points:0};byAct[k].count+=Number(r.count||0);byAct[k].points+=Number(r.total||0);});
   var brk=Object.keys(byAct).map(function(n){return{name:n,count:byAct[n].count,points:byAct[n].points};}).sort(function(a,b){return b.points-a.points;});
   document.getElementById('coreBreakRows').innerHTML=brk.length?brk.map(function(x){return '<tr><td>'+esc(x.name)+'</td><td>'+x.count+'</td><td>'+x.points.toLocaleString()+'</td></tr>';}).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:16px">No data is available.</td></tr>';
