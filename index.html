@@ -81,6 +81,7 @@ body.mobile-preview-frame .mobile-preview-launch{display:none!important}
 .phone-preview{width:422px;max-width:100%;height:min(850px,calc(100dvh - 36px));display:flex;flex-direction:column;padding:10px;background:#182536;border:1px solid rgba(255,255,255,.2);border-radius:28px;box-shadow:0 25px 70px rgba(0,0,0,.4)}
 .phone-preview-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:2px 4px 8px;color:#fff}.phone-preview-bar strong{font-size:13px}.phone-preview-close{width:40px;height:40px;min-height:40px;margin:0;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.13);color:#fff;font-size:22px;cursor:pointer}
 .phone-preview-screen{flex:1;width:390px;max-width:100%;min-height:0;margin:auto;border:0;border-radius:18px;background:#fff}
+.faq-list{display:grid;gap:10px}.faq-list details{border:1px solid var(--line);border-radius:8px;background:#fff;overflow:hidden}.faq-list summary{padding:14px;color:var(--navy);font-weight:800;cursor:pointer;list-style-position:inside}.faq-list details[open] summary{border-bottom:1px solid var(--line);background:var(--surface-tint)}.faq-answer{padding:12px 14px 14px;color:var(--muted);line-height:1.55}.contact-admin-action{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.contact-admin-action .btn2{display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:190px;min-height:42px;margin:0;padding:10px 16px;border-radius:10px;text-align:center;text-decoration:none}
 .portal-wrap{max-width:640px;margin:0 auto}
 .portal-brand{text-align:center;margin-bottom:16px}
 .portal-brand img{display:none;width:130px;height:130px;object-fit:contain;margin:0 auto 10px}
@@ -243,6 +244,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <button data-page="coreactivity">Subteam Leader KPI</button>
     <button data-page="records">Agent KPI Records</button>
     <button data-page="incentives">Incentives</button>
+    <button data-page="faqs">FAQs</button>
     <button data-page="reports">Reports</button>
     <button data-page="settings">Settings</button>
   </div>
@@ -550,6 +552,25 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <div class="card">
       <h3 class="lb-title">Subteam Leader Reward Tracker</h3>
       <div class="tablebox"><table><thead><tr><th>Subteam</th><th>Agent KPI</th><th>Leader KPI</th><th>Combined KPI</th><th>Eligibility</th><th>Agent Reward</th><th>Leader Bonus</th><th>Estimated Total</th></tr></thead><tbody id="incentiveLeaderRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="faqs" class="page">
+    <div class="card">
+      <h3 class="lb-title">Frequently Asked Questions</h3>
+      <div class="faq-list">
+        <details open><summary>How are KPI points calculated?</summary><div class="faq-answer">Each activity has a point value configured by the administrator. Your points equal the completed activity count multiplied by that activity's point value.</div></details>
+        <details><summary>Can I submit more than one entry in a day?</summary><div class="faq-answer">Yes. All valid entries submitted on the same date are added together. Multiple entries do not multiply the daily target.</div></details>
+        <details><summary>What determines my KPI status?</summary><div class="faq-answer">Your KPI percentage is total points divided by target points, multiplied by 100. The result determines whether your status is Start Now, Push Harder, Bronze, Silver, Gold, or Diamond.</div></details>
+        <details><summary>How does the No Zero Day rule work?</summary><div class="faq-answer">Any day with zero points inside the selected incentive period voids the reward. Agents need Agent KPI points daily. Subteam Leaders need points from either Agent KPI or Leader KPI daily.</div></details>
+        <details><summary>How does a Subteam Leader qualify for a bonus?</summary><div class="faq-answer">The leader must pass the No Zero Day rule and reach at least 100% in both Agent KPI and Leader KPI. The qualifying leader bonus is added to the regular agent reward.</div></details>
+        <details><summary>Can a submitted activity be edited?</summary><div class="faq-answer">Agent Form submissions should be reviewed carefully before submission. Contact the administrator when a correction is required.</div></details>
+        <details><summary>Why can I not access the system?</summary><div class="faq-answer">Confirm that you entered the current team access code. If the code is correct but access still fails, contact the administrator to check the secure backend deployment.</div></details>
+      </div>
+    </div>
+    <div class="card contact-admin-action">
+      <div><h3 style="margin:0 0 4px">Need More Help?</h3><div class="small">Message the administrator for account, submission, or KPI concerns.</div></div>
+      <a class="btn2" href="https://m.me/engrandeng">Contact Administrator</a>
     </div>
   </section>
 
@@ -871,6 +892,7 @@ const PAGE_META={
   coreactivity:{title:'Subteam Leader KPI',subtitle:'Submit and review KPI activity entries for Subteam Leaders and subteams.'},
   records:{title:'Agent KPI Records',subtitle:'Review, add, export, and manage individual agent KPI records.'},
   incentives:{title:'Incentives',subtitle:'Monitor KPI status, reward eligibility, and estimated incentives.'},
+  faqs:{title:'FAQs',subtitle:'Find quick answers about access, activities, KPIs, and incentives.'},
   reports:{title:'Reports',subtitle:'Review performance summaries and download KPI reports.'},
   settings:{title:'Settings',subtitle:'Configure branding, targets, challenge dates, and the Google Sheets connection.'}
 };
@@ -892,7 +914,7 @@ function applyAgentViewerMode(){document.body.classList.toggle('agent-viewer',is
 function updatePageMeta(page){var meta=PAGE_META[page]||PAGE_META.dashboard;document.getElementById('pageTitle').textContent=meta.title;document.getElementById('appSubtitle').textContent=meta.subtitle;}
 document.addEventListener('change',function(event){rememberUiField(event.target)});
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='incentives')renderIncentives();if(b.dataset.page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}});
-function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart','teamScoreStart','incentiveStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate','teamScoreEnd','incentiveEnd'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
+function seedDates(){let now=new Date(),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2),dateIds=['dashStart','scoreStart','subScoreStart','lbStart','coreStart','teamScoreStart','incentiveStart','dashEnd','scoreEnd','subScoreEnd','lbEnd','coreEnd','recDate','teamScoreEnd','incentiveEnd'];dateIds.forEach(function(id){var el=document.getElementById(id);if(el)el.value=today;});uiState.fields=uiState.fields||{};dateIds.forEach(function(id){if(id!=='recDate')uiState.fields[id]=today;});saveUiState();}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort();['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
 function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderIncentives();renderAgents();agentRefresh();coreRefresh()}
 function subteamNames(){return [...new Set(Object.values(coreMap).map(function(v){return String(v||'').trim();}).filter(Boolean))].sort(function(a,b){return a.localeCompare(b);});}
@@ -1108,7 +1130,6 @@ function previewLogo(ev){
 }
 function saveSettings(){
   settings={...settings,baseTarget:Number(baseTarget.value||150),subteamBaseTarget:Number(subteamBaseTarget.value||150),subteamChallengeStart:subteamChallengeStart.value||'',subteamChallengeEnd:subteamChallengeEnd.value||'',kpiName:kpiName.value.trim()||'Team Andeng KPI Monitoring System',kpiSubtitle:'',primaryColor:primaryColor.value,secondaryColor:secondaryColor.value,accentColor:accentColor.value,actionColor:actionColor.value,challengeStart:challengeStart.value||'',challengeEnd:challengeEnd.value||'',sheetsApiUrl:sheetsApiUrl.value.trim()};
-  if(settings.subteamChallengeStart)subScoreStart.value=settings.subteamChallengeStart;if(settings.subteamChallengeEnd)subScoreEnd.value=settings.subteamChallengeEnd;
   write(KEYS.settings,settings);applyBranding();renderAll();pushConfig();alert('Branding and KPI settings were saved and synced across all connected devices.');
 }
 function resetBranding(){
@@ -1776,6 +1797,7 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
   .lbmodal{align-items:flex-end;padding:0}.lbmodal-box{max-height:88dvh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom))}
   .toast{bottom:calc(16px + env(safe-area-inset-bottom));max-width:calc(100% - 24px);padding:11px 16px;border-radius:10px;text-align:center}
   .portal-actions button,.access-gate-box .btn{width:100%;min-height:44px}
+  .contact-admin-action{align-items:stretch}.contact-admin-action .btn2{width:100%;min-height:44px}
 }
 @media(max-width:380px){
   .main{padding-inline:9px}.topbar{margin-inline:-9px;padding-inline:10px}.card{padding:12px}.stats{gap:7px}.stat{padding:12px}.stat strong{font-size:20px}
