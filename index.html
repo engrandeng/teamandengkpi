@@ -242,6 +242,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <button data-page="coreboard">Subteam Leaderboard</button>
     <button data-page="coreactivity">Subteam Leader KPI</button>
     <button data-page="records">Agent KPI Records</button>
+    <button data-page="incentives">Incentives</button>
     <button data-page="reports">Reports</button>
     <button data-page="settings">Settings</button>
   </div>
@@ -504,6 +505,52 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div class="agent-add-action"><button class="btn" onclick="addActivity()">Add Activity</button></div>
     </div>
     <div class="card"><div class="tablebox"><table><thead><tr><th></th><th>Activity</th><th>Points</th><th>Actions</th></tr></thead><tbody id="activityRows"></tbody></table></div></div>
+  </section>
+
+  <section id="incentives" class="page">
+    <div class="card">
+      <div class="lb-controls">
+        <label>From<input type="date" id="incentiveStart" onchange="renderIncentives()"></label>
+        <label>To<input type="date" id="incentiveEnd" onchange="renderIncentives()"></label>
+        <button class="btn2 compact-apply" onclick="renderIncentives()">Apply</button>
+        <span class="quick-range-label">Quick view:</span>
+        <button class="ghost range-shortcut" onclick="setIncentiveRange('today')">Today</button>
+        <button class="ghost range-shortcut" onclick="setIncentiveRange('week')">This Week</button>
+      </div>
+      <div class="notice" style="margin-top:12px">Rewards shown below are estimates for the selected period. The reward amounts are weekly payouts; use Today as a pace preview. Final rewards remain subject to activity validation and admin approval.</div>
+      <div class="notice" style="margin-top:10px"><b>No Zero Day:</b> A reward is voided when any day in the selected period has zero points. Agents must record Agent KPI points daily. Subteam Leaders must record points from either their Agent KPI or Leader KPI daily.</div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3 class="lb-title">KPI Status Reference</h3>
+        <div class="tablebox"><table><thead><tr><th>KPI Percentage</th><th>Status</th></tr></thead><tbody>
+          <tr><td>0%</td><td><span class="badge start">Start Now</span></td></tr>
+          <tr><td>Above 0% to below 30%</td><td><span class="badge push">Push Harder</span></td></tr>
+          <tr><td>30% to 50%</td><td><span class="badge bronze">Bronze</span></td></tr>
+          <tr><td>Above 50% to 70%</td><td><span class="badge silver">Silver</span></td></tr>
+          <tr><td>Above 70% to below 150%</td><td><span class="badge gold">Gold</span></td></tr>
+          <tr><td>150% and above</td><td><span class="badge diamond">Diamond</span></td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="card">
+        <h3 class="lb-title">Reward Reference</h3>
+        <div class="tablebox"><table><thead><tr><th>KPI Achievement</th><th>Agent Reward</th><th>Leader Bonus</th></tr></thead><tbody>
+          <tr><td>Below 100%</td><td>No cash reward</td><td>No bonus</td></tr>
+          <tr><td>100% to below 120%</td><td>&#8369;250</td><td>&#8369;400</td></tr>
+          <tr><td>120% to below 150%</td><td>&#8369;500</td><td>&#8369;700</td></tr>
+          <tr><td>150% and above</td><td>&#8369;750</td><td>&#8369;1,000</td></tr>
+        </tbody></table></div>
+        <div class="small" style="margin-top:10px">Leader bonus requires at least 100% in both Agent KPI and Leader KPI. It is added to the regular agent reward.</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 class="lb-title">Agent Reward Tracker</h3>
+      <div class="tablebox"><table><thead><tr><th>Agent</th><th>Points</th><th>Target</th><th>KPI %</th><th>Status</th><th>No Zero Day</th><th>Estimated Reward</th></tr></thead><tbody id="incentiveAgentRows"></tbody></table></div>
+    </div>
+    <div class="card">
+      <h3 class="lb-title">Subteam Leader Reward Tracker</h3>
+      <div class="tablebox"><table><thead><tr><th>Subteam</th><th>Agent KPI</th><th>Leader KPI</th><th>Combined KPI</th><th>Eligibility</th><th>Agent Reward</th><th>Leader Bonus</th><th>Estimated Total</th></tr></thead><tbody id="incentiveLeaderRows"></tbody></table></div>
+    </div>
   </section>
 
   <section id="reports" class="page">
@@ -823,11 +870,12 @@ const PAGE_META={
   coreboard:{title:'Subteam Leaderboard',subtitle:'Compare Subteam Leader and subteam performance by points and activity.'},
   coreactivity:{title:'Subteam Leader KPI',subtitle:'Submit and review KPI activity entries for Subteam Leaders and subteams.'},
   records:{title:'Agent KPI Records',subtitle:'Review, add, export, and manage individual agent KPI records.'},
+  incentives:{title:'Incentives',subtitle:'Monitor KPI status, reward eligibility, and estimated incentives.'},
   reports:{title:'Reports',subtitle:'Review performance summaries and download KPI reports.'},
   settings:{title:'Settings',subtitle:'Configure branding, targets, challenge dates, and the Google Sheets connection.'}
 };
 const UI_STATE_KEY='TAND_KPI_UI_STATE_V1';
-const UI_STATE_FIELDS=['dashStart','dashEnd','dashAgent','lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd','coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd'];
+const UI_STATE_FIELDS=['dashStart','dashEnd','dashAgent','lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd','coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd','incentiveStart','incentiveEnd'];
 let uiState=read(UI_STATE_KEY,{fields:{},agentView:'leaderboard',coreView:'leaderboard'});
 function saveUiState(){write(UI_STATE_KEY,uiState)}
 function rememberUiField(el){if(!el||UI_STATE_FIELDS.indexOf(el.id)===-1)return;uiState.fields=uiState.fields||{};uiState.fields[el.id]=el.value;saveUiState()}
@@ -843,10 +891,10 @@ function isAgentViewer(){try{return sessionStorage.getItem('TAND_AGENT_VIEWER')=
 function applyAgentViewerMode(){document.body.classList.toggle('agent-viewer',isAgentViewer())}
 function updatePageMeta(page){var meta=PAGE_META[page]||PAGE_META.dashboard;document.getElementById('pageTitle').textContent=meta.title;document.getElementById('appSubtitle').textContent=meta.subtitle;}
 document.addEventListener('change',function(event){rememberUiField(event.target)});
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}});
-function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart','teamScoreStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate','teamScoreEnd'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='incentives')renderIncentives();if(b.dataset.page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}});
+function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart','teamScoreStart','incentiveStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate','teamScoreEnd','incentiveEnd'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort();['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
-function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderAgents();agentRefresh();coreRefresh()}
+function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderIncentives();renderAgents();agentRefresh();coreRefresh()}
 function subteamNames(){return [...new Set(Object.values(coreMap).map(function(v){return String(v||'').trim();}).filter(Boolean))].sort(function(a,b){return a.localeCompare(b);});}
 function renderAgents(){
   var el=document.getElementById('agentNameRows');if(!el)return;var teams=subteamNames();
@@ -995,6 +1043,36 @@ function renderReports(){
   let subNames=[...new Set(coreLeaderList().map(x=>x.display).concat(coreRecords.filter(r=>inRange(r,s,e)).map(r=>r.leader)))];
   let subList=subNames.map(name=>leaderPerformance(name,s,e)).filter(x=>x.points>0).sort((a,b)=>b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name));
   let subBody=document.getElementById('subteamReportRows');if(subBody)subBody.innerHTML=subList.length?subList.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(leaderLabel(x.name))}</td><td>${x.leaderPoints.toLocaleString()}</td><td>${x.agentPoints.toLocaleString()}</td><td><b>${x.points.toLocaleString()}</b></td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="9" class="small">No Subteam Leader performance data is available for the selected date range.</td></tr>';
+}
+function incentiveAmount(pct,leader){
+  if(pct>=150)return leader?1000:750;
+  if(pct>=120)return leader?700:500;
+  if(pct>=100)return leader?400:250;
+  return 0;
+}
+function peso(value){return '&#8369;'+Number(value||0).toLocaleString()}
+function setIncentiveRange(kind){
+  var now=new Date(),start=new Date(now),pad=function(n){return String(n).padStart(2,'0');},fmt=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+  if(kind==='week'){start.setDate(now.getDate()-((now.getDay()+6)%7));}
+  document.getElementById('incentiveStart').value=fmt(kind==='today'?now:start);
+  document.getElementById('incentiveEnd').value=fmt(now);
+  rememberUiField(document.getElementById('incentiveStart'));rememberUiField(document.getElementById('incentiveEnd'));renderIncentives();
+}
+function renderIncentives(){
+  var start=document.getElementById('incentiveStart'),end=document.getElementById('incentiveEnd'),agentBody=document.getElementById('incentiveAgentRows'),leaderBody=document.getElementById('incentiveLeaderRows');
+  if(!start||!end||!agentBody||!leaderBody)return;
+  var dates=selectedDateList(start.value,end.value),days=dates.length;
+  if(!days){agentBody.innerHTML='<tr><td colspan="7" class="small">Choose a valid date range.</td></tr>';leaderBody.innerHTML='<tr><td colspan="8" class="small">Choose a valid date range.</td></tr>';return;}
+  var base=Number(settings.baseTarget||150),leaderBase=Number(settings.subteamBaseTarget||50),agentTarget=base*days,leaderTarget=leaderBase*days;
+  var names=[...new Set(agentList.concat(records.map(function(r){return r.agent;}).filter(Boolean)))].sort(function(a,b){return a.localeCompare(b);});
+  var agentSummaries=names.map(function(name){var rows=records.filter(function(r){return inRange(r,start.value,end.value)&&norm(r.agent)===norm(name);}),points=rows.reduce(function(total,r){return total+Number(r.points||0);},0),pct=agentTarget?points/agentTarget*100:0,noZeroDay=dates.every(function(date){return rows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.points||0);},0)>0;});return{name:name,points:points,pct:pct,level:calcLevel(pct),noZeroDay:noZeroDay,reward:noZeroDay?incentiveAmount(pct,false):0};}).sort(function(a,b){return b.points-a.points||a.name.localeCompare(b.name);});
+  agentBody.innerHTML=agentSummaries.length?agentSummaries.map(function(x){return '<tr><td>'+esc(x.name)+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+agentTarget.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td><td><span class="badge '+(x.noZeroDay?'diamond':'push')+'">'+(x.noZeroDay?'Passed':'Reward voided')+'</span></td><td><b>'+peso(x.reward)+'</b></td></tr>';}).join(''):'<tr><td colspan="7" class="small">No agents are available.</td></tr>';
+  var leaders=coreLeaderList().map(function(link){
+    var agentRows=records.filter(function(r){return inRange(r,start.value,end.value)&&norm(r.agent)===norm(link.name);}),leaderRows=coreRecords.filter(function(r){return inRange(r,start.value,end.value)&&r.leader===link.display;});
+    var agentPoints=agentRows.reduce(function(total,r){return total+Number(r.points||0);},0),leaderPoints=leaderRows.reduce(function(total,r){return total+Number(r.total||0);},0),agentPct=agentTarget?agentPoints/agentTarget*100:0,leaderPct=leaderTarget?leaderPoints/leaderTarget*100:0,combinedTarget=agentTarget+leaderTarget,combinedPct=combinedTarget?(agentPoints+leaderPoints)/combinedTarget*100:0,noZeroDay=dates.every(function(date){var agentDaily=agentRows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.points||0);},0),leaderDaily=leaderRows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.total||0);},0);return agentDaily+leaderDaily>0;}),eligible=noZeroDay&&agentPct>=100&&leaderPct>=100,agentReward=noZeroDay?incentiveAmount(agentPct,false):0,bonus=eligible?incentiveAmount(combinedPct,true):0;
+    return{subteam:link.display,agentPct:agentPct,leaderPct:leaderPct,combinedPct:combinedPct,noZeroDay:noZeroDay,eligible:eligible,agentReward:agentReward,bonus:bonus,total:agentReward+bonus};
+  }).sort(function(a,b){return b.total-a.total||b.combinedPct-a.combinedPct||a.subteam.localeCompare(b.subteam);});
+  leaderBody.innerHTML=leaders.length?leaders.map(function(x){var eligibility=x.noZeroDay?(x.eligible?'Qualified':'Not yet'):'Reward voided';return '<tr><td>'+esc(x.subteam)+'</td><td>'+x.agentPct.toFixed(1)+'%</td><td>'+x.leaderPct.toFixed(1)+'%</td><td><b>'+x.combinedPct.toFixed(1)+'%</b></td><td><span class="badge '+(x.eligible?'diamond':x.noZeroDay?'start':'push')+'">'+eligibility+'</span></td><td>'+peso(x.agentReward)+'</td><td>'+peso(x.bonus)+'</td><td><b>'+peso(x.total)+'</b></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No Subteam Leaders are configured.</td></tr>';
 }
 function exportExcel(){
   let rows=records.map(function(r){return{Date:r.date,Agent:r.agent,Status:r.status||'',Activity:r.activity,Count:Number(r.count||0),Points:Number(r.points||0),Notes:r.notes||''};});
