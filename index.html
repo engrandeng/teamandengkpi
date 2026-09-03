@@ -1052,10 +1052,13 @@ function incentiveAmount(pct,leader){
 }
 function peso(value){return '&#8369;'+Number(value||0).toLocaleString()}
 function setIncentiveRange(kind){
-  var now=new Date(),start=new Date(now),pad=function(n){return String(n).padStart(2,'0');},fmt=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
-  if(kind==='week'){start.setDate(now.getDate()-((now.getDay()+6)%7));}
-  document.getElementById('incentiveStart').value=fmt(kind==='today'?now:start);
-  document.getElementById('incentiveEnd').value=fmt(now);
+  var now=new Date(),startInput=document.getElementById('incentiveStart'),start=new Date(now),end=new Date(now),pad=function(n){return String(n).padStart(2,'0');},fmt=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+  if(kind==='week'){
+    if(startInput.value){var chosen=new Date(startInput.value+'T00:00:00');if(!isNaN(chosen.getTime()))start=chosen;}
+    end=new Date(start);end.setDate(start.getDate()+6);
+  }else start=end=now;
+  startInput.value=fmt(start);
+  document.getElementById('incentiveEnd').value=fmt(end);
   rememberUiField(document.getElementById('incentiveStart'));rememberUiField(document.getElementById('incentiveEnd'));renderIncentives();
 }
 function renderIncentives(){
