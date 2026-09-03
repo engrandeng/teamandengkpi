@@ -85,6 +85,13 @@ body.agent-mode #agentPortal{display:block}
 .act-row .act-total{text-align:right;font-family:Arial,Helvetica,sans-serif;font-weight:700;color:var(--navy);font-size:15px}
 .entry-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:14px;border-radius:12px;background:var(--gold);font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.35;letter-spacing:0}.entry-total span:first-child{font-weight:700}.entry-total #afEntryPts{font-weight:700;font-size:20px;color:var(--navy)}
 .portal-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.submit-review{margin:14px 0 16px;padding:12px 14px;border:1px solid #f0c89f;border-radius:10px;background:#fff7ed;color:#7c3f0c;font-size:13px;line-height:1.5}
+.submit-review strong{display:block;color:#5f2d08;font-size:14px}
+.review-details{display:grid;grid-template-columns:92px 1fr;gap:7px 12px;margin:14px 0;font-size:13px}
+.review-details dt{color:var(--muted);font-weight:700}.review-details dd{margin:0;font-weight:800;color:var(--text)}
+.review-activities{max-height:220px;overflow:auto;margin:0 0 16px;padding:0;list-style:none;border-top:1px solid var(--line)}
+.review-activities li{display:flex;justify-content:space-between;gap:16px;padding:9px 2px;border-bottom:1px solid var(--line);font-size:13px}
+.review-activities span:last-child{white-space:nowrap;font-weight:800;color:var(--navy)}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:13px 22px;border-radius:999px;font-weight:900;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.3s ease;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:520px){.act-row{grid-template-columns:minmax(0,1fr) 76px 54px;gap:9px;padding:12px}.act-row .act-pts{font-size:11.5px}.totals-bar{grid-template-columns:1fr 1fr}.total-tile strong{font-size:24px}}
@@ -126,6 +133,20 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .stat:after{content:"";position:absolute;right:0;top:0;width:5px;height:100%;background:var(--navy)}
 .stat strong{font-size:27px;line-height:1.05;letter-spacing:-.8px}
 .stat span{display:block;margin-top:7px;font-weight:700;letter-spacing:.01em}
+.score-head{grid-template-columns:minmax(190px,220px) minmax(0,1fr);gap:0;padding:0;overflow:hidden;align-items:stretch}
+.score-identity{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-width:0;padding:28px 22px;background:var(--surface-tint);border-right:1px solid var(--line);text-align:center}
+.medal-shell{width:108px;height:108px;display:grid;place-items:center;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:0 12px 26px rgba(23,50,78,.12),inset 0 0 0 7px rgba(238,244,248,.9)}
+.score-head .medal{width:76px;height:76px;margin:0;border:0;font-size:30px;box-shadow:inset 0 2px 5px rgba(255,255,255,.65),0 5px 12px rgba(23,50,78,.18)}
+.score-head .medal.push{background:#e9505b}.score-head .medal.bronze{background:#bd7b43}.score-head .medal.silver{background:#d8dde5}.score-head .medal.gold{background:#e2b93b}.score-head .medal.diamond{background:#aee7ee}
+.score-identity-text{min-width:0}.score-eyebrow{margin-bottom:4px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:0;text-transform:uppercase}
+.score-identity h2{margin:0;max-width:100%;font-size:21px;line-height:1.2;letter-spacing:0;overflow-wrap:anywhere;color:var(--navy)}
+.score-content{display:flex;align-items:center;min-width:0;padding:24px}
+.score-head .stats{width:100%;grid-template-columns:repeat(3,minmax(120px,1fr));gap:1px;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
+.score-head .stat{display:flex;flex-direction:column;justify-content:center;min-height:104px;padding:18px;border:0;border-radius:0;box-shadow:none;background:#fff}
+.score-head .stat:after{top:0;right:auto;left:0;width:100%;height:4px}
+.score-head .stat strong{font-size:26px;overflow-wrap:anywhere}.score-head .stat span{font-size:11px;line-height:1.3}
+@media(max-width:1050px){.score-head .stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.score-head{grid-template-columns:1fr}.score-identity{flex-direction:row;justify-content:flex-start;padding:18px;border-right:0;border-bottom:1px solid var(--line);text-align:left}.medal-shell{width:78px;height:78px;flex:0 0 78px;box-shadow:0 7px 18px rgba(23,50,78,.11),inset 0 0 0 5px rgba(238,244,248,.9)}.score-head .medal{width:56px;height:56px;font-size:23px}.score-content{padding:16px}.score-head .stat{min-height:92px;padding:15px}.score-head .stat strong{font-size:22px}}
 label{display:block;color:#3c4b5c;font-size:11px;letter-spacing:.02em;text-transform:none}
 input,select,textarea,button{min-height:40px;border-radius:10px;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease,background-color .18s ease}
 input,select,textarea{background:#fff;color:var(--text);border-color:#cfd8e3}
@@ -143,6 +164,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .danger{padding-inline:14px;box-shadow:0 5px 12px rgba(239,68,68,.14)}
 .actions{align-items:center;gap:9px}
 .actions button{min-width:unset}
+.core-view-tabs{display:inline-grid;grid-template-columns:repeat(2,minmax(150px,1fr));gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--surface-tint)}
+.core-view-tabs button{width:auto;min-height:38px;margin:0;padding:8px 16px;border:0;background:transparent;color:var(--navy);font-weight:800;box-shadow:none}
+.core-view-tabs button.active{background:#fff;box-shadow:0 3px 10px rgba(23,50,78,.12)}
+@media(max-width:520px){.core-view-tabs{display:grid;grid-template-columns:1fr;width:100%}.core-view-tabs button{width:100%}}
 .notice{border-left:4px solid var(--navy2);padding:12px 14px;background:var(--surface-tint);color:#294761;font-size:12px;line-height:1.55}
 .tablebox{border-radius:13px;border-color:#d8e0e9;background:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
 table{font-size:12px}
@@ -156,6 +181,9 @@ tfoot th{background:var(--navy);font-size:12px;border-top:1px solid rgba(255,255
 td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 .record-actions{display:flex;gap:6px;align-items:center}.record-actions button{width:auto;min-width:58px;min-height:32px;margin:0;padding:6px 10px;font-size:11px}
 #agentNameRows input[type="checkbox"]{width:17px;height:17px;min-height:0;margin:0;padding:0;vertical-align:middle;accent-color:var(--navy);cursor:pointer}
+#agentNameRows td{vertical-align:middle}
+#agentNameRows input:not([type="checkbox"]),#agentNameRows select,#agentNameRows .danger{min-height:40px;margin-top:0}
+#agentNameRows .danger{display:flex;align-items:center;justify-content:center;width:116px}
 .agent-add-action{display:flex;align-items:flex-end}.agent-add-action .btn{margin-top:0}
 .scorecard-download-action{display:flex;align-items:flex-end}.scorecard-download-action .btn2{margin-top:0}
 .lb-controls{gap:12px}
@@ -187,7 +215,6 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <button data-page="leaderboard">Agent Leaderboard</button>
     <button data-page="agents">Agent List</button>
     <button data-page="activities">Agent Activity KPI</button>
-    <button data-page="subteamscorecard">Subteam Leader Scorecard</button>
     <button data-page="coreboard">Subteam Leaderboard</button>
     <button data-page="coreactivity">Subteam Leader KPI</button>
     <button data-page="records">Agent KPI Records</button>
@@ -235,8 +262,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     </div>
     <div id="scoreCapture">
       <div class="card score-head">
-        <div><div id="scoreMedal" class="medal push">☹</div></div>
-        <div><h2 id="scoreName">Select an agent</h2><div class="stats">
+        <div class="score-identity"><div class="medal-shell"><div id="scoreMedal" class="medal push">💪</div></div><div class="score-identity-text"><div class="score-eyebrow">Agent scorecard</div><h2 id="scoreName">Select an agent</h2></div></div>
+        <div class="score-content"><div class="stats">
           <div class="stat"><strong id="scorePoints">0</strong><span>Total Points</span></div>
           <div class="stat"><strong id="scoreTarget">0</strong><span>Agent Target</span></div>
           <div class="stat"><strong id="scorePct">0%</strong><span>KPI Percentage</span></div>
@@ -256,14 +283,16 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div><label>Subteam Leader / Subteam<select id="subScoreName" onchange="renderSubteamScorecard()"><option value="">Select Name</option></select></label></div>
       <div><label>Start Date<input type="date" id="subScoreStart" onchange="renderSubteamScorecard()"></label></div>
       <div><label>End Date<input type="date" id="subScoreEnd" onchange="renderSubteamScorecard()"></label></div>
-      <div><button class="btn2" onclick="downloadSubteamScorecardPdf()">Download PDF</button></div>
+      <div class="scorecard-download-action"><button class="btn2" onclick="downloadSubteamScorecardPdf()">Download PDF</button></div>
     </div>
     <div id="subScoreCapture">
       <div class="card score-head">
-        <div><div id="subScoreMedal" class="medal push">☹</div></div>
-        <div><h2 id="subScoreTitle">Select a Subteam Leader</h2><div class="stats">
-          <div class="stat"><strong id="subScorePoints">0</strong><span>Total Points</span></div>
-          <div class="stat"><strong id="subScoreTarget">0</strong><span>Subteam Leader Target</span></div>
+        <div class="score-identity"><div class="medal-shell"><div id="subScoreMedal" class="medal push">💪</div></div><div class="score-identity-text"><div class="score-eyebrow">Subteam scorecard</div><h2 id="subScoreTitle">Select a Subteam Leader</h2></div></div>
+        <div class="score-content"><div class="stats">
+          <div class="stat"><strong id="subScoreLeaderPoints">0</strong><span>Leader KPI Points</span></div>
+          <div class="stat"><strong id="subScoreAgentPoints">0</strong><span>Agent KPI Points</span></div>
+          <div class="stat"><strong id="subScorePoints">0</strong><span>Combined Points</span></div>
+          <div class="stat"><strong id="subScoreTarget">0</strong><span>Combined Target</span></div>
           <div class="stat"><strong id="subScorePct">0%</strong><span>KPI Percentage</span></div>
           <div class="stat"><strong id="subScoreLevel">Push Harder</strong><span>Performance Level</span></div>
         </div></div>
@@ -273,6 +302,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
         <div class="card full"><h3>Activity Breakdown</h3><canvas id="subScoreActivityChart"></canvas></div>
       </div>
       <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points per Activity</th><th>Total Points</th></tr></thead><tbody id="subScoreRows"></tbody></table></div></div>
+      <div class="card"><h3>Leader's Agent KPI Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points</th></tr></thead><tbody id="subScoreAgentRows"></tbody></table></div></div>
     </div>
   </section>
 
@@ -356,6 +386,13 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 
   <section id="coreboard" class="page">
     <div class="card">
+      <div class="core-view-tabs" role="tablist" aria-label="Subteam performance views">
+        <button id="coreLeaderboardTab" class="active" role="tab" aria-selected="true" onclick="showCoreView('leaderboard')">Leaderboard</button>
+        <button id="coreScorecardTab" role="tab" aria-selected="false" onclick="showCoreView('scorecard')">Leader Scorecard</button>
+      </div>
+    </div>
+    <div id="coreLeaderboardView">
+    <div class="card">
       <div class="lb-controls">
         <label>From<input type="date" id="coreStart"></label>
         <label>To<input type="date" id="coreEnd"></label>
@@ -368,7 +405,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     </div>
     <div class="card">
       <h3 class="lb-title">🏆 Subteam Rankings <span style="font-size:12px;color:var(--muted)">(highest to lowest)</span></h3>
-      <div class="tablebox"><table><thead><tr><th class="lb-rank">Rank</th><th>Subteam Leader / Subteam</th><th>Active Days</th><th>Total Activities</th><th>Total Points</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="coreLbRows"></tbody></table></div>
+      <div class="tablebox"><table><thead><tr><th class="lb-rank">Rank</th><th>Subteam Leader / Subteam</th><th>Active Days</th><th>Total Activities</th><th>Leader KPI</th><th>Agent KPI</th><th>Combined</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="coreLbRows"></tbody></table></div>
     </div>
     <div class="grid2">
       <div class="card">
@@ -384,6 +421,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <h3 class="lb-title">📈 Daily Activity (Total Points)</h3>
       <canvas id="coreDailyChart"></canvas>
     </div>
+    </div>
+    <div id="coreScorecardView" class="hidden"></div>
   </section>
 
   <section id="agents" class="page">
@@ -392,14 +431,14 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div class="agent-add-action"><button class="btn" onclick="addAgentName()">Add Agent</button></div>
     </div>
     <div class="card">
-      <div class="notice">The names listed here will appear in the Agent Form. To designate an agent as a <b>Subteam Leader</b>, select the checkbox in the Subteam Leader column and enter the <b>Subteam Name</b> in the corresponding field. The Subteam Name will then appear on the Subteam Leader KPI page, leaderboard, and related lists. Changes are saved to Google Sheets.</div>
+      <div class="notice">Designate leaders and enter their subteam names first. Then use the <b>Assigned Subteam</b> dropdown to place each agent in a team. Leader assignments, team membership, and changes are saved to Google Sheets.</div>
       <div class="actions" style="margin-bottom:12px">
         <button class="btn2" onclick="syncNow()">⬆ Sync Agents &amp; Settings to Google Sheets</button>
         <button class="ghost" onclick="cloudLoad()">↻ Refresh from Google Sheets</button>
         <input type="file" id="agentFile" accept=".xlsx,.xls,.csv,.pdf" style="display:none" onchange="handleAgentFile(event)">
         <button class="btn2" onclick="document.getElementById('agentFile').click()">📄 Upload Excel / PDF / CSV</button>
       </div>
-      <div class="tablebox"><table><thead><tr><th>Agent Name</th><th>Subteam Leader</th><th>Subteam Name</th><th>Action</th></tr></thead><tbody id="agentNameRows"></tbody></table></div>
+      <div class="tablebox"><table><thead><tr><th>Agent Name</th><th>Subteam Leader</th><th>Leader's Subteam Name</th><th>Assigned Subteam</th><th>Action</th></tr></thead><tbody id="agentNameRows"></tbody></table></div>
     </div>
   </section>
 
@@ -419,7 +458,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div class="card"><h3>Subteam Leader Ready-to-Send Message</h3><label>Subteam Leader / Subteam<select id="reportSubteamMessageSelect" onchange="generateSubteamReportMessage()"><option value="">Select Name</option></select></label><div class="small" style="margin-top:8px">The message uses the date range selected on the Dashboard.</div><textarea id="subteamMessage"></textarea><button class="btn2" onclick="copySubteamMessage()">Copy Subteam Leader Message</button></div>
     </div>
     <div class="card"><h3>Agent Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Agent</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="reportRows"></tbody></table></div></div>
-    <div class="card"><h3>Subteam Leaders Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Subteam Leader / Subteam</th><th>Points</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="subteamReportRows"></tbody></table></div></div>
+    <div class="card"><h3>Subteam Leaders Performance Report</h3><div class="tablebox"><table><thead><tr><th>Rank</th><th>Subteam Leader / Subteam</th><th>Leader KPI</th><th>Agent KPI</th><th>Combined</th><th>Active Days</th><th>Target</th><th>KPI %</th><th>Level</th></tr></thead><tbody id="subteamReportRows"></tbody></table></div></div>
   </section>
 
   <section id="settings" class="page">
@@ -492,7 +531,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     </div>
 
     <div class="portal-actions">
-      <button class="btn" onclick="submitAgentForm()">Submit Activities</button>
+      <button class="btn" id="agentSubmitBtn" onclick="submitAgentForm()">Submit Activities</button>
       <button class="ghost" onclick="viewDashboard()">View Dashboard</button>
     </div>
   </div>
@@ -680,11 +719,11 @@ function getApiUrl(){
 }
 function cloudEnabled(){return getApiUrl().indexOf('https://')===0}
 
-const KEYS={records:'TAND_KPI_RECORDS_V1',activities:'TAND_KPI_ACTIVITIES_V1',settings:'TAND_KPI_SETTINGS_V1',agents:'TAND_KPI_AGENTS_V1',agentAvatars:'TAND_AGENT_AVATARS_V1',coreActs:'TAND_CORE_ACTS_V1',coreMap:'TAND_CORE_MAP_V1',coreRecords:'TAND_CORE_RECORDS_V1'};
+const KEYS={records:'TAND_KPI_RECORDS_V1',activities:'TAND_KPI_ACTIVITIES_V1',settings:'TAND_KPI_SETTINGS_V1',agents:'TAND_KPI_AGENTS_V1',agentAvatars:'TAND_AGENT_AVATARS_V1',agentSubteams:'TAND_AGENT_SUBTEAMS_V1',coreActs:'TAND_CORE_ACTS_V1',coreMap:'TAND_CORE_MAP_V1',coreRecords:'TAND_CORE_RECORDS_V1'};
 const defaultActivities=[['Client Presentation',20],['Approach (Sell and Recruit)',1],['Closing',200],['Training',5],['Branding',1],['Engage',1],['Setting Appointment',5],['BYB / Table Top',20],['Paid MTM',50],['Paid Exam',50],['Coded',100]];
 let records=read(KEYS.records,[]),activities=read(KEYS.activities,defaultActivities.map(x=>({name:x[0],points:x[1]}))),settings=read(KEYS.settings,{baseTarget:150,subteamBaseTarget:150,subteamChallengeStart:'',subteamChallengeEnd:'',kpiName:'Team Andeng KPI Monitoring System',kpiSubtitle:'',primaryColor:'#17324e',secondaryColor:'#2e6ea0',accentColor:'#fbe6d4',actionColor:'#e2691c',logoData:''}),agentList=read(KEYS.agents,TEAM_AGENTS.slice());
 const defaultCoreActivities=[['JFW / Table Top',30],['Finsem',20],['1on1 Mentoring / Coaching',10],['Prospect Mapping',10],['Catch Up Calls (min 10min)',15]];
-let coreActs=read(KEYS.coreActs,defaultCoreActivities.map(x=>({name:x[0],points:x[1]}))),coreMap=read(KEYS.coreMap,{}),coreRecords=read(KEYS.coreRecords,[]),agentAvatars=read(KEYS.agentAvatars,{});
+let coreActs=read(KEYS.coreActs,defaultCoreActivities.map(x=>({name:x[0],points:x[1]}))),coreMap=read(KEYS.coreMap,{}),coreRecords=read(KEYS.coreRecords,[]),agentAvatars=read(KEYS.agentAvatars,{}),agentSubteams=read(KEYS.agentSubteams,{});
 const AGENT_AVATAR_OPTIONS=[['🐭','Mouse'],['🎀','Bow'],['🦆','Duck'],['🐶','Dog'],['🦁','Lion'],['👽','Alien'],['🧜‍♀️','Mermaid'],['❄️','Snowflake'],['🏹','Archer'],['🚀','Rocket'],['🌹','Rose'],['🐯','Tiger'],['🐼','Panda'],['🐨','Koala'],['🦊','Fox'],['🐰','Rabbit'],['🐸','Frog'],['🦄','Unicorn'],['🐙','Octopus'],['🦋','Butterfly'],['🌟','Star'],['🐬','Dolphin'],['🐻','Bear'],['🦉','Owl'],['🐝','Bee']];
 let charts={};
 function read(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch(e){return f}}function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -693,7 +732,7 @@ function norm(v){return String(v??'').trim().toLowerCase().replace(/\s+/g,' ')}
 function uid(){return 'KPI_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8)}
 function isoDate(v){if(!v)return '';let d=new Date(v);if(isNaN(d))return String(v).slice(0,10);return d.toISOString().slice(0,10)}
 function getActivity(name){return activities.find(a=>norm(a.name)===norm(name))}
-function calcLevel(p){if(p<30)return {name:'Push Harder',cls:'push',icon:'☹'};if(p<=50)return{name:'Bronze',cls:'bronze',icon:'★'};if(p<=70)return{name:'Silver',cls:'silver',icon:'★'};if(p<150)return{name:'Gold',cls:'gold',icon:'★'};return{name:'Diamond',cls:'diamond',icon:'◆'}}
+function calcLevel(p){if(p<30)return {name:'Push Harder',cls:'push',icon:'💪'};if(p<=50)return{name:'Bronze',cls:'bronze',icon:'🥉'};if(p<=70)return{name:'Silver',cls:'silver',icon:'🥈'};if(p<150)return{name:'Gold',cls:'gold',icon:'🥇'};return{name:'Diamond',cls:'diamond',icon:'💎'}}
 function inRange(r,s,e){return (!s||r.date>=s)&&(!e||r.date<=e)}
 function uniqueDays(rows){return new Set(rows.map(r=>r.date).filter(Boolean)).size}
 function filterRows(s,e,a){return records.filter(r=>inRange(r,s,e)&&(!a||norm(r.agent)===norm(a)))}
@@ -715,13 +754,22 @@ const PAGE_META={
 function isAgentViewer(){try{return sessionStorage.getItem('TAND_AGENT_VIEWER')==='1'}catch(e){return false}}
 function applyAgentViewerMode(){document.body.classList.toggle('agent-viewer',isAgentViewer())}
 function updatePageMeta(page){var meta=PAGE_META[page]||PAGE_META.dashboard;document.getElementById('pageTitle').textContent=meta.title;document.getElementById('appSubtitle').textContent=meta.subtitle;}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='scorecard')renderScorecard();if(b.dataset.page==='subteamscorecard')renderSubteamScorecard();if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard')renderLeaderboard();if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard')renderCoreBoard()});
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='scorecard')renderScorecard();if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='leaderboard')renderLeaderboard();if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard')renderCoreHub()});
 function seedDates(){let now=new Date(),day=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-day);let monday=mon.getFullYear()+'-'+('0'+(mon.getMonth()+1)).slice(-2)+'-'+('0'+mon.getDate()).slice(-2),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);['dashStart','scoreStart'].forEach(id=>document.getElementById(id).value=monday);['dashEnd','scoreEnd','recDate'].forEach(id=>document.getElementById(id).value=today);subScoreStart.value=settings.subteamChallengeStart||monday;subScoreEnd.value=settings.subteamChallengeEnd||today}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort();['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
 function renderAll(){renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderAgents();coreRefresh()}
-function renderAgents(){var el=document.getElementById('agentNameRows');if(!el)return;el.innerHTML=agentList.slice().sort().map(function(a){var q=esc(a).replace(/'/g,"\\'");var isCore=Object.prototype.hasOwnProperty.call(coreMap,a);var sub=isCore?esc(coreMap[a]||''):'';return '<tr><td>'+esc(a)+'</td><td style="text-align:center"><input type="checkbox" '+(isCore?'checked':'')+" onchange=\"toggleCore('"+q+"',this.checked)\"></td><td><input placeholder=\"(optional)\" value=\""+sub+'" '+(isCore?'':'disabled')+" onchange=\"setSubteam('"+q+"',this.value)\"></td><td><button class=\"danger\" onclick=\"removeAgentName('"+q+"')\">Delete</button></td></tr>";}).join('')||'<tr><td colspan="4" class="small">No agents yet. Add an agent above or upload a file.</td></tr>';}
+function subteamNames(){return [...new Set(Object.values(coreMap).map(function(v){return String(v||'').trim();}).filter(Boolean))].sort(function(a,b){return a.localeCompare(b);});}
+function renderAgents(){
+  var el=document.getElementById('agentNameRows');if(!el)return;var teams=subteamNames();
+  el.innerHTML=agentList.slice().sort().map(function(a){
+    var key=encodeURIComponent(a),isCore=Object.prototype.hasOwnProperty.call(coreMap,a),sub=isCore?esc(coreMap[a]||''):'',assigned=agentSubteams[a]||'';
+    var options='<option value="">Unassigned</option>'+teams.map(function(team){return '<option value="'+esc(team)+'" '+(team===assigned?'selected':'')+'>'+esc(team)+'</option>';}).join('');
+    return '<tr><td>'+esc(a)+'</td><td style="text-align:center"><input type="checkbox" '+(isCore?'checked':'')+' onchange="toggleCore(decodeURIComponent(\''+key+'\'),this.checked)"></td><td><input placeholder="Enter team name" value="'+sub+'" '+(isCore?'':'disabled')+' onchange="setSubteam(decodeURIComponent(\''+key+'\'),this.value)"></td><td><select aria-label="Assigned subteam for '+esc(a)+'" onchange="setAgentSubteam(decodeURIComponent(\''+key+'\'),this.value)">'+options+'</select></td><td><button class="danger" onclick="removeAgentName(decodeURIComponent(\''+key+'\'))">Delete</button></td></tr>';
+  }).join('')||'<tr><td colspan="5" class="small">No agents yet. Add an agent above or upload a file.</td></tr>';
+}
 function toggleCore(name,on){if(on){if(!Object.prototype.hasOwnProperty.call(coreMap,name))coreMap[name]='';}else{delete coreMap[name];}write(KEYS.coreMap,coreMap);pushConfig();renderAgents();}
-function setSubteam(name,val){if(Object.prototype.hasOwnProperty.call(coreMap,name)){coreMap[name]=val.trim();write(KEYS.coreMap,coreMap);pushConfig();}}
+function setSubteam(name,val){if(Object.prototype.hasOwnProperty.call(coreMap,name)){var old=String(coreMap[name]||'').trim(),next=val.trim();coreMap[name]=next;if(!agentSubteams[name]||agentSubteams[name]===old)agentSubteams[name]=next;Object.keys(agentSubteams).forEach(function(agent){if(old&&agentSubteams[agent]===old)agentSubteams[agent]=next;});write(KEYS.coreMap,coreMap);write(KEYS.agentSubteams,agentSubteams);pushConfig();renderAgents();}}
+function setAgentSubteam(name,val){if(val)agentSubteams[name]=val;else delete agentSubteams[name];write(KEYS.agentSubteams,agentSubteams);pushConfig();renderAgents();}
 function addAgentName(){
   var name=newAgentName.value.trim();
   if(!name)return alert('Enter the agent name.');
@@ -735,6 +783,7 @@ function removeAgentName(name){
   agentList=agentList.filter(function(a){return norm(a)!==norm(name);});
   if(coreMap&&Object.prototype.hasOwnProperty.call(coreMap,name)){delete coreMap[name];write(KEYS.coreMap,coreMap);}
   if(agentAvatars&&Object.prototype.hasOwnProperty.call(agentAvatars,name)){delete agentAvatars[name];write(KEYS.agentAvatars,agentAvatars);}
+  if(agentSubteams&&Object.prototype.hasOwnProperty.call(agentSubteams,name)){delete agentSubteams[name];write(KEYS.agentSubteams,agentSubteams);}
   write(KEYS.agents,agentList);renderAll();
   if(cloudEnabled()){showToast('⏳ Syncing...');Promise.resolve(pushConfig()).then(function(){showToast('✓ Removed and synced!');}).catch(function(){showToast('✓ Removed (⚠ not synced)');});}
   else showToast('✓ Removed!');
@@ -763,18 +812,28 @@ let monthly={};rows.forEach(r=>monthly[r.date.slice(0,7)]=(monthly[r.date.slice(
 let byAct={};rows.forEach(r=>byAct[r.activity]=(byAct[r.activity]||0)+Number(r.points||0));destroyChart('activity');charts.activity=new Chart(activityChart,{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true}});
 agentMessage.value=a?`Hi ${a}, your KPI performance for the selected period is ${pct.toFixed(1)}%. You earned ${points.toLocaleString()} points against a target of ${target.toLocaleString()}. Your current level is ${l.name}. ${pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.'}`:'';
 }
+function leaderPerformance(name,s,e){
+  var link=coreLeaderList().find(function(item){return item.display===name;}),agentName=link?link.name:'';
+  var leaderRows=name?coreRecords.filter(function(r){return inRange(r,s,e)&&r.leader===name;}):[];
+  var agentRows=agentName?records.filter(function(r){return inRange(r,s,e)&&norm(r.agent)===norm(agentName);}):[];
+  var leaderPoints=leaderRows.reduce(function(t,r){return t+Number(r.total||0);},0),agentPoints=agentRows.reduce(function(t,r){return t+Number(r.points||0);},0);
+  var leaderDays=uniqueDays(leaderRows),agentDays=uniqueDays(agentRows),target=leaderDays*Number(settings.subteamBaseTarget||150)+agentDays*Number(settings.baseTarget||150),points=leaderPoints+agentPoints,pct=target?points/target*100:0;
+  var dates=new Set(leaderRows.concat(agentRows).map(function(r){return r.date;}).filter(Boolean));
+  return{name:name,agentName:agentName,leaderRows:leaderRows,agentRows:agentRows,leaderPoints:leaderPoints,agentPoints:agentPoints,points:points,days:dates.size,activities:leaderRows.concat(agentRows).reduce(function(t,r){return t+Number(r.count||0);},0),target:target,pct:pct,level:calcLevel(pct)};
+}
+function leaderLabel(name){var link=coreLeaderList().find(function(item){return item.display===name;});return link&&link.name!==link.display?link.name+' — '+link.display:name;}
 function renderSubteamScorecard(){
   var sel=document.getElementById('subScoreName');coreFillNameSelect(sel,false);
   var name=sel.value,s=document.getElementById('subScoreStart').value,e=document.getElementById('subScoreEnd').value;
-  var rows=coreRecords.filter(function(r){return inRange(r,s,e)&&(!name||r.leader===name);}).sort(function(a,b){return b.date.localeCompare(a.date);});
-  var points=rows.reduce(function(t,r){return t+Number(r.total||0);},0),days=uniqueDays(rows),target=Number(settings.subteamBaseTarget||150)*days,pct=target?points/target*100:0,l=calcLevel(pct);
-  document.getElementById('subScoreTitle').textContent=name||'Select a Subteam Leader';
-  document.getElementById('subScorePoints').textContent=points.toLocaleString();document.getElementById('subScoreTarget').textContent=target.toLocaleString();document.getElementById('subScorePct').textContent=pct.toFixed(1)+'%';document.getElementById('subScoreLevel').textContent=l.name;
+  var performance=leaderPerformance(name,s,e),rows=performance.leaderRows.slice().sort(function(a,b){return b.date.localeCompare(a.date);}),agentRows=performance.agentRows.slice().sort(function(a,b){return b.date.localeCompare(a.date);}),points=performance.points,target=performance.target,pct=performance.pct,l=performance.level;
+  document.getElementById('subScoreTitle').textContent=name?leaderLabel(name):'Select a Subteam Leader';
+  document.getElementById('subScoreLeaderPoints').textContent=performance.leaderPoints.toLocaleString();document.getElementById('subScoreAgentPoints').textContent=performance.agentPoints.toLocaleString();document.getElementById('subScorePoints').textContent=points.toLocaleString();document.getElementById('subScoreTarget').textContent=target.toLocaleString();document.getElementById('subScorePct').textContent=pct.toFixed(1)+'%';document.getElementById('subScoreLevel').textContent=l.name;
   var medal=document.getElementById('subScoreMedal');medal.className='medal '+l.cls;medal.textContent=l.icon;
   document.getElementById('subScoreRows').innerHTML=rows.length?rows.map(function(r){return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.activity)+'</td><td>'+Number(r.count||0).toLocaleString()+'</td><td>'+Number(r.points||0).toLocaleString()+'</td><td><b>'+Number(r.total||0).toLocaleString()+'</b></td></tr>';}).join(''):'<tr><td colspan="5" class="small">No activity records are available for the selected period.</td></tr>';
-  var monthly={};rows.forEach(function(r){var m=r.date.slice(0,7);monthly[m]=(monthly[m]||0)+Number(r.total||0);});var months=Object.keys(monthly).sort();destroyChart('subScoreMonthly');charts.subScoreMonthly=new Chart(document.getElementById('subScoreMonthlyChart'),{type:'bar',data:{labels:months,datasets:[{label:'Points',data:months.map(function(m){return monthly[m];}),backgroundColor:settings.actionColor||'#e2691c',borderRadius:6}]},options:{responsive:true,scales:{y:{beginAtZero:true}}}});
-  var byAct={};rows.forEach(function(r){byAct[r.activity]=(byAct[r.activity]||0)+Number(r.total||0);});destroyChart('subScoreActivity');charts.subScoreActivity=new Chart(document.getElementById('subScoreActivityChart'),{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
-  document.getElementById('subteamMessage').value=name?'Hi '+name+', your Subteam Leader KPI performance for the selected period is '+pct.toFixed(1)+'%. You earned '+points.toLocaleString()+' points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'. '+(pct<30?'Let us focus on consistent daily leadership activities.':pct<71?'Good progress. Keep building consistent activity.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.') : '';
+  document.getElementById('subScoreAgentRows').innerHTML=agentRows.length?agentRows.map(function(r){return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.activity)+'</td><td>'+Number(r.count||0).toLocaleString()+'</td><td><b>'+Number(r.points||0).toLocaleString()+'</b></td></tr>';}).join(''):'<tr><td colspan="4" class="small">No agent KPI records are available for this leader in the selected period.</td></tr>';
+  var leaderMonthly={},agentMonthly={};rows.forEach(function(r){var m=r.date.slice(0,7);leaderMonthly[m]=(leaderMonthly[m]||0)+Number(r.total||0);});agentRows.forEach(function(r){var m=r.date.slice(0,7);agentMonthly[m]=(agentMonthly[m]||0)+Number(r.points||0);});var months=[...new Set(Object.keys(leaderMonthly).concat(Object.keys(agentMonthly)))].sort();destroyChart('subScoreMonthly');charts.subScoreMonthly=new Chart(document.getElementById('subScoreMonthlyChart'),{type:'bar',data:{labels:months,datasets:[{label:'Leader KPI',data:months.map(function(m){return leaderMonthly[m]||0;}),backgroundColor:settings.actionColor||'#e2691c',borderRadius:6},{label:'Agent KPI',data:months.map(function(m){return agentMonthly[m]||0;}),backgroundColor:settings.secondaryColor||'#2e6ea0',borderRadius:6}]},options:{responsive:true,scales:{y:{beginAtZero:true}}}});
+  var byAct={};rows.forEach(function(r){byAct['Leader: '+r.activity]=(byAct['Leader: '+r.activity]||0)+Number(r.total||0);});agentRows.forEach(function(r){byAct['Agent: '+r.activity]=(byAct['Agent: '+r.activity]||0)+Number(r.points||0);});destroyChart('subScoreActivity');charts.subScoreActivity=new Chart(document.getElementById('subScoreActivityChart'),{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
+  document.getElementById('subteamMessage').value=name?'Hi '+(performance.agentName||name)+', your combined performance for the selected period is '+pct.toFixed(1)+'%. You earned '+performance.leaderPoints.toLocaleString()+' Leader KPI points and '+performance.agentPoints.toLocaleString()+' Agent KPI points, for '+points.toLocaleString()+' combined points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'.':'';
 }
 async function saveRecord(){let date=recDate.value,agent=recAgent.value.trim(),activity=recActivity.value,count=Number(recCount.value||0),notes=recNotes.value.trim(),cfg=getActivity(activity);if(!date||!agent||!activity||count<=0)return alert('Complete Date, Agent, Activity, and Count.');let id=[date,norm(agent),norm(activity),count,norm(notes)].join('|');if(records.some(r=>r.key===id))return alert('Duplicate record detected.');let row={id:uid(),key:id,date,agent,activity,count,points:count*Number(cfg?.points||0),notes};
 if(cloudEnabled()){showToast('⏳ Saving...');try{let out=await cloudPost({action:'add',records:[row]});if(!out.ok)throw 0;recNotes.value='';await cloudLoad(true);showToast('✓ Record saved!')}catch(e){showToast('⚠ The record could not be saved. Please try again.')}return}
@@ -798,15 +857,15 @@ function populateReportMessageSelectors(){
   var av=agentSel.value,sv=subSel.value,agents=[...new Set([...agentList,...records.map(function(r){return r.agent;}).filter(Boolean)])].sort();
   agentSel.innerHTML='<option value="">Select Agent</option>'+agents.map(function(n){return '<option value="'+esc(n)+'" '+(n===av?'selected':'')+'>'+esc(n)+'</option>';}).join('');
   var subs=[...new Set(coreLeaderList().map(function(c){return c.display;}).concat(coreRecords.map(function(r){return r.leader;}).filter(Boolean)))].sort();
-  subSel.innerHTML='<option value="">Select Name</option>'+subs.map(function(n){return '<option value="'+esc(n)+'" '+(n===sv?'selected':'')+'>'+esc(n)+'</option>';}).join('');
+  subSel.innerHTML='<option value="">Select Name</option>'+subs.map(function(n){return '<option value="'+esc(n)+'" '+(n===sv?'selected':'')+'>'+esc(leaderLabel(n))+'</option>';}).join('');
 }
 function generateAgentReportMessage(){
   var name=document.getElementById('reportAgentMessageSelect').value,s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,name),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),days=uniqueDays(rows),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0,l=calcLevel(pct);
   agentMessage.value=name?'Hi '+name+', your KPI performance for the selected period is '+pct.toFixed(1)+'%. You earned '+points.toLocaleString()+' points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'. '+(pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.') : '';
 }
 function generateSubteamReportMessage(){
-  var name=document.getElementById('reportSubteamMessageSelect').value,s=dashStart.value,e=dashEnd.value,rows=coreRecords.filter(function(r){return inRange(r,s,e)&&r.leader===name;}),points=rows.reduce(function(t,r){return t+Number(r.total||0);},0),days=uniqueDays(rows),target=days*Number(settings.subteamBaseTarget||150),pct=target?points/target*100:0,l=calcLevel(pct);
-  subteamMessage.value=name?'Hi '+name+', your Subteam Leader KPI performance for the selected period is '+pct.toFixed(1)+'%. You earned '+points.toLocaleString()+' points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'. '+(pct<30?'Let us focus on consistent daily leadership activities.':pct<71?'Good progress. Keep building consistent activity.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.') : '';
+  var name=document.getElementById('reportSubteamMessageSelect').value,s=dashStart.value,e=dashEnd.value,p=leaderPerformance(name,s,e);
+  subteamMessage.value=name?'Hi '+(p.agentName||name)+', your combined performance for the selected period is '+p.pct.toFixed(1)+'%. You earned '+p.leaderPoints.toLocaleString()+' Leader KPI points and '+p.agentPoints.toLocaleString()+' Agent KPI points, for '+p.points.toLocaleString()+' combined points against a target of '+p.target.toLocaleString()+'. Your current level is '+p.level.name+'.':'';
 }
 function renderReports(){
   populateReportMessageSelectors();
@@ -815,9 +874,9 @@ function renderReports(){
   let s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,''),groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));
   let list=Object.entries(groups).map(([agent,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{agent,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct);
   reportRows.innerHTML=list.length?list.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.agent)}</td><td>${x.points.toLocaleString()}</td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="7" class="small">No agent performance data is available for the selected date range.</td></tr>';
-  let subRows=coreRecords.filter(r=>inRange(r,s,e)),subGroups={};subRows.forEach(r=>(subGroups[r.leader]??=[]).push(r));
-  let subList=Object.entries(subGroups).map(([leader,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.total||0),0),days=uniqueDays(rs),target=days*Number(settings.subteamBaseTarget||150),pct=target?points/target*100:0;return{leader,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct||b.points-a.points||a.leader.localeCompare(b.leader));
-  let subBody=document.getElementById('subteamReportRows');if(subBody)subBody.innerHTML=subList.length?subList.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.leader)}</td><td>${x.points.toLocaleString()}</td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="7" class="small">No Subteam Leader performance data is available for the selected date range.</td></tr>';
+  let subNames=[...new Set(coreLeaderList().map(x=>x.display).concat(coreRecords.filter(r=>inRange(r,s,e)).map(r=>r.leader)))];
+  let subList=subNames.map(name=>leaderPerformance(name,s,e)).filter(x=>x.points>0).sort((a,b)=>b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name));
+  let subBody=document.getElementById('subteamReportRows');if(subBody)subBody.innerHTML=subList.length?subList.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(leaderLabel(x.name))}</td><td>${x.leaderPoints.toLocaleString()}</td><td>${x.agentPoints.toLocaleString()}</td><td><b>${x.points.toLocaleString()}</b></td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="9" class="small">No Subteam Leader performance data is available for the selected date range.</td></tr>';
 }
 function exportExcel(){
   let rows=records.map(function(r){return{Date:r.date,Agent:r.agent,Status:r.status||'',Activity:r.activity,Count:Number(r.count||0),Points:Number(r.points||0),Notes:r.notes||''};});
@@ -883,8 +942,10 @@ function renderAgentForm(){
   let cur=afName.value;
   afName.innerHTML='<option value="">— Select your name —</option>'+agentList.slice().sort().map(a=>`<option ${a===cur?'selected':''}>${esc(a)}</option>`).join('');
   updateAgentAvatarSelect();
-  // Default date = today
-  if(!afDate.value)afDate.value=new Date().toISOString().slice(0,10);
+  // Default date = today and prevent future-dated entries.
+  let today=localDateValue(new Date());
+  afDate.max=today;
+  if(!afDate.value||afDate.value>today)afDate.value=today;
   // Activity list from dashboard activities
   afActList.innerHTML=activities.map((a,i)=>`
     <div class="act-row">
@@ -937,10 +998,21 @@ function updateFormTotals(){
   afTodayDate.textContent=date;
   afWeekRange.textContent=s+' → '+e;
 }
-async function submitAgentForm(){
+function localDateValue(date){
+  let y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),d=String(date.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+d;
+}
+function formatReviewDate(value){
+  let parts=value.split('-');
+  if(parts.length!==3)return value;
+  return new Date(Number(parts[0]),Number(parts[1])-1,Number(parts[2])).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+}
+function closeSubmitReview(){document.getElementById('submitReviewModal').style.display='none';}
+async function submitAgentForm(confirmed){
   let name=afName.value.trim(),date=afDate.value,status=afStatus.value;
   if(!name)return alert('Select your name first.');
   if(!date)return alert('Please select a date.');
+  if(date>localDateValue(new Date()))return alert('Future dates are not allowed. Please select today or an earlier date.');
   let entries=[];
   activities.forEach((a,i)=>{
     let el=document.getElementById('afCount_'+i);if(!el)return;
@@ -949,9 +1021,22 @@ async function submitAgentForm(){
   });
   if(!entries.length)return alert('Enter at least one activity count.');
 
+  if(confirmed!==true){
+    document.getElementById('reviewName').textContent=name;
+    document.getElementById('reviewDate').textContent=formatReviewDate(date);
+    document.getElementById('reviewStatus').textContent=status;
+    document.getElementById('reviewActivities').innerHTML=entries.map(function(en){return '<li><span>'+esc(en.activity)+' &times; '+en.count.toLocaleString()+'</span><span>'+en.points.toLocaleString()+' pts</span></li>';}).join('');
+    document.getElementById('reviewTotal').textContent=entries.reduce(function(total,en){return total+en.points;},0).toLocaleString()+' points';
+    document.getElementById('submitReviewModal').style.display='flex';
+    document.getElementById('confirmSubmitBtn').focus();
+    return;
+  }
+
+  closeSubmitReview();
+
   if(cloudEnabled()){
     // Submit to Google Sheets so the data is shared across all connected devices
-    let btn=event&&event.target;if(btn)btn.disabled=true;
+    let btn=document.getElementById('agentSubmitBtn');if(btn)btn.disabled=true;
     showToast('⏳ Saving...');
     try{
       let rows=entries.map(en=>({id:uid(),date,agent:name,status,activity:en.activity,count:en.count,points:en.points,notes:''}));
@@ -1043,6 +1128,7 @@ function applyCloudConfig(raw){
     if(cfg.coreMap&&typeof cfg.coreMap==='object'){coreMap=cfg.coreMap;write(KEYS.coreMap,coreMap)}
     if(Array.isArray(cfg.coreRecords)){coreRecords=cfg.coreRecords;write(KEYS.coreRecords,coreRecords)}
     if(cfg.agentAvatars&&typeof cfg.agentAvatars==='object'){agentAvatars=cfg.agentAvatars;write(KEYS.agentAvatars,agentAvatars)}
+    if(cfg.agentSubteams&&typeof cfg.agentSubteams==='object'){agentSubteams=cfg.agentSubteams;write(KEYS.agentSubteams,agentSubteams)}
     if(cfg.settings&&typeof cfg.settings==='object'){
       let keepUrl=settings.sheetsApiUrl;
       settings={...settings,...cfg.settings};
@@ -1062,7 +1148,7 @@ async function pushConfig(){
   if(!cloudEnabled())return;
   try{
     let cfgSettings={...settings};delete cfgSettings.sheetsApiUrl;
-    await cloudPost({action:'saveConfig',config:JSON.stringify({activities:activities,agents:agentList,settings:cfgSettings,coreActs:coreActs,coreMap:coreMap,coreRecords:coreRecords,agentAvatars:agentAvatars})});
+    await cloudPost({action:'saveConfig',config:JSON.stringify({activities:activities,agents:agentList,settings:cfgSettings,coreActs:coreActs,coreMap:coreMap,coreRecords:coreRecords,agentAvatars:agentAvatars,agentSubteams:agentSubteams})});
   }catch(e){}
 }
 async function cloudLoad(quiet){
@@ -1121,8 +1207,26 @@ async function downloadScreenshot(){
   }catch(e){showToast('⚠ The screenshot could not be captured.')}finally{document.body.classList.remove('exporting-dashboard')}
 }
 
+let coreHubView='leaderboard';
+function setupCoreHub(){
+  var source=document.getElementById('subteamscorecard'),target=document.getElementById('coreScorecardView');
+  if(!source||!target)return;
+  while(source.firstChild)target.appendChild(source.firstChild);
+  source.remove();
+}
+function showCoreView(view){
+  coreHubView=view==='scorecard'?'scorecard':'leaderboard';
+  var leaderboard=document.getElementById('coreLeaderboardView'),scorecard=document.getElementById('coreScorecardView'),leaderboardTab=document.getElementById('coreLeaderboardTab'),scorecardTab=document.getElementById('coreScorecardTab');
+  var showScorecard=coreHubView==='scorecard';
+  leaderboard.classList.toggle('hidden',showScorecard);scorecard.classList.toggle('hidden',!showScorecard);
+  leaderboardTab.classList.toggle('active',!showScorecard);scorecardTab.classList.toggle('active',showScorecard);
+  leaderboardTab.setAttribute('aria-selected',String(!showScorecard));scorecardTab.setAttribute('aria-selected',String(showScorecard));
+  document.getElementById('appSubtitle').textContent=showScorecard?'Review one leader’s leadership and agent KPI performance.':PAGE_META.coreboard.subtitle;
+  if(showScorecard)renderSubteamScorecard();else renderCoreBoard();
+}
+function renderCoreHub(){showCoreView(coreHubView);}
 function init(){
-  seedDates();loadSettingsToForm();applyBranding();renderAll();
+  setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();
   if(new URLSearchParams(location.search).get('view')==='agent'){
     try{sessionStorage.setItem('TAND_AGENT_VIEWER','1')}catch(e){}
     applyAgentViewerMode();
@@ -1259,9 +1363,9 @@ function renderLeaderboard(){
 
 /* ================= Subteam Leader: Activity + Leaderboard ================= */
 var markedCoreRecordIds=new Set();
-function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard'),c=document.getElementById('subteamscorecard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active'))renderCoreBoard();if(c&&c.classList.contains('active'))renderSubteamScorecard();}
+function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active')){if(coreHubView==='scorecard')renderSubteamScorecard();else renderCoreBoard();}}
 function coreLeaderList(){return agentList.filter(function(n){return Object.prototype.hasOwnProperty.call(coreMap,n);}).map(function(n){var sTxt=(coreMap[n]||'').trim();return {name:n,display:sTxt?sTxt:n};}).sort(function(a,b){return a.display.localeCompare(b.display);});}
-function coreFillNameSelect(sel,withAll){if(!sel)return;var v=sel.value;var list=coreLeaderList();sel.innerHTML=(withAll?'<option value="">All Subteam Leaders</option>':'<option value="">Select Name</option>')+list.map(function(c){return '<option value="'+esc(c.display)+'" '+(c.display===v?'selected':'')+'>'+esc(c.display)+'</option>';}).join('');}
+function coreFillNameSelect(sel,withAll){if(!sel)return;var v=sel.value;var list=coreLeaderList();sel.innerHTML=(withAll?'<option value="">All Subteam Leaders</option>':'<option value="">Select Name</option>')+list.map(function(c){var label=c.name===c.display?c.name:c.name+' — '+c.display;return '<option value="'+esc(c.display)+'" '+(c.display===v?'selected':'')+'>'+esc(label)+'</option>';}).join('');}
 function updateCoreTotal(){var grand=0;coreActs.forEach(function(a,i){var ci=document.getElementById('cc_'+i);if(!ci)return;var c=Number(ci.value||0),t=Number(a.points)*c;grand+=t;var te=document.getElementById('ct_'+i);if(te)te.textContent=t.toLocaleString();});var g=document.getElementById('coreGrand');if(g)g.textContent=grand.toLocaleString();}
 function toggleCoreManage(){document.getElementById('coreManageModal').style.display='flex';if(typeof renderCoreActivity==='function')renderCoreActivity();}
 function closeCoreManage(){document.getElementById('coreManageModal').style.display='none';}
@@ -1330,9 +1434,9 @@ function renderCoreBoard(){
   renderCoreBoard._init=1;
   var s=sEl?sEl.value:'',e=eEl?eEl.value:'';
   var rows=coreRecords.filter(function(r){return inRange(r,s,e)&&(!f||r.leader===f);});
-  var byL={};rows.forEach(function(r){(byL[r.leader]=byL[r.leader]||[]).push(r);});
-  var lb=Object.keys(byL).map(function(n){var rs=byL[n],days=uniqueDays(rs),activities=rs.reduce(function(t,r){return t+Number(r.count||0);},0),pts=rs.reduce(function(t,r){return t+Number(r.total||0);},0),target=days*Number(settings.subteamBaseTarget||150),pct=target?pts/target*100:0;return{name:n,days:days,activities:activities,pts:pts,target:target,pct:pct,level:calcLevel(pct)};}).sort(function(a,b){return b.pts-a.pts||b.pct-a.pct||a.name.localeCompare(b.name);});
-  document.getElementById('coreLbRows').innerHTML=lb.length?lb.map(function(x,i){var m=coreMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(x.name)+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.pts.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:16px">No Subteam Leader ranking data is available for this period.</td></tr>';
+  var names=[...new Set(coreLeaderList().map(function(x){return x.display;}).concat(coreRecords.filter(function(r){return inRange(r,s,e);}).map(function(r){return r.leader;})))].filter(function(n){return !f||n===f;});
+  var lb=names.map(function(n){return leaderPerformance(n,s,e);}).filter(function(x){return x.points>0;}).sort(function(a,b){return b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name);});
+  document.getElementById('coreLbRows').innerHTML=lb.length?lb.map(function(x,i){var m=coreMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(leaderLabel(x.name))+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td>'+x.leaderPoints.toLocaleString()+'</td><td>'+x.agentPoints.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:16px">No Subteam Leader ranking data is available for this period.</td></tr>';
   var byAct={};rows.forEach(function(r){var k=r.activity;byAct[k]=byAct[k]||{count:0,points:0};byAct[k].count+=Number(r.count||0);byAct[k].points+=Number(r.total||0);});
   var brk=Object.keys(byAct).map(function(n){return{name:n,count:byAct[n].count,points:byAct[n].points};}).sort(function(a,b){return b.points-a.points;});
   document.getElementById('coreBreakRows').innerHTML=brk.length?brk.map(function(x){return '<tr><td>'+esc(x.name)+'</td><td>'+x.count+'</td><td>'+x.points.toLocaleString()+'</td></tr>';}).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:16px">No data is available.</td></tr>';
@@ -1399,6 +1503,23 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
     </div>
     <div class="tablebox"><table><thead><tr><th></th><th>Activity</th><th>Points</th><th>Action</th></tr></thead><tbody id="coreActRows"></tbody></table></div>
     <div class="actions" style="margin-top:14px"><button class="ghost" onclick="closeCoreManage()">Close</button></div>
+  </div>
+</div>
+<div id="submitReviewModal" class="lbmodal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="submitReviewTitle" onclick="if(event.target===this)closeSubmitReview()">
+  <div class="lbmodal-box">
+    <h3 id="submitReviewTitle">Double-check before submitting</h3>
+    <div class="submit-review"><strong>This entry cannot be edited after submission.</strong>Please confirm that your inputs and date are correct.</div>
+    <dl class="review-details">
+      <dt>Name</dt><dd id="reviewName"></dd>
+      <dt>Date</dt><dd id="reviewDate"></dd>
+      <dt>Status</dt><dd id="reviewStatus"></dd>
+      <dt>Total</dt><dd id="reviewTotal"></dd>
+    </dl>
+    <ul id="reviewActivities" class="review-activities"></ul>
+    <div class="actions">
+      <button class="btn" id="confirmSubmitBtn" onclick="submitAgentForm(true)">Confirm &amp; Submit</button>
+      <button class="ghost" onclick="closeSubmitReview()">Go Back &amp; Review</button>
+    </div>
   </div>
 </div>
 </body>
