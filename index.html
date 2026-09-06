@@ -1259,6 +1259,7 @@ function challengeRange(){
 }
 function agentActivityDailyMax(name){
   let n=norm(name);
+  if(n.startsWith('branding'))return 5;
   if(/max\.?\s*(?:of\s*)?1\s*(?:entry\s*)?per\s*day/.test(n)||/1\s*entry\s*\/\s*day/.test(n))return 1;
   if(n.includes('new prospect list')||n==='new prospects'||n.startsWith('new prospects '))return 1;
   if(n.startsWith('networking')||n.startsWith('field work')||n.startsWith('gc engagement')||n.startsWith('mentorship/coaching')||n.startsWith('mentorship / coaching')||n.startsWith('training attendance'))return 1;
@@ -1268,13 +1269,17 @@ function agentActivityPointLabel(activity){
   let n=norm(activity.name),points=Number(activity.points||0),unit=points+' pt'+(points===1?'':'s');
   if(n.includes('new prospect list')||n==='new prospects'||n.startsWith('new prospects '))return unit+' per day';
   if(n.startsWith('branding'))return unit+' each platform';
+  if(n.startsWith('client presentation'))return unit+' per meeting';
+  if(n.startsWith('closed case')||n.startsWith('closing')||n.startsWith('submitted case'))return unit+' each · EB/group insurance not counted';
+  if(n.includes('recruitment in job hiring group')||n.includes('recruitment job hiring group'))return points+'pt each post';
+  if(n.startsWith('byb/tabletop')||n.startsWith('byb / tabletop')||n.startsWith('byb / table top'))return unit+' each show-up';
   if(agentActivityDailyMax(activity.name)===1)return unit+' per day (max)';
   return unit+' each';
 }
 function enforceAgentActivityLimit(index){
   let activity=activities[index],input=document.getElementById('afCount_'+index);if(!activity||!input)return;
   let max=agentActivityDailyMax(activity.name),count=Number(input.value||0);
-  if(max&&count>max){input.value=max;alert(activity.name+' has a maximum of 1 entry per day.');}
+  if(max&&count>max){input.value=max;alert(activity.name+' has a maximum of '+max+' entr'+(max===1?'y':'ies')+' per day.');}
   updateFormTotals();
 }
 function renderAgentForm(){
@@ -1293,7 +1298,7 @@ function renderAgentForm(){
   afActList.innerHTML=activities.map((a,i)=>`
     <div class="act-row">
       <div><span class="act-name">${esc(a.name)}</span><span class="act-pts">${esc(agentActivityPointLabel(a))}</span></div>
-      <input type="number" min="0" ${agentActivityDailyMax(a.name)?'max="1"':''} placeholder="0" id="afCount_${i}" oninput="enforceAgentActivityLimit(${i})">
+      <input type="number" min="0" ${agentActivityDailyMax(a.name)?'max="'+agentActivityDailyMax(a.name)+'"':''} placeholder="0" id="afCount_${i}" oninput="enforceAgentActivityLimit(${i})">
       <div class="act-total" id="afTot_${i}">0</div>
     </div>`).join('');
   updateFormTotals();
@@ -1364,11 +1369,11 @@ async function submitAgentForm(confirmed){
   });
   if(!entries.length)return alert('Enter at least one activity count.');
   let cappedError=entries.find(function(entry){
-    if(agentActivityDailyMax(entry.activity)!==1)return false;
+    let max=agentActivityDailyMax(entry.activity);if(!max)return false;
     let alreadyLogged=records.filter(function(r){return r.date===date&&norm(r.agent)===norm(name)&&norm(r.activity)===norm(entry.activity);}).reduce(function(total,r){return total+Number(r.count||0);},0);
-    return alreadyLogged+entry.count>1;
+    return alreadyLogged+entry.count>max;
   });
-  if(cappedError)return alert(cappedError.activity+' has a maximum of 1 entry per day. An entry is already logged for this date or the entered count is above 1.');
+  if(cappedError){let max=agentActivityDailyMax(cappedError.activity);return alert(cappedError.activity+' has a maximum of '+max+' entr'+(max===1?'y':'ies')+' per day. Existing entries for this date are included in the limit.');}
 
   if(confirmed!==true){
     document.getElementById('reviewName').textContent=name;
