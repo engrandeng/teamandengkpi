@@ -1260,9 +1260,10 @@ function challengeRange(){
 function agentActivityDailyMax(name){
   let n=norm(name);
   if(n.startsWith('branding'))return 5;
+  if(n.startsWith('tiktok live')||n.startsWith('tik tok live'))return 2;
   if(/max\.?\s*(?:of\s*)?1\s*(?:entry\s*)?per\s*day/.test(n)||/1\s*entry\s*\/\s*day/.test(n))return 1;
   if(n.includes('new prospect list')||n==='new prospects'||n.startsWith('new prospects '))return 1;
-  if(n.startsWith('networking')||n.startsWith('field work')||n.startsWith('gc engagement')||n.startsWith('mentorship/coaching')||n.startsWith('mentorship / coaching')||n.startsWith('training attendance'))return 1;
+  if(n.startsWith('networking')||n.startsWith('field work')||n.startsWith('gc engagement')||n.startsWith('gc involvement')||n.startsWith('mentorship/coaching')||n.startsWith('mentorship / coaching')||n.startsWith('mentorship & coaching')||n.startsWith('mentoring & coaching')||n.startsWith('mentoring/coaching')||n.startsWith('training attendance'))return 1;
   return 0;
 }
 function agentActivityPointLabel(activity){
@@ -1273,7 +1274,7 @@ function agentActivityPointLabel(activity){
   if(n.startsWith('closed case')||n.startsWith('closing')||n.startsWith('submitted case'))return unit+' each · EB/group insurance not counted';
   if(n.includes('recruitment in job hiring group')||n.includes('recruitment job hiring group'))return points+'pt each post';
   if(n.startsWith('byb/tabletop')||n.startsWith('byb / tabletop')||n.startsWith('byb / table top'))return unit+' each show-up';
-  if(agentActivityDailyMax(activity.name)===1)return unit+' per day (max)';
+  if(agentActivityDailyMax(activity.name)===1)return unit+' per day (max of 1)';
   return unit+' each';
 }
 function enforceAgentActivityLimit(index){
