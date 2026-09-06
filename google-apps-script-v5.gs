@@ -75,6 +75,24 @@ function doPost(e) {
       return json_({ ok: true });
     }
 
+    if (body.action === 'update') {
+      const sh = getSheet_();
+      const data = sh.getDataRange().getValues();
+      const r = body.record || {};
+      for (let i = 1; i < data.length; i++) {
+        if (String(data[i][0]) === String(body.id)) {
+          sh.getRange(i + 1, 1, 1, 8).setValues([[
+            String(r.id || body.id), String(r.date), String(r.agent),
+            String(r.status || ''), String(r.activity),
+            Number(r.count || 0), Number(r.points || 0),
+            String(r.notes || '')
+          ]]);
+          return json_({ ok: true });
+        }
+      }
+      return json_({ ok: false, error: 'record not found' });
+    }
+
     if (body.action === 'delete') {
       const sh = getSheet_();
       const data = sh.getDataRange().getValues();

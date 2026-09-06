@@ -350,7 +350,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
       <div><label>Activity<select id="recActivity"></select></label></div>
       <div><label>Count<input type="number" id="recCount" min="0" value="1"></label></div>
       <div><label>Notes<input id="recNotes"></label></div>
-      <div><button class="btn" onclick="saveRecord()">Add Record</button></div>
+      <div class="actions"><button id="recordSaveBtn" class="btn" onclick="saveRecord()">Add Record</button><button id="recordCancelBtn" class="ghost hidden" onclick="cancelRecordEdit()">Cancel</button></div>
     </div>
     <datalist id="agentList"></datalist>
     <div class="card"><div class="actions"><button class="btn2" onclick="exportExcel()">Download Excel</button><button class="ghost" onclick="clearRecords()">Clear All Records</button></div></div>
@@ -597,8 +597,8 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
     <div class="card">
       <h3 class="calendar-section-title">Schedule of a Full-Time Agent or Subteam Leader to earn 200 points daily</h3>
       <p class="calendar-section-intro">Full-day productivity schedule with Agent and Leader KPI activities.</p>
-      <div class="points-guide points-guide-four"><div class="guide-head">Time</div><div class="guide-head">Activity &amp; output</div><div class="guide-head">Points</div><div class="guide-head">Category</div><div class="guide-time">9:00-9:30 AM</div><div><b>Prospect List + Branding</b><br>10 new prospects + 1 branding post across 5 platforms</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">9:30-10:00 AM</div><div><b>Prospect Engagement</b><br>10 meaningful engagements</div><div class="guide-points">10</div><div class="guide-category">Agent</div><div class="guide-time">10:00-10:30 AM</div><div><b>Selling Approaches</b><br>10 approaches and follow-ups</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">10:30-11:00 AM</div><div><b>Admin Tasks</b><br>Anticipated Lapse Report, update tracker, client servicing</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">11:00 AM-12:00 PM</div><div><b>Recruitment Approach</b><br>10 qualified prospects</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">12:00-1:00 PM</div><div><b>Lunch &amp; Personal Break</b></div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">1:00-2:00 PM</div><div><b>Client Presentation #1</b><br>1 completed meeting</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">2:00-4:00 PM</div><div><b>Field Work</b><br>B2B, Flyering, H2H, Boothing</div><div class="guide-points">30</div><div class="guide-category">Agent</div><div class="guide-time">4:00-6:00 PM</div><div><b>Personal Time</b><br>Gym, sports, read books</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">6:00-8:00 PM</div><div><b>JFW/Tabletop with Teammate</b><br>Joint fieldwork, presentation and coaching</div><div class="guide-points">50</div><div class="guide-category">Leader</div><div class="guide-time">8:00-9:00 PM</div><div><b>Client Presentation #2</b><br>1 completed meeting</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">9:00-9:30 PM</div><div><b>Pipeline Review &amp; Next-Step Planning</b><br>Prepare teammate follow-ups and action plan</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">9:30-10:00 PM</div><div><b>Log Activities &amp; Upload Proof</b><br>Complete daily documentation</div><div class="guide-points">-</div><div class="guide-category">-</div></div>
-      <div class="points-total"><span>Daily target: 200 points</span><span>Listed schedule: 250 Agent + 50 Leader = 300 points</span></div>
+      <div class="points-guide points-guide-four"><div class="guide-head">Time</div><div class="guide-head">Activity &amp; output</div><div class="guide-head">Points</div><div class="guide-head">Category</div><div class="guide-time">9:00-9:30 AM</div><div><b>Prospect List + Branding</b><br>10 new prospects + 1 branding post across 5 platforms</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">9:30-10:00 AM</div><div><b>Prospect Engagement</b><br>10 meaningful engagements</div><div class="guide-points">10</div><div class="guide-category">Agent</div><div class="guide-time">10:00-10:30 AM</div><div><b>Selling Approaches</b><br>10 approaches and follow-ups</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">10:30-11:00 AM</div><div><b>Admin Tasks</b><br>Anticipated Lapse Report, update tracker, client servicing</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">11:00 AM-12:00 PM</div><div><b>Recruitment Approach</b><br>10 qualified prospects</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">12:00-1:00 PM</div><div><b>Lunch &amp; Personal Break</b></div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">1:00-2:00 PM</div><div><b>Client Presentation #1</b><br>1 completed meeting</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">2:00-4:00 PM</div><div><b>Field Work</b><br>B2B, Flyering, H2H, Boothing</div><div class="guide-points">30</div><div class="guide-category">Agent</div><div class="guide-time">4:00-6:00 PM</div><div><b>Personal Time</b><br>Gym, sports, read books</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">6:00-8:00 PM</div><div><b>JFW/Tabletop with Teammate</b><br>Joint fieldwork, presentation and coaching</div><div class="guide-points">50</div><div class="guide-category">Leader</div><div class="guide-time">8:00-9:00 PM</div><div><b>Dinner/Break Time</b><br>Catch-up call with 2 teammates</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">9:00-9:30 PM</div><div><b>Pipeline Review &amp; Next-Step Planning</b><br>Prepare teammate follow-ups and action plan</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">9:30-10:00 PM</div><div><b>Log Activities &amp; Upload Proof</b><br>Complete daily documentation</div><div class="guide-points">-</div><div class="guide-category">-</div></div>
+      <div class="points-total"><span>Daily target: 200 points</span><span>Listed schedule: 180 Agent + 50 Leader = 230 points</span></div>
     </div>
   </section>
   <div id="calendarLightbox" class="calendar-lightbox hidden" role="dialog" aria-modal="true" aria-label="Zoomable September 2026 calendar"><div class="calendar-lightbox-toolbar"><a class="btn2 calendar-download" href="September-2026-Calendar-FIRSTLIA.pdf" download>Download</a><button class="ghost" onclick="zoomCalendar(-.2)" aria-label="Zoom out">−</button><span id="calendarZoomValue" class="calendar-zoom-value">100%</span><button class="ghost" onclick="zoomCalendar(.2)" aria-label="Zoom in">+</button><button class="ghost" onclick="resetCalendarZoom()">Reset</button><button class="danger calendar-close" onclick="closeCalendarPreview()" aria-label="Close calendar preview">×</button></div><div class="calendar-lightbox-stage"><img id="calendarZoomImage" src="september-2026-calendar.jpg" alt="September 2026 Team Calendar enlarged"></div></div>
@@ -786,6 +786,24 @@ function doPost(e) {
         ]);
       });
       return json_({ ok: true });
+    }
+
+    if (body.action === 'update') {
+      const sh = getSheet_();
+      const data = sh.getDataRange().getValues();
+      const r = body.record || {};
+      for (var u = 1; u < data.length; u++) {
+        if (String(data[u][0]) === String(body.id)) {
+          sh.getRange(u + 1, 1, 1, 8).setValues([[
+            String(r.id || body.id), String(r.date), String(r.agent),
+            String(r.status || ''), String(r.activity),
+            Number(r.count || 0), Number(r.points || 0),
+            String(r.notes || '')
+          ]]);
+          return json_({ ok: true });
+        }
+      }
+      return json_({ ok: false, error: 'record not found' });
     }
 
     if (body.action === 'delete') {
@@ -1104,10 +1122,14 @@ function renderTeamScorecard(){
   var daily=[];members.forEach(function(agent){dates.slice().reverse().forEach(function(date){var rows=teamRows.filter(function(r){return r.date===date&&norm(r.agent)===norm(agent);}),activities=rows.reduce(function(t,r){return t+Number(r.count||0);},0),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),pct=base?points/base*100:0;daily.push({date:date,agent:agent,activities:activities,points:points,pct:pct,level:calcLevel(pct)});});});
   document.getElementById('teamScoreDailyRows').innerHTML=daily.length?daily.map(function(x){return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.agent)+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+base.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="7" class="small">Select a subteam and date range to view daily productivity.</td></tr>';
 }
-async function saveRecord(){let date=recDate.value,agent=recAgent.value.trim(),activity=recActivity.value,count=Number(recCount.value||0),notes=recNotes.value.trim(),cfg=getActivity(activity);if(!date||!agent||!activity||count<=0)return alert('Complete Date, Agent, Activity, and Count.');let id=[date,norm(agent),norm(activity),count,norm(notes)].join('|');if(records.some(r=>r.key===id))return alert('Duplicate record detected.');let row={id:uid(),key:id,date,agent,activity,count,points:count*Number(cfg?.points||0),notes};
-if(cloudEnabled()){showToast('⏳ Saving...');try{let out=await cloudPost({action:'add',records:[row]});if(!out.ok)throw 0;recNotes.value='';await cloudLoad(true);showToast('✓ Record saved!')}catch(e){showToast('⚠ The record could not be saved. Please try again.')}return}
-records.push(row);write(KEYS.records,records);recNotes.value='';renderAll()}
-function renderRecords(){recordsRows.innerHTML=records.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.agent)}</td><td>${esc(r.status||'')}</td><td>${esc(r.activity)}</td><td>${r.count}</td><td>${r.points}</td><td>${esc(r.notes)}</td><td><button class="danger" onclick="deleteRecord('${r.id}')">Delete</button></td></tr>`).join('')}
+let editingRecordId='';
+function resetRecordForm(){editingRecordId='';recAgent.value='';recCount.value=1;recNotes.value='';recordSaveBtn.textContent='Add Record';recordCancelBtn.classList.add('hidden')}
+function editRecord(id){let row=records.find(r=>r.id===id);if(!row)return alert('This record is no longer available.');editingRecordId=id;recDate.value=row.date;recAgent.value=row.agent;recActivity.value=row.activity;recCount.value=row.count;recNotes.value=row.notes||'';recordSaveBtn.textContent='Save Changes';recordCancelBtn.classList.remove('hidden');document.getElementById('records').scrollIntoView({behavior:'smooth',block:'start'});recDate.focus()}
+function cancelRecordEdit(){resetRecordForm();showToast('Edit cancelled')}
+async function saveRecord(){let date=recDate.value,agent=recAgent.value.trim(),activity=recActivity.value,count=Number(recCount.value||0),notes=recNotes.value.trim(),cfg=getActivity(activity);if(!date||!agent||!activity||count<=0)return alert('Complete Date, Agent, Activity, and Count.');let key=[date,norm(agent),norm(activity),count,norm(notes)].join('|');if(records.some(r=>r.key===key&&r.id!==editingRecordId))return alert('Duplicate record detected.');let wasEditing=Boolean(editingRecordId),existing=editingRecordId&&records.find(r=>r.id===editingRecordId),row={id:existing?existing.id:uid(),key:key,date,agent,status:existing&&existing.status||'',activity,count,points:count*Number(cfg?.points||0),notes};
+if(cloudEnabled()){showToast(wasEditing?'⏳ Saving correction...':'⏳ Saving...');try{let out;if(wasEditing){out=await cloudPost({action:'update',id:editingRecordId,record:row});if(!out.ok&&out.error==='unknown action'){let replacement={...row,id:uid()};out=await cloudPost({action:'add',records:[replacement]});if(out.ok)out=await cloudPost({action:'delete',id:editingRecordId})}}else out=await cloudPost({action:'add',records:[row]});if(!out.ok)throw 0;resetRecordForm();await cloudLoad(true);showToast(wasEditing?'✓ Record updated!':'✓ Record saved!')}catch(e){showToast('⚠ The record could not be saved. Please try again.')}return}
+if(editingRecordId){records=records.map(r=>r.id===editingRecordId?row:r)}else records.push(row);write(KEYS.records,records);let updated=Boolean(editingRecordId);resetRecordForm();renderAll();showToast(updated?'✓ Record updated!':'✓ Record saved!')}
+function renderRecords(){recordsRows.innerHTML=records.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.agent)}</td><td>${esc(r.status||'')}</td><td>${esc(r.activity)}</td><td>${r.count}</td><td>${r.points}</td><td>${esc(r.notes)}</td><td><div class="record-actions"><button class="ghost" onclick="editRecord('${r.id}')">Edit</button><button class="danger" onclick="deleteRecord('${r.id}')">Delete</button></div></td></tr>`).join('')}
 async function deleteRecord(id){
 if(cloudEnabled()){if(!confirm('Delete this record?'))return;showToast('⏳ Deleting...');try{let out=await cloudPost({action:'delete',id});if(!out.ok)throw 0;await cloudLoad(true);showToast('✓ Deleted!')}catch(e){showToast('⚠ The record could not be deleted. Please try again.')}return}
 records=records.filter(r=>r.id!==id);write(KEYS.records,records);renderAll()}
@@ -1235,6 +1257,26 @@ function challengeRange(){
   let sun=new Date(mon);sun.setDate(mon.getDate()+6);
   return{s:mon.toISOString().slice(0,10),e:sun.toISOString().slice(0,10)};
 }
+function agentActivityDailyMax(name){
+  let n=norm(name);
+  if(/max\.?\s*(?:of\s*)?1\s*(?:entry\s*)?per\s*day/.test(n)||/1\s*entry\s*\/\s*day/.test(n))return 1;
+  if(n.includes('new prospect list')||n==='new prospects'||n.startsWith('new prospects '))return 1;
+  if(n.startsWith('networking')||n.startsWith('field work')||n.startsWith('gc engagement')||n.startsWith('mentorship/coaching')||n.startsWith('mentorship / coaching')||n.startsWith('training attendance'))return 1;
+  return 0;
+}
+function agentActivityPointLabel(activity){
+  let n=norm(activity.name),points=Number(activity.points||0),unit=points+' pt'+(points===1?'':'s');
+  if(n.includes('new prospect list')||n==='new prospects'||n.startsWith('new prospects '))return unit+' per day';
+  if(n.startsWith('branding'))return unit+' each platform';
+  if(agentActivityDailyMax(activity.name)===1)return unit+' per day (max)';
+  return unit+' each';
+}
+function enforceAgentActivityLimit(index){
+  let activity=activities[index],input=document.getElementById('afCount_'+index);if(!activity||!input)return;
+  let max=agentActivityDailyMax(activity.name),count=Number(input.value||0);
+  if(max&&count>max){input.value=max;alert(activity.name+' has a maximum of 1 entry per day.');}
+  updateFormTotals();
+}
 function renderAgentForm(){
   // Branding
   portalTitle.textContent='Agent KPI Activity Form';
@@ -1250,8 +1292,8 @@ function renderAgentForm(){
   // Activity list from dashboard activities
   afActList.innerHTML=activities.map((a,i)=>`
     <div class="act-row">
-      <div><span class="act-name">${esc(a.name)}</span><span class="act-pts">${a.points} pt${a.points==1?'':'s'} each</span></div>
-      <input type="number" min="0" placeholder="0" id="afCount_${i}" oninput="updateFormTotals()">
+      <div><span class="act-name">${esc(a.name)}</span><span class="act-pts">${esc(agentActivityPointLabel(a))}</span></div>
+      <input type="number" min="0" ${agentActivityDailyMax(a.name)?'max="1"':''} placeholder="0" id="afCount_${i}" oninput="enforceAgentActivityLimit(${i})">
       <div class="act-total" id="afTot_${i}">0</div>
     </div>`).join('');
   updateFormTotals();
@@ -1321,6 +1363,12 @@ async function submitAgentForm(confirmed){
     if(c>0)entries.push({activity:a.name,count:c,points:c*Number(a.points||0)});
   });
   if(!entries.length)return alert('Enter at least one activity count.');
+  let cappedError=entries.find(function(entry){
+    if(agentActivityDailyMax(entry.activity)!==1)return false;
+    let alreadyLogged=records.filter(function(r){return r.date===date&&norm(r.agent)===norm(name)&&norm(r.activity)===norm(entry.activity);}).reduce(function(total,r){return total+Number(r.count||0);},0);
+    return alreadyLogged+entry.count>1;
+  });
+  if(cappedError)return alert(cappedError.activity+' has a maximum of 1 entry per day. An entry is already logged for this date or the entered count is above 1.');
 
   if(confirmed!==true){
     document.getElementById('reviewName').textContent=name;
