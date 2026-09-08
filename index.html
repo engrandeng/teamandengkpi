@@ -211,6 +211,9 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 .scorecard-download-action{display:flex;align-items:flex-end}.scorecard-download-action .btn2{margin-top:0}
 .lb-controls{gap:12px}
 .lb-controls .incentive-screenshot-btn{margin-left:auto;padding:0}
+.tracker-title{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tracker-title .camera-btn{flex:0 0 42px;margin:0}
+body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important}
 .rank-row{border-radius:12px;border-color:#dce3eb;box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease}
 .rank-row:hover{transform:translateX(2px);box-shadow:0 8px 20px rgba(23,50,78,.09)}
 .rank-num{font-size:14px}
@@ -557,12 +560,12 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
         <div class="small" style="margin-top:10px">Leader bonus requires at least 100% in both Agent KPI and Leader KPI. It is added to the regular agent reward.</div>
       </div>
     </div>
-    <div class="card">
-      <h3 class="lb-title">Agent Reward Tracker</h3>
+    <div class="card" id="agentRewardTracker">
+      <h3 class="lb-title tracker-title"><span>Agent Reward Tracker</span><button class="camera-btn" onclick="downloadIncentiveTrackerScreenshot('agent')" title="Download the complete Agent Reward Tracker table as an image" aria-label="Download the complete Agent Reward Tracker table as an image">📷</button></h3>
       <div class="tablebox"><table><thead><tr><th>Agent</th><th>Points</th><th>Target</th><th>KPI %</th><th>Status</th><th>No Zero Day</th><th>Estimated Reward</th></tr></thead><tbody id="incentiveAgentRows"></tbody></table></div>
     </div>
-    <div class="card">
-      <h3 class="lb-title">Subteam Leader Reward Tracker</h3>
+    <div class="card" id="leaderRewardTracker">
+      <h3 class="lb-title tracker-title"><span>Subteam Leader Reward Tracker</span><button class="camera-btn" onclick="downloadIncentiveTrackerScreenshot('leader')" title="Download the complete Subteam Leader Reward Tracker table as an image" aria-label="Download the complete Subteam Leader Reward Tracker table as an image">📷</button></h3>
       <div class="tablebox"><table><thead><tr><th>Subteam</th><th>Agent KPI</th><th>Leader KPI</th><th>Combined KPI</th><th>Agent Reward</th><th>Leader Bonus</th><th>Estimated Total</th><th>Eligibility</th><th>To-go</th></tr></thead><tbody id="incentiveLeaderRows"></tbody></table></div>
     </div>
   </section>
@@ -1574,6 +1577,58 @@ async function downloadScreenshot(kind){
     document.body.appendChild(a);a.click();a.remove();
     showToast('✓ Screenshot saved!');
   }catch(e){showToast('⚠ The screenshot could not be captured.')}finally{document.body.classList.remove('exporting-dashboard');document.body.classList.remove('capturing-screenshot')}
+}
+
+async function downloadIncentiveTrackerScreenshot(kind){
+  var isLeader=kind==='leader';
+  var target=document.getElementById(isLeader?'leaderRewardTracker':'agentRewardTracker');
+  if(!target)return;
+  var tablebox=target.querySelector('.tablebox');
+  var table=target.querySelector('table');
+  var original={
+    targetWidth:target.style.width,
+    targetMaxWidth:target.style.maxWidth,
+    tableboxMaxHeight:tablebox.style.maxHeight,
+    tableboxOverflow:tablebox.style.overflow
+  };
+  showToast('⏳ Capturing the complete table...');
+  document.body.classList.add('capturing-screenshot');
+  try{
+    tablebox.style.maxHeight='none';
+    tablebox.style.overflow='visible';
+    var captureWidth=Math.max(target.offsetWidth,table.scrollWidth+42);
+    target.style.width=captureWidth+'px';
+    target.style.maxWidth='none';
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
+    var captureHeight=target.scrollHeight;
+    var canvas=await html2canvas(target,{
+      scale:2,
+      useCORS:true,
+      allowTaint:false,
+      backgroundColor:'#ffffff',
+      imageTimeout:15000,
+      width:captureWidth,
+      height:captureHeight,
+      windowWidth:Math.max(1440,captureWidth),
+      windowHeight:Math.max(900,captureHeight),
+      scrollX:0,
+      scrollY:0
+    });
+    var a=document.createElement('a');
+    a.download=isLeader?'TEAM_ANDENG_SUBTEAM_LEADER_REWARD_TRACKER.png':'TEAM_ANDENG_AGENT_REWARD_TRACKER.png';
+    a.href=canvas.toDataURL('image/png',1);
+    document.body.appendChild(a);a.click();a.remove();
+    showToast('✓ Complete tracker screenshot saved!');
+  }catch(e){
+    showToast('⚠ The tracker screenshot could not be captured.');
+  }finally{
+    target.style.width=original.targetWidth;
+    target.style.maxWidth=original.targetMaxWidth;
+    tablebox.style.maxHeight=original.tableboxMaxHeight;
+    tablebox.style.overflow=original.tableboxOverflow;
+    document.body.classList.remove('capturing-screenshot');
+  }
 }
 
 let agentHubView='leaderboard',coreHubView='leaderboard';
