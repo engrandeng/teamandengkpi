@@ -102,6 +102,7 @@ body.mobile-preview-frame .mobile-preview-launch{display:none!important}
 .portal-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .submit-review{margin:14px 0 16px;padding:12px 14px;border:1px solid #f0c89f;border-radius:10px;background:#fff7ed;color:#7c3f0c;font-size:13px;line-height:1.5}
 .submit-review strong{display:block;color:#5f2d08;font-size:14px}
+.proof-upload-link{display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:220px;margin-top:5px;padding:10px 16px;border-radius:10px;text-align:center;text-decoration:none}
 .review-details{display:grid;grid-template-columns:92px 1fr;gap:7px 12px;margin:14px 0;font-size:13px}
 .review-details dt{color:var(--muted);font-weight:700}.review-details dd{margin:0;font-weight:800;color:var(--text)}
 .review-activities{max-height:220px;overflow:auto;margin:0 0 16px;padding:0;list-style:none;border-top:1px solid var(--line)}
@@ -110,6 +111,7 @@ body.mobile-preview-frame .mobile-preview-launch{display:none!important}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:13px 22px;border-radius:999px;font-weight:900;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.3s ease;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:520px){.act-row{grid-template-columns:minmax(0,1fr) 76px 54px;gap:9px;padding:12px}.act-row .act-pts{font-size:11.5px}.totals-bar{grid-template-columns:1fr 1fr}.total-tile strong{font-size:24px}}
+@media(max-width:520px){.proof-upload-link{width:100%;min-width:0}}
 
 /* Agent links provide reporting access without administrative editing controls. */
 body.agent-viewer .nav button[data-page="agents"],body.agent-viewer .nav button[data-page="activities"],body.agent-viewer .nav button[data-page="records"],body.agent-viewer .nav button[data-page="reports"],body.agent-viewer .nav button[data-page="settings"]{display:none}
@@ -1362,6 +1364,14 @@ function formatReviewDate(value){
   return new Date(Number(parts[0]),Number(parts[1])-1,Number(parts[2])).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
 }
 function closeSubmitReview(){document.getElementById('submitReviewModal').style.display='none';}
+function showProofUploadPrompt(){
+  var modal=document.getElementById('proofUploadModal');
+  if(!modal)return;
+  modal.style.display='flex';
+  var link=document.getElementById('proofUploadTelegramLink');
+  if(link)link.focus();
+}
+function closeProofUploadPrompt(){document.getElementById('proofUploadModal').style.display='none';}
 async function submitAgentForm(confirmed){
   let name=afName.value.trim(),date=afDate.value,status=afStatus.value;
   if(!name)return alert('Select your name first.');
@@ -1406,6 +1416,7 @@ async function submitAgentForm(confirmed){
       await cloudLoad(true);
       updateFormTotals();
       showToast('✓ Activities saved!');
+      showProofUploadPrompt();
     }catch(e){showToast('⚠ The activity could not be saved. Please try again.')}
     if(btn)btn.disabled=false;
     return;
@@ -1428,6 +1439,7 @@ async function submitAgentForm(confirmed){
   renderAll();
   updateFormTotals();
   showToast('✓ Activities saved!');
+  showProofUploadPrompt();
 }
 function getAppsScriptCode(){return document.getElementById('appsScriptCode').textContent.trim()}
 function copyAppsScript(){
@@ -2047,6 +2059,16 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
     <div class="actions">
       <button class="btn" id="confirmSubmitBtn" onclick="submitAgentForm(true)">Confirm &amp; Submit</button>
       <button class="ghost" onclick="closeSubmitReview()">Go Back &amp; Review</button>
+    </div>
+  </div>
+</div>
+<div id="proofUploadModal" class="lbmodal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="proofUploadTitle" onclick="if(event.target===this)closeProofUploadPrompt()">
+  <div class="lbmodal-box">
+    <h3 id="proofUploadTitle">Activities submitted successfully!</h3>
+    <div class="submit-review"><strong>Upload your proof of activities here</strong>Send your screenshots, photos, or other proof to the Team Andeng Telegram loop.</div>
+    <div class="actions">
+      <a class="btn proof-upload-link" id="proofUploadTelegramLink" href="https://t.me/c/1578615450/17778" target="_blank" rel="noopener noreferrer" onclick="closeProofUploadPrompt()">Open Telegram &amp; Upload Proof</a>
+      <button class="ghost" onclick="closeProofUploadPrompt()">I’ll Do This Later</button>
     </div>
   </div>
 </div>
