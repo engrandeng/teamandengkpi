@@ -210,6 +210,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 .agent-add-action{display:flex;align-items:flex-end}.agent-add-action .btn{margin-top:0}
 .scorecard-download-action{display:flex;align-items:flex-end}.scorecard-download-action .btn2{margin-top:0}
 .lb-controls{gap:12px}
+.lb-controls .incentive-screenshot-btn{margin-left:auto;padding:0}
 .rank-row{border-radius:12px;border-color:#dce3eb;box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease}
 .rank-row:hover{transform:translateX(2px);box-shadow:0 8px 20px rgba(23,50,78,.09)}
 .rank-num{font-size:14px}
@@ -528,6 +529,7 @@ td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
         <span class="quick-range-label">Quick view:</span>
         <button class="ghost range-shortcut" onclick="setIncentiveRange('today')">Today</button>
         <button class="ghost range-shortcut" onclick="setIncentiveRange('week')">This Week</button>
+        <button class="camera-btn incentive-screenshot-btn" onclick="downloadScreenshot('incentives')" title="Download the Incentives view as an image" aria-label="Download the Incentives view as an image">📷</button>
       </div>
       <div class="notice" style="margin-top:12px">Rewards shown below are estimates for the selected period. The reward amounts are weekly payouts; use Today as a pace preview. Final rewards remain subject to activity validation and admin approval.</div>
       <div class="notice" style="margin-top:10px"><b>No Zero Day:</b> A reward is voided when any day in the selected period has zero points. Agents must record Agent KPI points daily. Subteam Leaders must record points from either their Agent KPI or Leader KPI daily.</div>
@@ -1566,6 +1568,7 @@ async function downloadScreenshot(kind){
     let a=document.createElement('a'),fileName='TEAM_ANDENG_DASHBOARD.png';
     if(kind==='agent')fileName=agentHubView==='scorecard'?'TEAM_ANDENG_AGENT_SCORECARD.png':'TEAM_ANDENG_AGENT_LEADERBOARD.png';
     if(kind==='subteam')fileName=coreHubView==='scorecard'?'TEAM_ANDENG_LEADER_SCORECARD.png':coreHubView==='subteam'?'TEAM_ANDENG_SUBTEAM_SCORECARD.png':'TEAM_ANDENG_SUBTEAM_LEADERBOARD.png';
+    if(kind==='incentives')fileName='TEAM_ANDENG_INCENTIVES.png';
     a.download=fileName;
     a.href=canvas.toDataURL('image/png',1);
     document.body.appendChild(a);a.click();a.remove();
