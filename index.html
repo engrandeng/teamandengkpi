@@ -1413,10 +1413,11 @@ async function submitAgentForm(confirmed){
       let out=await cloudPost({action:'add',records:rows});
       if(!out.ok)throw new Error(out.error||'save failed');
       activities.forEach((a,i)=>{let el=document.getElementById('afCount_'+i);if(el)el.value=''});
-      await cloudLoad(true);
-      updateFormTotals();
       showToast('✓ Activities saved!');
       showProofUploadPrompt();
+      await new Promise(function(resolve){requestAnimationFrame(resolve)});
+      await cloudLoad(true);
+      updateFormTotals();
     }catch(e){showToast('⚠ The activity could not be saved. Please try again.')}
     if(btn)btn.disabled=false;
     return;
@@ -1478,6 +1479,9 @@ function viewDashboard(){
   let u=new URL(location.href);u.searchParams.delete('view');
   history.replaceState(null,'',u.toString());
   renderAll();
+  let dashboardButton=document.querySelector('.nav button[data-page="dashboard"]');
+  if(dashboardButton)dashboardButton.click();
+  window.scrollTo({top:0,left:0,behavior:'auto'});
 }
 
 /* ===== GOOGLE SHEETS SYNC ===== */
