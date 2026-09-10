@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Andeng Agent Development Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A4A; --paper:#F7F4EC; --paper-2:#EFE9DA;
+    --gold:#C9962E; --gold-deep:#96701F; --line:#D8CFB8;
+    --green:#3F6B4F; --amber:#B8752B; --clay:#A6432E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:36px 22px 90px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 8px;text-align:center;}
+  h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(28px,5vw,40px);margin:0 0 10px;letter-spacing:-0.01em;text-align:center;}
+  .subhead{text-align:center;color:#4a4433;font-size:15px;max-width:560px;margin:0 auto 30px;line-height:1.6;}
+
+  .progress-track{height:4px;background:var(--paper-2);border-radius:2px;margin-bottom:8px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--ink);width:0%;transition:width .25s;}
+  .progress-count{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a7f68;text-align:right;margin-bottom:24px;}
+
+  .qcard{display:none;}
+  .qcard.active{display:block;animation:fadein .2s;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .qtag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 6px;}
+  .qtext{font-family:'Fraunces',serif;font-weight:600;font-size:21px;line-height:1.35;margin:0 0 20px;}
+
+  .option{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:2px;padding:14px 15px;margin-bottom:9px;cursor:pointer;transition:border-color .15s, background .15s;}
+  .option:hover{border-color:var(--gold-deep);}
+  .option.selected{border-color:var(--ink);background:var(--paper-2);}
+  .option .letter{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;color:var(--gold-deep);border:1px solid var(--line);border-radius:50%;width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .option.selected .letter{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .option .otext{font-size:14px;line-height:1.5;padding-top:2px;}
+
+  .nav{display:flex;justify-content:space-between;margin-top:22px;}
+  .nav button{padding:11px 20px;border:1px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;border-radius:2px;cursor:pointer;}
+  .nav button.primary{background:var(--ink);color:var(--paper);}
+  .nav button:disabled{opacity:.35;cursor:not-allowed;}
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#6b6252;margin-bottom:5px;}
+  .field input{width:100%;font-family:'IBM Plex Sans',sans-serif;font-size:15px;border:1px solid var(--line);background:#fff;padding:10px 12px;border-radius:2px;color:var(--ink);}
+  .field input:focus{outline:none;border-color:var(--gold-deep);}
+  .field-row{display:flex;gap:14px;}
+  .field-row .field{flex:1;}
+  .honesty-box{background:#fff;border:1px solid var(--line);border-left:4px solid var(--clay);border-radius:2px;padding:18px 20px;margin:0 0 26px;}
+  .honesty-title{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--clay);margin:0 0 8px;display:flex;align-items:center;gap:8px;}
+  .honesty-title::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--clay);}
+  .honesty-box p:not(.honesty-title){font-size:14px;line-height:1.6;color:#4a4433;margin:0;}
+  .honesty-box strong{color:var(--ink);}
+  .start-btn,.restart-btn{display:block;width:100%;padding:15px;margin-top:6px;border:none;background:var(--ink);color:var(--paper);font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:14px;border-radius:2px;cursor:pointer;}
+
+  /* Results */
+  .result-card{background:var(--ink);color:var(--paper);border-radius:2px;padding:30px 26px;text-align:center;margin-bottom:22px;}
+  .result-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#C9B98A;margin:0 0 6px;}
+  .result-num{font-family:'Fraunces',serif;font-size:64px;font-weight:700;line-height:1;margin:0;}
+  .result-num sup{font-size:24px;font-weight:400;}
+  .result-tier{font-size:17px;font-weight:600;margin-top:12px;}
+  .result-desc{font-size:13px;color:#D8CFB8;margin-top:8px;line-height:1.6;max-width:440px;margin-left:auto;margin-right:auto;}
+
+  .section-title{font-family:'Fraunces',serif;font-weight:600;font-size:20px;margin:32px 0 4px;}
+  .section-sub{font-size:13px;color:#6b6252;margin:0 0 16px;line-height:1.5;}
+
+  .profile{background:#fff;border:1px solid var(--line);border-radius:2px;padding:20px;margin-bottom:8px;}
+  .b-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13.5px;}
+  .b-name{flex:0 0 190px;font-weight:500;}
+  .b-bar-track{flex:1;height:9px;background:var(--paper-2);border-radius:5px;overflow:hidden;}
+  .b-bar-fill{height:100%;border-radius:5px;}
+  .b-val{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8a7f68;width:70px;text-align:right;}
+  .pill{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:2px;color:#fff;}
+
+  /* Training plan */
+  .train-block{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold-deep);border-radius:2px;padding:20px 22px;margin-bottom:14px;}
+  .train-block.priority{border-left-color:var(--clay);}
+  .train-block.developing{border-left-color:var(--amber);}
+  .train-block.strength{border-left-color:var(--green);}
+  .train-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap;}
+  .train-name{font-family:'Fraunces',serif;font-weight:600;font-size:17px;margin:0;}
+  .train-status{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:2px;color:#fff;white-space:nowrap;}
+  .st-priority{background:var(--clay);}
+  .st-developing{background:var(--amber);}
+  .st-strength{background:var(--green);}
+  .train-diag{font-size:13px;color:#4a4433;margin:6px 0 12px;line-height:1.55;}
+  .train-list{margin:0;padding-left:0;list-style:none;}
+  .train-list li{font-size:13.5px;line-height:1.5;padding:7px 0 7px 22px;position:relative;border-top:1px solid var(--paper-2);}
+  .train-list li:first-child{border-top:none;}
+  .train-list li::before{content:"→";position:absolute;left:0;color:var(--gold-deep);font-weight:600;}
+  .train-timeframe{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a7f68;margin-top:10px;}
+
+  .focus-banner{background:var(--paper-2);border:1px solid var(--line);border-radius:2px;padding:16px 20px;margin-bottom:20px;font-size:14px;line-height:1.6;}
+  .focus-banner strong{color:var(--ink);}
+
+  .btn-row{margin-top:24px;}
+  footer{margin-top:32px;font-size:11.5px;color:#8a7f68;line-height:1.6;text-align:center;}
+  @media print{ .nav,.btn-row{display:none;} .train-block{break-inside:avoid;} }
+  @media (max-width:520px){ .b-name{flex-basis:130px;} .field-row{flex-direction:column;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- INTAKE -->
+  <div class="panel active" id="panel-intake">
+    <p class="eyebrow">Made by Andrea Janela Soliven, ECE, CIA</p>
+    <h1>Team Andeng Agent Development Assessment</h1>
+    <p class="subhead">A quick check for active advisors — see where you're strong and where you need to grow. At the end, you'll get a simple to-do list made just for you.</p>
+    <div class="honesty-box">
+      <p class="honesty-title">Read this before you start</p>
+      <p>Answer as <strong>honest as you can</strong> — this is the whole game. Nobody sees your answers but you. There's no passing, no failing, and no judging here. If you answer the way you <strong>wish</strong> you worked, you'll get a to-do list that fixes the wrong problems. The real you is the one who gets better — so be real, and let's grow.</p>
+    </div>
+    <div class="field"><label>Your name</label><input id="agName" placeholder="Full name"></div>
+    <div class="field-row">
+      <div class="field"><label>Months in the business</label><input id="agTenure" placeholder="e.g. 14"></div>
+      <div class="field"><label>Current unit / branch</label><input id="agUnit" placeholder="e.g. Global One"></div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Start My Assessment</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="panel" id="panel-quiz">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-count" id="progressCount">Question 1 of 27</div>
+    <div id="questionsMount"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="panel" id="panel-results">
+    <p class="eyebrow">Your Result</p>
+    <h1 id="resultName">Development Profile</h1>
+
+    <div class="result-card">
+      <p class="result-label">Overall Readiness</p>
+      <p class="result-num" id="scoreNum">0<sup>/100</sup></p>
+      <div class="result-tier" id="tierName"></div>
+      <div class="result-desc" id="tierDesc"></div>
+    </div>
+
+    <div class="focus-banner" id="focusBanner"></div>
+
+    <div class="section-title">Where You Stand</div>
+    <p class="section-sub">Green = you're strong here · Amber = getting there · Red = work on this first.</p>
+    <div class="profile" id="profileMount"></div>
+
+    <div class="section-title">Your To-Do List</div>
+    <p class="section-sub">Start at the top. These are the things holding your sales back the most — fix these first.</p>
+    <div id="trainMount"></div>
+
+    <div class="btn-row">
+      <button class="restart-btn" onclick="restartQuiz()" style="background:transparent;border:1px solid var(--ink);color:var(--ink);">Retake</button>
+      <button class="restart-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <footer><strong>MADE BY ANDREA JANELA SOLIVEN, ECE, CIA</strong><br><br>A Team Andeng development tool created by Andrea Janela Soliven, ECE, CIA. This self-guided assessment is designed to help financial advisors identify strengths, development priorities, and practical next steps. Pair the results with a coaching conversation with your unit manager.</footer>
+  </div>
+
+</div>
+
+<script>
+const categories = {
+  prospecting:  {label:"Prospecting & Leads",        weight:14},
+  branding:     {label:"Social Media & Branding",    weight:10},
+  factfind:     {label:"Fact-Finding & Needs Analysis",weight:11},
+  product:      {label:"Product Knowledge",           weight:11},
+  closing:      {label:"Presentation & Closing",      weight:14},
+  servicing:    {label:"Client Servicing & Retention",weight:12},
+  activity:     {label:"Activity & Discipline",       weight:12},
+  mindset:      {label:"Resilience & Mindset",        weight:8},
+  growth:       {label:"Professional Growth & Goals", weight:8}
+};
+
+const questions = [
+  // PROSPECTING (3)
+  {cat:"prospecting", text:"Right now, how many people do you have to talk to about insurance?", options:[
+    "Almost none — I look for someone new to meet every week",
+    "Very few — I run out of names fast",
+    "Enough for now, but I worry about next month",
+    "Enough to keep me busy for a month or two",
+    "A lot — I have more people than I can even meet"]},
+  {cat:"prospecting", text:"Where do most of your new people to talk to come from?", options:[
+    "I've run out and don't know where to find more",
+    "The same small list of family and friends I started with",
+    "A mix of people I know plus a few referrals",
+    "A steady flow of referrals plus some new sources",
+    "Many sources — referrals, Facebook, and people who send me clients"]},
+  {cat:"prospecting", text:"How often do you ask your clients to refer other people to you?", options:[
+    "Almost never — it feels awkward",
+    "Only when I remember or feel brave enough",
+    "Sometimes, but not in a set way",
+    "In most of my client meetings",
+    "Every time — and I have a way of asking that works"]},
+
+  // SOCIAL MEDIA & BRANDING (3)
+  {cat:"branding", text:"On social media, how clear is it that you're an insurance agent people can trust?", options:[
+    "I don't post about my work — most people don't even know I'm an agent",
+    "I post rarely, and my profile looks messy or unclear",
+    "People can tell I'm an agent, but my page is a random mix",
+    "My profile looks clean and professional, and I post about my work",
+    "I have a strong, clear personal brand people recognize and trust"]},
+  {cat:"branding", text:"How often do you post helpful content (tips, client stories, why insurance matters)?", options:[
+    "Never",
+    "Very rarely",
+    "Once in a while, no real plan",
+    "Regularly, about once a week",
+    "Often, and I plan my posts ahead of time"]},
+  {cat:"branding", text:"Do people message you or ask about insurance because of what you post online?", options:[
+    "Never — my posts don't bring in anyone",
+    "Almost never",
+    "Once in a while, someone asks",
+    "Fairly often, I get questions or leads",
+    "Regularly — my page brings me real inquiries and clients"]},
+
+  // FACT-FINDING (3)
+  {cat:"factfind", text:"When you meet someone new, how do you start?", options:[
+    "I go straight to the product I want to sell",
+    "I ask a few questions, then show a product",
+    "I ask about their situation most of the time",
+    "I always ask about their needs before I suggest anything",
+    "I ask a lot of questions first, and the client feels I really get them"]},
+  {cat:"factfind", text:"How good are you at getting clients to open up about their money and goals?", options:[
+    "It's hard to get people to share with me",
+    "I get short answers, not the full story",
+    "I usually get enough to work with",
+    "I'm good at getting them to share their real needs",
+    "Clients often tell me things they've never told anyone else"]},
+  {cat:"factfind", text:"How well do you match the right product to what a client actually needs?", options:[
+    "I mostly just sell the one or two products I know",
+    "I stick to what's familiar, even when something else fits better",
+    "I match okay, as long as it's a product I'm used to",
+    "I match the right product to most clients",
+    "I can pick the right fit from any of our products with ease"]},
+
+  // PRODUCT KNOWLEDGE (3)
+  {cat:"product", text:"How well do you know all the products you can sell (VUL, traditional, health, riders)?", options:[
+    "I really only know one or two",
+    "I know the basics of a few",
+    "I know the common ones well, but not the rest",
+    "I know most of them well",
+    "I know all of them very well, even the small details"]},
+  {cat:"product", text:"If a client asked a hard question (like charges, switching funds, or cash value), how would you do?", options:[
+    "I'd get stuck and lose confidence",
+    "I'd have to check almost everything and get back to them",
+    "I could answer the easy ones, but not the hard ones",
+    "I could answer most of them right away",
+    "I could explain any of it clearly and simply"]},
+  {cat:"product", text:"How well do you keep up with new products and changes?", options:[
+    "I rarely keep up",
+    "I find out about changes late",
+    "I keep up with the big ones",
+    "I keep up with most updates",
+    "I'm always updated and can even compare us to other companies"]},
+
+  // CLOSING (3)
+  {cat:"closing", text:"How would you describe the way you present and close a sale?", options:[
+    "I get nervous and often don't even ask for the sale",
+    "I present okay, but I have a hard time closing",
+    "I close only when the client is already sure",
+    "I present well and close most of the time",
+    "I present with confidence and close easily, even tough clients"]},
+  {cat:"closing", text:"When a client makes an excuse ('too expensive', 'let me think about it'), what happens?", options:[
+    "I usually back off and lose the sale",
+    "I try, but often can't turn it around",
+    "I handle the common ones, but not new ones",
+    "I handle most excuses smoothly",
+    "I'm ready for them — I have a good answer for each one"]},
+  {cat:"closing", text:"Out of the people you meet, how many end up buying?", options:[
+    "Very few, and I can't predict it",
+    "Not many — most don't buy",
+    "About half, but it changes a lot month to month",
+    "A good number, and it's fairly steady",
+    "A lot — and I know my numbers well"]},
+
+  // SERVICING (3)
+  {cat:"servicing", text:"After the sale is done, how do you take care of your clients?", options:[
+    "I rarely follow up once the policy is out",
+    "I only reach out when there's a problem",
+    "I check in once in a while",
+    "I keep in touch regularly",
+    "I do yearly reviews and check on them the whole year"]},
+  {cat:"servicing", text:"How many of your clients keep their policies (instead of cancelling)?", options:[
+    "I've lost a few and I'm not sure why",
+    "Keeping clients is a weak spot for me",
+    "It's okay, but could be better",
+    "Good — most of my clients stay",
+    "Very good — almost no one cancels"]},
+  {cat:"servicing", text:"How often do you meet clients again to review their policy or offer more coverage?", options:[
+    "Almost never",
+    "Rarely, only if they call me",
+    "Sometimes, with no real schedule",
+    "Regularly, with most clients",
+    "Every client, every year, and I keep track of it"]},
+
+  // ACTIVITY (3)
+  {cat:"activity", text:"How do you plan your work days and weeks?", options:[
+    "No real plan — I just react to what comes",
+    "I have a loose plan that often falls apart",
+    "I have a rough plan I mostly follow",
+    "I plan my week with clear targets",
+    "I plan tightly and track my calls, meetings, and sales daily"]},
+  {cat:"activity", text:"Do you keep track of your own numbers (calls, meetings, sales)?", options:[
+    "I don't track anything",
+    "I only look at my final sales",
+    "I track a few things, but not closely",
+    "I track most of my important numbers",
+    "I track everything and review it every week"]},
+  {cat:"activity", text:"How steady is your work from week to week?", options:[
+    "Very up and down — I go quiet for a while sometimes",
+    "It depends on my mood or the pressure I feel",
+    "Mostly steady, with some slow weeks",
+    "Steady most weeks",
+    "Very steady — I hit my minimum every week no matter what"]},
+
+  // MINDSET (3)
+  {cat:"mindset", text:"How do you handle a lot of rejection or a bad sales week?", options:[
+    "It knocks me down and I slow way down",
+    "It bothers me for days",
+    "I recover in a day or two",
+    "I bounce back fast and keep going",
+    "It barely affects me — I know it's part of the job"]},
+  {cat:"mindset", text:"What keeps you going during the tough months?", options:[
+    "Honestly, not much — I think about quitting",
+    "Mostly the need for money",
+    "A general wish to succeed",
+    "Clear goals I remind myself of",
+    "A strong personal reason that pushes me through anything"]},
+  {cat:"mindset", text:"How is your confidence and drive right now?", options:[
+    "Low — I'm struggling",
+    "Shaky — up and down",
+    "Okay — steady but not fired up",
+    "Strong — motivated most days",
+    "Very high — I feel energized and driven"]},
+
+  // GROWTH (3)
+  {cat:"growth", text:"How clear are your goals for your career (like sales targets, MDRT, or leading a team)?", options:[
+    "I don't have clear goals",
+    "I have vague goals, but no plan",
+    "I have general goals and a rough idea how to get there",
+    "I have clear goals and I'm working on them",
+    "I have clear goals with a step-by-step plan I follow"]},
+  {cat:"growth", text:"How much do you work on getting better (training, reading, learning from others)?", options:[
+    "Rarely — I just do the job",
+    "Only the training I'm required to attend",
+    "Once in a while",
+    "Regularly",
+    "All the time — I look for mentors, courses, and feedback"]},
+  {cat:"growth", text:"Are you working toward any award, title, or bigger role?", options:[
+    "No, and I'm not thinking about it",
+    "I've thought about it but haven't done anything yet",
+    "I'm loosely aiming for something",
+    "I'm actively working toward a clear goal",
+    "I'm on a clear path with steps and a timeline"]}
+];
+
+// Training prescriptions per competency
+const training = {
+  prospecting: {
+    diag: "You don't have enough people to talk to. That's what's slowing you down right now — not your selling.",
+    actions: [
+      "Write down everyone you know — family, friends, churchmates, old classmates, past officemates. Don't stop early.",
+      "Practice asking for referrals until it feels normal. In every client meeting ask: \"Who else do you know who might need this?\"",
+      "Pick one new way to find people this month — post on your Facebook page, or ask 2–3 well-connected people to introduce you.",
+      "Add new names to your list every single week. Count them."
+    ],
+    time: "Work on this first — next 1 to 2 months",
+    strength: "You're never short on people to talk to — that's a big win. Help newer agents learn how you do it."
+  },
+  branding: {
+    diag: "These days, people check you online before they trust you. If your social media doesn't show a clear, professional agent, you lose them before you even talk.",
+    actions: [
+      "Fix up your profile — a clear photo, a simple line about what you do, and how to reach you.",
+      "Post about your work at least once a week — a client win (with their okay), a simple tip, or why insurance matters.",
+      "Don't only sell. Mix in helpful advice and a bit of your real life so people trust you.",
+      "Reply fast when someone likes or comments. That's often where new clients come from."
+    ],
+    time: "Start this week — it works for you even while you sleep",
+    strength: "Your online presence already builds trust and brings in people. That's a real edge — keep posting, and help others copy what works."
+  },
+  factfind: {
+    diag: "You might be selling too fast, before you really know what the client needs. That means smaller sales and missed chances.",
+    actions: [
+      "Ask questions first, before showing any product. Get to know their family, income, worries, and goals.",
+      "Use a needs-analysis form on every client. Don't skip it.",
+      "Before you suggest anything, say back to the client what they need in one sentence. It builds trust."
+    ],
+    time: "Work on this in the next month",
+    strength: "You really listen to clients — that's how you land bigger cases. Keep doing it and teach it to others."
+  },
+  product: {
+    diag: "There are products you don't know well, so you keep selling the same one or two — and hard questions catch you off guard.",
+    actions: [
+      "Study one product a week — VUL (PRULink), traditional, health, and riders — until you know them all.",
+      "Make your own list of hard questions clients ask (charges, fund switching, cash values) and write simple answers.",
+      "Sit in on a senior agent's meeting when they sell a product you're weak on.",
+      "Read every new product update as it comes out."
+    ],
+    time: "Keep going — know the full line in about 2 months",
+    strength: "You know your products inside out. Use it to win clients who ask hard questions, and to help your teammates."
+  },
+  closing: {
+    diag: "Sales are often won or lost in the last few minutes. Getting better here puts money in your pocket faster than anything else.",
+    actions: [
+      "Practice your sales talk until you can do it smoothly without notes.",
+      "Write down the 5 excuses you hear most (\"too expensive,\" \"I'll think about it\") and your best answer to each. Say them out loud until they're natural.",
+      "Learn to actually ask for the sale — every time. Don't wait for the client to decide on their own.",
+      "Ask your manager to watch you present and give feedback."
+    ],
+    time: "Work on this now — biggest impact on your income",
+    strength: "You close well — that's your engine. Just keep your list of prospects full so you get enough chances to use it."
+  },
+  servicing: {
+    diag: "Not following up after the sale leads to cancelled policies and missed chances to sell more. This is where your long-term income comes from.",
+    actions: [
+      "Set a yearly review for every client — put it in your calendar so you don't forget.",
+      "Greet clients on their birthday and policy anniversary. A simple message goes a long way.",
+      "Check which policies are close to lapsing and reach out before they cancel.",
+      "Every time you review a client, look for a chance to add coverage or ask for a referral."
+    ],
+    time: "Set this up now — it pays off all year",
+    strength: "Your clients stick around and refer others — that's gold. Keep the routine tight."
+  },
+  activity: {
+    diag: "In this business, being steady beats being busy in bursts. Working on-and-off is the top reason good agents fall behind.",
+    actions: [
+      "Track your daily numbers — calls made, appointments set, sales closed. Even a notebook works.",
+      "Plan your week ahead. Block time for prospecting, meetings, and paperwork.",
+      "Set a minimum number of activities to hit every week — and hit it even on slow weeks.",
+      "Know your numbers: how many calls it takes to get one sale."
+    ],
+    time: "Start now — this makes everything else work better",
+    strength: "You're consistent, and that beats raw talent. Keep protecting your routine."
+  },
+  mindset: {
+    diag: "This job comes with a lot of \"no.\" Staying strong through it is what keeps you around long enough to win.",
+    actions: [
+      "See a \"no\" as part of the numbers, not a personal insult. Count your \"no\"s to \"yes\"es so every \"no\" feels like progress.",
+      "Write down your real reason for doing this — your \"why\" — and keep it where you see it every day.",
+      "Find a buddy or group to keep you going during slow weeks.",
+      "Watch how top agents handle bad days — they treat it as normal."
+    ],
+    time: "Keep working on this — it holds everything else up",
+    strength: "You bounce back fast. That will keep you in the game longer than most — lean on it."
+  },
+  growth: {
+    diag: "Without clear goals, it's easy to get stuck. A clear direction turns this into a real career, not just a job.",
+    actions: [
+      "Set one clear goal (MDRT, a sales target, or building your own team) and write down when you want to hit it.",
+      "Set aside regular time to learn — training, reading, asking questions.",
+      "Find someone who's already where you want to be and meet with them often.",
+      "Pick one award or goal to chase this year and go for it."
+    ],
+    time: "Set your direction now — check on it every few months",
+    strength: "You've got drive and direction — that's what separates the winners. Keep aiming higher."
+  }
+};
+
+let current = 0;
+const answers = new Array(questions.length).fill(0);
+
+function startQuiz(){
+  document.getElementById('panel-intake').classList.remove('active');
+  document.getElementById('panel-quiz').classList.add('active');
+  renderQuestions();
+  showQuestion(0);
+}
+
+function renderQuestions(){
+  const mount = document.getElementById('questionsMount');
+  mount.innerHTML = questions.map((q, qi) => `
+    <div class="qcard" id="qcard-${qi}">
+      <p class="qtag">${categories[q.cat].label}</p>
+      <p class="qtext">${q.text}</p>
+      <div>
+        ${q.options.map((opt, oi) => `
+          <div class="option" data-qi="${qi}" data-val="${oi+1}" onclick="selectOption(${qi}, ${oi+1})">
+            <div class="letter">${String.fromCharCode(65+oi)}</div>
+            <div class="otext">${opt}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="nav">
+        <button ${qi===0?'disabled':''} onclick="showQuestion(${qi-1})">Back</button>
+        <button class="primary" id="next-${qi}" disabled onclick="goNext(${qi})">${qi === questions.length-1 ? 'See My Plan' : 'Next'}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showQuestion(idx){
+  current = idx;
+  document.querySelectorAll('.qcard').forEach(c => c.classList.remove('active'));
+  document.getElementById(`qcard-${idx}`).classList.add('active');
+  document.getElementById('progressFill').style.width = `${(idx/questions.length)*100}%`;
+  document.getElementById('progressCount').textContent = `Question ${idx+1} of ${questions.length}`;
+}
+
+function selectOption(qi, val){
+  answers[qi] = val;
+  document.querySelectorAll(`.option[data-qi="${qi}"]`).forEach(el => {
+    el.classList.toggle('selected', parseInt(el.dataset.val) === val);
+  });
+  document.getElementById(`next-${qi}`).disabled = false;
+}
+
+function goNext(qi){
+  if(qi === questions.length - 1){ showResults(); }
+  else { showQuestion(qi+1); }
+}
+
+function bandOf(avg){
+  if(avg < 2.5) return "priority";
+  if(avg < 3.7) return "developing";
+  return "strength";
+}
+const bandColor = {priority:"var(--clay)", developing:"var(--amber)", strength:"var(--green)"};
+const bandLabel = {priority:"Priority", developing:"Developing", strength:"Strength"};
+
+function showResults(){
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('panel-quiz').classList.remove('active');
+  document.getElementById('panel-results').classList.add('active');
+
+  const name = document.getElementById('agName').value.trim();
+  document.getElementById('resultName').textContent = name ? `${name}'s Development Profile` : "Development Profile";
+
+  // Aggregate
+  const catAvg = {};
+  Object.keys(categories).forEach(k => {
+    let sum=0,count=0;
+    questions.forEach((q,qi)=>{ if(q.cat===k){ sum+=answers[qi]; count++; }});
+    catAvg[k] = sum/count;
+  });
+
+  let overall = 0;
+  Object.keys(categories).forEach(k => { overall += (catAvg[k]/5)*categories[k].weight; });
+  const pct = Math.round(overall);
+  document.getElementById('scoreNum').innerHTML = `${pct}<sup>/100</sup>`;
+
+  let tier;
+  if(pct >= 85) tier = {name:"You're Doing Great", desc:"You're working at a high level. Now it's about small tune-ups and helping others grow too."};
+  else if(pct >= 68) tier = {name:"Strong — Keep Pushing", desc:"You're solid and capable. A little focused work will take you from good to great."};
+  else if(pct >= 50) tier = {name:"Getting There — Build the Basics", desc:"You've got the foundation. Working on your top areas below will lift your sales fast."};
+  else tier = {name:"Time to Build Up", desc:"A few key skills need work. Don't try to fix everything at once — start with the top one or two below."};
+  document.getElementById('tierName').textContent = tier.name;
+  document.getElementById('tierDesc').textContent = tier.desc;
+
+  // Sorted competencies (weakest first)
+  const sorted = Object.keys(categories).sort((a,b)=> catAvg[a]-catAvg[b]);
+
+  // Focus banner
+  const priorities = sorted.filter(k => bandOf(catAvg[k])==="priority");
+  const developing = sorted.filter(k => bandOf(catAvg[k])==="developing");
+  const banner = document.getElementById('focusBanner');
+  let focusList;
+  if(priorities.length){ focusList = priorities.slice(0,2).map(k=>categories[k].label).join(" and "); }
+  else if(developing.length){ focusList = developing.slice(0,2).map(k=>categories[k].label).join(" and "); }
+  else { focusList = null; }
+  banner.innerHTML = focusList
+    ? `<strong>Start here:</strong> your biggest chance to grow right now is <strong>${focusList}</strong>. Work on this first before spreading yourself thin. Doing one thing well beats touching three things lightly.`
+    : `<strong>You're well rounded.</strong> No big gaps here. Your next step is to sharpen your strengths and go after a bigger goal (see Professional Growth below).`;
+
+  // Profile bars (weakest first)
+  const profile = document.getElementById('profileMount');
+  profile.innerHTML = sorted.map(k => {
+    const avg = catAvg[k];
+    const band = bandOf(avg);
+    const widthPct = (avg/5)*100;
+    return `
+      <div class="b-row">
+        <div class="b-name">${categories[k].label}</div>
+        <div class="b-bar-track"><div class="b-bar-fill" style="width:${widthPct}%;background:${bandColor[band]}"></div></div>
+        <div class="b-val"><span class="pill" style="background:${bandColor[band]}">${bandLabel[band]}</span></div>
+      </div>`;
+  }).join('');
+
+  // Training plan (weakest first; priority + developing get full plan, strengths get a short note)
+  const trainMount = document.getElementById('trainMount');
+  trainMount.innerHTML = sorted.map(k => {
+    const band = bandOf(catAvg[k]);
+    const t = training[k];
+    if(band === "strength"){
+      return `
+        <div class="train-block strength">
+          <div class="train-head">
+            <p class="train-name">${categories[k].label}</p>
+            <span class="train-status st-strength">Strength — Leverage</span>
+          </div>
+          <p class="train-diag">${t.strength}</p>
+        </div>`;
+    }
+    const statusClass = band === "priority" ? "st-priority" : "st-developing";
+    const statusText = band === "priority" ? "Priority — Fix First" : "Developing";
+    return `
+      <div class="train-block ${band}">
+        <div class="train-head">
+          <p class="train-name">${categories[k].label}</p>
+          <span class="train-status ${statusClass}">${statusText}</span>
+        </div>
+        <p class="train-diag">${t.diag}</p>
+        <ul class="train-list">${t.actions.map(a=>`<li>${a}</li>`).join('')}</ul>
+        <p class="train-timeframe">${t.time}</p>
+      </div>`;
+  }).join('');
+}
+
+function restartQuiz(){
+  answers.fill(0);
+  ['agName','agTenure','agUnit'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('panel-results').classList.remove('active');
+  document.getElementById('panel-intake').classList.add('active');
+  document.getElementById('progressFill').style.width = '0%';
+}
+</script>
+</body>
+</html>
+
