@@ -558,7 +558,7 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
         <button class="ghost range-shortcut" onclick="setIncentiveRange('week')">This Week</button>
         <button class="camera-btn incentive-screenshot-btn" onclick="downloadScreenshot('incentives')" title="Download the Incentives view as an image" aria-label="Download the Incentives view as an image">📷</button>
       </div>
-      <div class="notice" style="margin-top:12px">Rewards shown below are estimates for the selected period. The reward amounts are weekly payouts; use Today as a pace preview. Final rewards remain subject to activity validation and admin approval.</div>
+      <div class="notice" style="margin-top:12px">Rewards shown below are estimates for the selected period. Each challenge runs for seven days from the selected starting date. Eligibility remains Not yet while the challenge is in progress; after Day 7, an unmet KPI is marked Reward voided. Final rewards remain subject to activity validation and admin approval.</div>
       <div class="notice" style="margin-top:10px"><b>No Zero Day:</b> A reward is voided when any day in the selected period has zero points. Agents must record Agent KPI points daily. Subteam Leaders must record points from either their Agent KPI or Leader KPI daily.</div>
     </div>
     <div class="grid2">
@@ -604,16 +604,16 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
       <div id="calendarUploadStatus" class="calendar-upload-status">Current calendar: September 2026</div>
     </div>
     <div class="card">
-      <div class="calendar-weekly-heading"><h3 class="calendar-section-title">Weekly Calendar: September 6-12, 2026</h3><button id="weeklyEditToggle" class="ghost calendar-edit-toggle" onclick="toggleWeeklyCalendarEdit()" aria-pressed="false">🔒 Edit</button></div>
+      <div class="calendar-weekly-heading"><h3 id="weeklyCalendarTitle" class="calendar-section-title">Weekly Calendar</h3><button id="weeklyEditToggle" class="ghost calendar-edit-toggle" onclick="toggleWeeklyCalendarEdit()" aria-pressed="false">🔒 Edit</button></div>
       <p class="calendar-section-intro">Sunday through Saturday activity and schedule guide transcribed from the monthly calendar.</p>
       <div id="weeklyCalendarEditor" class="weekly-text-grid">
         <article class="weekly-day" contenteditable="false"><h4>Sunday, September 6</h4><div class="no-event">No scheduled activity listed.</div></article>
         <article class="weekly-day" contenteditable="false"><h4>Monday, September 7</h4><ul><li><b>Monday Branch Meeting</b> - 10:00 AM-12:00 NN</li><li><b>Consistency Hour: Full-Timers</b> - 1:00-3:30 PM</li><li><b>Consistency Hour: Part-Timers</b> - 7:00-9:30 PM</li></ul></article>
-        <article class="weekly-day" contenteditable="false"><h4>Tuesday, September 8</h4><ul><li><b>Day Huddle Virtual (A&amp;D Training)</b> - 9:00 AM-12:00 NN</li><li><b>BYB</b> - 6:30-7:00 PM</li></ul></article>
-        <article class="weekly-day" contenteditable="false"><h4>Wednesday, September 9</h4><ul><li><b>Networking Fieldwork Day</b> - all full-timers and unit managers</li><li><b>Business Mastery: How to Do Social Media Recruitment</b> - afternoon session</li></ul></article>
-        <article class="weekly-day" contenteditable="false"><h4>Thursday, September 10</h4><ul><li><b>BYB</b> - 6:00-7:00 PM</li></ul></article>
-        <article class="weekly-day" contenteditable="false"><h4>Friday, September 11</h4><ul><li><b>Fine-Tuning Friday: Disability and Hospitalization</b> - 7:30-9:30 PM</li></ul></article>
-        <article class="weekly-day" contenteditable="false"><h4>Saturday, September 12</h4><ul><li><b>Unit Meeting</b> - 10:00 AM-12:00 NN</li><li><b>VTM Rookie Training 1: Mindset</b> - 1:00-2:00 PM</li><li><b>Meet the Manager</b> - 1:30-4:30 PM</li><li><b>BYB</b> - 6:30-7:00 PM</li></ul></article>
+        <article class="weekly-day" contenteditable="false"><h4>Tuesday, September 8</h4><ul><li><b>Day Huddle Virtual (A&amp;D Training)</b> - 9:00 AM-12:00 NN</li><li><b>BYB</b> - 6:30-7:00 PM (UM Miguel)</li></ul></article>
+        <article class="weekly-day" contenteditable="false"><h4>Wednesday, September 9</h4><ul><li><b>Networking Fieldwork Day</b> - all full-timers and unit managers</li><li><b>Business Mastery: How to Do Social Media Recruitment</b> - 8:00-9:30 PM (UM Andeng)</li></ul></article>
+        <article class="weekly-day" contenteditable="false"><h4>Thursday, September 10</h4><ul><li><b>BYB</b> - 6:00-7:00 PM (UM Bren)</li></ul></article>
+        <article class="weekly-day" contenteditable="false"><h4>Friday, September 11</h4><ul><li><b>Fine-Tuning Friday: Disability and Hospitalization</b> - 7:00-9:00 PM</li></ul></article>
+        <article class="weekly-day" contenteditable="false"><h4>Saturday, September 12</h4><ul><li><b>Unit Meeting</b> - 10:00 AM-12:00 NN</li><li><b>Rookie Training 1: Mindset</b> - 1:00-2:00 PM</li><li><b>Meet the Manager</b> - 2:00-4:00 PM</li><li><b>BYB</b> - 6:00-7:00 PM (UM Chester)</li></ul></article>
       </div>
       <div id="weeklyEditorActions" class="calendar-editor-actions hidden"><button class="ghost" onclick="addWeeklyCalendarDay()">+ Add day or schedule</button><button class="btn2" onclick="saveWeeklyCalendar()">Save weekly calendar</button></div>
     </div>
@@ -626,7 +626,7 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
     <div class="card">
       <h3 class="calendar-section-title">Schedule of a Full-Time Agent or Subteam Leader to earn 200 points daily</h3>
       <p class="calendar-section-intro">Full-day productivity schedule with Agent and Leader KPI activities.</p>
-      <div class="points-guide points-guide-four"><div class="guide-head">Time</div><div class="guide-head">Activity &amp; output</div><div class="guide-head">Points</div><div class="guide-head">Category</div><div class="guide-time">9:00-9:30 AM</div><div><b>Prospect List + Branding</b><br>10 new prospects + 1 branding post across 5 platforms</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">9:30-10:00 AM</div><div><b>Prospect Engagement</b><br>10 meaningful engagements</div><div class="guide-points">10</div><div class="guide-category">Agent</div><div class="guide-time">10:00-10:30 AM</div><div><b>Selling Approaches</b><br>10 approaches and follow-ups</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">10:30-11:00 AM</div><div><b>Admin Tasks</b><br>Anticipated Lapse Report, update tracker, client servicing</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">11:00 AM-12:00 PM</div><div><b>Recruitment Approach</b><br>10 qualified prospects</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">12:00-1:00 PM</div><div><b>Lunch &amp; Personal Break</b></div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">1:00-2:00 PM</div><div><b>Client Presentation #1</b><br>1 completed meeting</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">2:00-4:00 PM</div><div><b>Field Work</b><br>B2B, Flyering, H2H, Boothing</div><div class="guide-points">30</div><div class="guide-category">Agent</div><div class="guide-time">4:00-6:00 PM</div><div><b>Personal Time</b><br>Gym, sports, read books</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">6:00-8:00 PM</div><div><b>JFW/Tabletop with Teammate</b><br>Joint fieldwork, presentation and coaching</div><div class="guide-points">50</div><div class="guide-category">Leader</div><div class="guide-time">8:00-9:00 PM</div><div><b>Dinner/Break Time</b><br>2 teammate catch-up calls · 10 points per call</div><div class="guide-points">20</div><div class="guide-category">Leader</div><div class="guide-time">9:00-9:30 PM</div><div><b>Pipeline Review &amp; Next-Step Planning</b><br>Prepare teammate follow-ups and action plan</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">9:30-10:00 PM</div><div><b>Log Activities &amp; Upload Proof</b><br>Complete daily documentation</div><div class="guide-points">-</div><div class="guide-category">-</div></div>
+      <div class="points-guide points-guide-four"><div class="guide-head">Time</div><div class="guide-head">Activity &amp; output</div><div class="guide-head">Points</div><div class="guide-head">Category</div><div class="guide-time">9:00-9:30 AM</div><div><b>Prospect List + Branding</b><br>10 new prospects + 1 branding post across 5 platforms</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">9:30-10:00 AM</div><div><b>Prospect Engagement</b><br>10 meaningful engagements</div><div class="guide-points">10</div><div class="guide-category">Agent</div><div class="guide-time">10:00-10:30 AM</div><div><b>Selling Approaches</b><br>10 approaches and follow-ups</div><div class="guide-points">20</div><div class="guide-category">Agent</div><div class="guide-time">10:30-11:00 AM</div><div><b>Admin Tasks</b><br>Anticipated Lapse Report, update tracker, client servicing</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">11:00 AM-12:00 PM</div><div><b>Recruitment Approach</b><br>10 qualified prospects</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">12:00-1:00 PM</div><div><b>Lunch &amp; Personal Break</b></div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">1:00-3:00 PM</div><div><b>Field Work</b><br>B2B, Flyering, H2H, Boothing</div><div class="guide-points">30</div><div class="guide-category">Agent</div><div class="guide-time">3:00-5:00 PM</div><div><b>Personal Time</b><br>Gym, sports, read books</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">5:00-7:00 PM</div><div><b>Client Meeting #1</b><br>1 completed client meeting</div><div class="guide-points">50</div><div class="guide-category">Agent</div><div class="guide-time">7:00-8:00 PM</div><div><b>JFW/Tabletop with Teammate</b><br>Joint fieldwork, presentation and coaching</div><div class="guide-points">50</div><div class="guide-category">Leader</div><div class="guide-time">8:00-9:00 PM</div><div><b>Dinner/Break Time</b><br>2 teammate catch-up calls · 10 points per call</div><div class="guide-points">20</div><div class="guide-category">Leader</div><div class="guide-time">9:00-9:30 PM</div><div><b>Pipeline Review</b><br>Prepare proposals for the next day's client meetings</div><div class="guide-points">-</div><div class="guide-category">-</div><div class="guide-time">9:30-10:00 PM</div><div><b>Log Activities &amp; Upload Proof</b><br>Complete daily documentation</div><div class="guide-points">-</div><div class="guide-category">-</div></div>
       <div class="points-total"><span>Daily target: 200 points</span><span>Listed schedule: 180 Agent + 70 Leader = 250 points</span></div>
     </div>
   </section>
@@ -1464,9 +1464,32 @@ const PAGE_META={
 };
 const UI_STATE_KEY='TAND_KPI_UI_STATE_V1';
 const UI_STATE_FIELDS=['dashStart','dashEnd','dashAgent','lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd','coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd','incentiveStart','incentiveEnd'];
+const SHARED_DATE_FIELDS={
+  start:['dashStart','lbStart','scoreStart','coreStart','subScoreStart','teamScoreStart','incentiveStart'],
+  end:['dashEnd','lbEnd','scoreEnd','coreEnd','subScoreEnd','teamScoreEnd','incentiveEnd']
+};
 let uiState=read(UI_STATE_KEY,{fields:{},agentView:'leaderboard',coreView:'leaderboard'});
 function saveUiState(){write(UI_STATE_KEY,uiState)}
 function rememberUiField(el){if(!el||UI_STATE_FIELDS.indexOf(el.id)===-1)return;uiState.fields=uiState.fields||{};uiState.fields[el.id]=el.value;saveUiState()}
+function syncSharedDateRange(source){
+  if(!source)return false;
+  var boundary=SHARED_DATE_FIELDS.start.indexOf(source.id)!==-1?'start':SHARED_DATE_FIELDS.end.indexOf(source.id)!==-1?'end':'';
+  if(!boundary)return false;
+  uiState.fields=uiState.fields||{};
+  SHARED_DATE_FIELDS[boundary].forEach(function(id){var el=document.getElementById(id);if(el)el.value=source.value;uiState.fields[id]=source.value;});
+  saveUiState();
+  return true;
+}
+function setSharedDateRange(start,end){
+  var startSource=document.getElementById('dashStart'),endSource=document.getElementById('dashEnd');
+  if(startSource){startSource.value=start;syncSharedDateRange(startSource);}
+  if(endSource){endSource.value=end;syncSharedDateRange(endSource);}
+}
+function renderDateFilteredViews(){
+  renderDashboard();renderReports();renderIncentives();
+  if(agentHubView==='scorecard')renderScorecard();else renderLeaderboard();
+  if(coreHubView==='scorecard')renderSubteamScorecard();else if(coreHubView==='subteam')renderTeamScorecard();else renderCoreBoard();
+}
 function restoreUiFields(ids){
   (ids||UI_STATE_FIELDS).forEach(function(id){
     var el=document.getElementById(id),value=uiState.fields&&uiState.fields[id];
@@ -1519,10 +1542,43 @@ async function handleCalendarUpload(event){var file=event.target.files&&event.ta
 function applyUploadedCalendar(state){if(!state)return;var title=document.getElementById('calendarMonthTitle'),image=document.getElementById('calendarMonthImage'),zoomImage=document.getElementById('calendarZoomImage'),download=document.getElementById('calendarDownload'),lightboxDownload=document.querySelector('.calendar-lightbox .calendar-download');if(title)title.textContent=state.title;if(image){image.src=state.preview;image.alt=state.title;}if(zoomImage){zoomImage.src=state.preview;zoomImage.alt=state.title+' enlarged';}if(download){download.href=state.source;download.download=state.fileName;}if(lightboxDownload){lightboxDownload.href=state.source;lightboxDownload.download=state.fileName;}var status=document.getElementById('calendarUploadStatus');if(status)status.textContent='Current calendar: '+state.month;}
 function setWeeklyEditorMode(editing){var editor=document.getElementById('weeklyCalendarEditor'),toggle=document.getElementById('weeklyEditToggle'),actions=document.getElementById('weeklyEditorActions');if(!editor)return;editor.querySelectorAll('.weekly-day').forEach(function(day){day.contentEditable=editing?'true':'false';});if(toggle){toggle.setAttribute('aria-pressed',String(editing));toggle.textContent=editing?'🔓 Lock editing':'🔒 Edit';}if(actions)actions.classList.toggle('hidden',!editing);}
 function toggleWeeklyCalendarEdit(){var toggle=document.getElementById('weeklyEditToggle'),editing=toggle&&toggle.getAttribute('aria-pressed')!=='true';setWeeklyEditorMode(editing);}
-function restoreCalendarTools(){try{var state=JSON.parse(localStorage.getItem(CALENDAR_STATE_KEY)||'null');if(state)applyUploadedCalendar(state);var weekly=localStorage.getItem(WEEKLY_CALENDAR_KEY),editor=document.getElementById('weeklyCalendarEditor');if(weekly&&editor)editor.innerHTML=weekly;}catch(e){}setWeeklyEditorMode(false);}
-function saveWeeklyCalendar(){var editor=document.getElementById('weeklyCalendarEditor');if(!editor)return;setWeeklyEditorMode(false);localStorage.setItem(WEEKLY_CALENDAR_KEY,editor.innerHTML);showToast('✓ Weekly calendar saved and locked');}
+function currentWeekStart(){var d=new Date(),day=d.getDay();d.setHours(12,0,0,0);d.setDate(d.getDate()-day);return d;}
+function weeklyDateKey(date){return localDateValue(date);}
+function weeklyTitle(start){
+  var end=new Date(start);end.setDate(end.getDate()+6);
+  var startMonth=start.toLocaleString('en-US',{month:'long'}),endMonth=end.toLocaleString('en-US',{month:'long'}),startYear=start.getFullYear(),endYear=end.getFullYear();
+  if(startYear!==endYear)return 'Weekly Calendar: '+startMonth+' '+start.getDate()+', '+startYear+'-'+endMonth+' '+end.getDate()+', '+endYear;
+  if(startMonth!==endMonth)return 'Weekly Calendar: '+startMonth+' '+start.getDate()+'-'+endMonth+' '+end.getDate()+', '+startYear;
+  return 'Weekly Calendar: '+startMonth+' '+start.getDate()+'-'+end.getDate()+', '+startYear;
+}
+function weeklyScheduleHtml(start){
+  var schedules=[
+    '<div class="no-event">No scheduled activity listed.</div>',
+    '<ul><li><b>Monday Branch Meeting</b> - 10:00 AM-12:00 NN</li><li><b>Consistency Hour: Full-Timers</b> - 1:00-3:30 PM</li><li><b>Consistency Hour: Part-Timers</b> - 7:30-9:30 PM</li></ul>',
+    '<ul><li><b>Day Huddle Virtual (A&amp;D Training)</b> - 9:00 AM-12:00 NN</li><li><b>BYB</b> - 6:30-7:00 PM (UM Miguel)</li></ul>',
+    '<ul><li><b>Networking Fieldwork Day</b> - all full-timers and unit managers</li><li><b>Business Mastery: How to Do Social Media Recruitment</b> - 8:00-9:30 PM (UM Andeng)</li></ul>',
+    '<ul><li><b>BYB</b> - 6:00-7:00 PM (UM Bren)</li></ul>',
+    '<ul><li><b>Fine-Tuning Friday: Disability and Hospitalization</b> - 7:00-9:00 PM</li></ul>',
+    '<ul><li><b>Unit Meeting</b> - 10:00 AM-12:00 NN</li><li><b>Rookie Training 1: Mindset</b> - 1:00-2:00 PM</li><li><b>Meet the Manager</b> - 2:00-4:00 PM</li><li><b>BYB</b> - 6:00-7:00 PM (UM Chester)</li></ul>'
+  ];
+  return schedules.map(function(schedule,index){var date=new Date(start);date.setDate(date.getDate()+index);return '<article class="weekly-day" contenteditable="false"><h4>'+date.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})+'</h4>'+schedule+'</article>';}).join('');
+}
+function restoreCalendarTools(){
+  try{var state=JSON.parse(localStorage.getItem(CALENDAR_STATE_KEY)||'null');if(state)applyUploadedCalendar(state);}catch(e){}
+  var editor=document.getElementById('weeklyCalendarEditor'),title=document.getElementById('weeklyCalendarTitle'),start=currentWeekStart(),key=weeklyDateKey(start),saved=null;
+  try{saved=JSON.parse(localStorage.getItem(WEEKLY_CALENDAR_KEY)||'null');}catch(e){saved=null;}
+  if(editor)editor.innerHTML=saved&&saved.weekStart===key&&saved.html?saved.html:weeklyScheduleHtml(start);
+  if(title)title.textContent=weeklyTitle(start);
+  setWeeklyEditorMode(false);
+}
+function scheduleWeeklyCalendarRefresh(){
+  var now=new Date(),next=new Date(now);next.setHours(0,0,1,0);next.setDate(next.getDate()+((7-next.getDay())%7||7));
+  clearTimeout(scheduleWeeklyCalendarRefresh._timer);
+  scheduleWeeklyCalendarRefresh._timer=setTimeout(function(){restoreCalendarTools();scheduleWeeklyCalendarRefresh();},Math.max(1000,next-now));
+}
+function saveWeeklyCalendar(){var editor=document.getElementById('weeklyCalendarEditor');if(!editor)return;setWeeklyEditorMode(false);var start=currentWeekStart();localStorage.setItem(WEEKLY_CALENDAR_KEY,JSON.stringify({weekStart:weeklyDateKey(start),html:editor.innerHTML}));showToast('✓ Weekly calendar saved and locked');}
 function addWeeklyCalendarDay(){var editor=document.getElementById('weeklyCalendarEditor'),day=document.createElement('article');day.className='weekly-day';day.contentEditable='true';day.innerHTML='<h4>Edit date</h4><ul><li>Edit activity and time</li></ul>';editor.appendChild(day);day.focus();}
-document.addEventListener('change',function(event){rememberUiField(event.target)});
+document.addEventListener('change',function(event){rememberUiField(event.target);if(syncSharedDateRange(event.target))renderDateFilteredViews();});
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='incentives')renderIncentives();if(b.dataset.page==='teamcalendar')restoreCalendarTools();if(b.dataset.page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}});
 function seedDates(){let now=new Date(),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2),dateIds=['dashStart','scoreStart','subScoreStart','lbStart','coreStart','teamScoreStart','incentiveStart','dashEnd','scoreEnd','subScoreEnd','lbEnd','coreEnd','recDate','teamScoreEnd','incentiveEnd'];dateIds.forEach(function(id){var el=document.getElementById(id);if(el)el.value=today;});uiState.fields=uiState.fields||{};dateIds.forEach(function(id){if(id!=='recDate')uiState.fields[id]=today;});saveUiState();}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort((a,b)=>a.localeCompare(b));['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});let recordsFilter=document.getElementById('recordsAgentFilter');if(recordsFilter){let val=recordsFilter.value;recordsFilter.innerHTML='<option value="">All Agents</option>'+agents.map(a=>`<option value="${esc(a)}" ${a===val?'selected':''}>${esc(a)}</option>`).join('')}document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
@@ -1715,16 +1771,18 @@ function renderIncentives(){
   if(!start||!end||!agentBody||!leaderBody)return;
   var dates=selectedDateList(start.value,end.value),days=dates.length;
   if(!days){agentBody.innerHTML='<tr><td colspan="7" class="small">Choose a valid date range.</td></tr>';leaderBody.innerHTML='<tr><td colspan="9" class="small">Choose a valid date range.</td></tr>';return;}
-  var base=Number(settings.baseTarget||150),leaderBase=Number(settings.subteamBaseTarget||50),agentTarget=base*days,leaderTarget=leaderBase*days,now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0'),completedDates=dates.filter(function(date){return date<today;});
+  var base=Number(settings.baseTarget||150),leaderBase=Number(settings.subteamBaseTarget||50),agentTarget=base*days,leaderTarget=leaderBase*days,now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0'),challengeStartDate=new Date(start.value+'T00:00:00'),challengeEndDate=new Date(challengeStartDate),challengeEndValue='';
+  challengeEndDate.setDate(challengeEndDate.getDate()+6);challengeEndValue=localDateValue(challengeEndDate);
+  var challengeComplete=today>=challengeEndValue,completedDates=dates.filter(function(date){return challengeComplete?date<=challengeEndValue:date<today;});
   var names=[...new Set(agentList.concat(records.map(function(r){return r.agent;}).filter(Boolean)))].sort(function(a,b){return a.localeCompare(b);});
   var agentSummaries=names.map(function(name){var rows=records.filter(function(r){return inRange(r,start.value,end.value)&&norm(r.agent)===norm(name);}),points=rows.reduce(function(total,r){return total+Number(r.points||0);},0),pct=agentTarget?points/agentTarget*100:0,hasActivity=rows.some(function(r){return Number(r.points||0)>0;}),missedDay=completedDates.some(function(date){return rows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.points||0);},0)<=0;}),zeroDayStatus=missedDay?'Reward voided':hasActivity?'On track':'Start now',noZeroDay=!missedDay;return{name:name,points:points,pct:pct,level:calcLevel(pct),hasActivity:hasActivity,noZeroDay:noZeroDay,zeroDayStatus:zeroDayStatus,reward:noZeroDay?incentiveAmount(pct,false):0};}).sort(function(a,b){return b.points-a.points||a.name.localeCompare(b.name);});
   agentBody.innerHTML=agentSummaries.length?agentSummaries.map(function(x){var zeroClass=x.zeroDayStatus==='On track'?'diamond':x.zeroDayStatus==='Start now'?'start':'push';return '<tr data-has-activity="'+(x.hasActivity?'true':'false')+'"><td>'+esc(x.name)+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+agentTarget.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td><td><span class="badge '+zeroClass+'">'+x.zeroDayStatus+'</span></td><td><b>'+peso(x.reward)+'</b></td></tr>';}).join(''):'<tr><td colspan="7" class="small">No agents are available.</td></tr>';
   var leaders=coreLeaderList().map(function(link){
     var agentRows=records.filter(function(r){return inRange(r,start.value,end.value)&&norm(r.agent)===norm(link.name);}),leaderRows=coreRecords.filter(function(r){return inRange(r,start.value,end.value)&&r.leader===link.display;});
-    var agentPoints=agentRows.reduce(function(total,r){return total+Number(r.points||0);},0),leaderPoints=leaderRows.reduce(function(total,r){return total+Number(r.total||0);},0),agentPct=agentTarget?agentPoints/agentTarget*100:0,leaderPct=leaderTarget?leaderPoints/leaderTarget*100:0,combinedTarget=agentTarget+leaderTarget,combinedPct=combinedTarget?(agentPoints+leaderPoints)/combinedTarget*100:0,noZeroDay=dates.every(function(date){var agentDaily=agentRows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.points||0);},0),leaderDaily=leaderRows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.total||0);},0);return agentDaily+leaderDaily>0;}),eligible=noZeroDay&&agentPct>=100&&leaderPct>=100,agentReward=noZeroDay?incentiveAmount(agentPct,false):0,bonus=eligible?incentiveAmount(combinedPct,true):0;
+    var agentPoints=agentRows.reduce(function(total,r){return total+Number(r.points||0);},0),leaderPoints=leaderRows.reduce(function(total,r){return total+Number(r.total||0);},0),agentPct=agentTarget?agentPoints/agentTarget*100:0,leaderPct=leaderTarget?leaderPoints/leaderTarget*100:0,combinedTarget=agentTarget+leaderTarget,combinedPct=combinedTarget?(agentPoints+leaderPoints)/combinedTarget*100:0,noZeroDay=completedDates.every(function(date){var agentDaily=agentRows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.points||0);},0),leaderDaily=leaderRows.filter(function(r){return r.date===date;}).reduce(function(total,r){return total+Number(r.total||0);},0);return agentDaily+leaderDaily>0;}),eligible=noZeroDay&&agentPct>=100&&leaderPct>=100,agentReward=noZeroDay?incentiveAmount(agentPct,false):0,bonus=eligible?incentiveAmount(combinedPct,true):0;
     return{subteam:link.display,agentPct:agentPct,leaderPct:leaderPct,combinedPct:combinedPct,hasActivity:agentPoints>0||leaderPoints>0,noZeroDay:noZeroDay,eligible:eligible,agentReward:agentReward,bonus:bonus,total:agentReward+bonus,missingAgentPoints:Math.max(0,agentTarget-agentPoints),missingLeaderPoints:Math.max(0,leaderTarget-leaderPoints)};
   }).sort(function(a,b){return b.total-a.total||b.combinedPct-a.combinedPct||a.subteam.localeCompare(b.subteam);});
-  leaderBody.innerHTML=leaders.length?leaders.map(function(x){var eligibility=x.noZeroDay?(x.eligible?'Qualified':'Not yet'):'Reward voided',requirements=[];if(x.missingAgentPoints>0)requirements.push('Agent KPI: '+x.missingAgentPoints.toLocaleString()+' points to-go.');if(x.missingLeaderPoints>0)requirements.push('Leader KPI: '+x.missingLeaderPoints.toLocaleString()+' points to-go.');var toGo=requirements.length?requirements.join(' '):'Agent KPI: 0 points to-go. Leader KPI: 0 points to-go.';return '<tr data-has-activity="'+(x.hasActivity?'true':'false')+'"><td>'+esc(x.subteam)+'</td><td>'+x.agentPct.toFixed(1)+'%</td><td>'+x.leaderPct.toFixed(1)+'%</td><td><b>'+x.combinedPct.toFixed(1)+'%</b></td><td>'+peso(x.agentReward)+'</td><td>'+peso(x.bonus)+'</td><td><b>'+peso(x.total)+'</b></td><td><span class="badge '+(x.eligible?'diamond':x.noZeroDay?'start':'push')+'">'+eligibility+'</span></td><td class="small">'+esc(toGo)+'</td></tr>';}).join(''):'<tr><td colspan="9" class="small">No Subteam Leaders are configured.</td></tr>';
+  leaderBody.innerHTML=leaders.length?leaders.map(function(x){var eligibility=x.eligible?'Qualified':challengeComplete||!x.noZeroDay?'Reward voided':'Not yet',eligibilityClass=x.eligible?'diamond':eligibility==='Not yet'?'start':'push',requirements=[];if(x.missingAgentPoints>0)requirements.push('Agent KPI: '+x.missingAgentPoints.toLocaleString()+' points to-go.');if(x.missingLeaderPoints>0)requirements.push('Leader KPI: '+x.missingLeaderPoints.toLocaleString()+' points to-go.');var toGo=requirements.length?requirements.join(' '):'Agent KPI: 0 points to-go. Leader KPI: 0 points to-go.';return '<tr data-has-activity="'+(x.hasActivity?'true':'false')+'"><td>'+esc(x.subteam)+'</td><td>'+x.agentPct.toFixed(1)+'%</td><td>'+x.leaderPct.toFixed(1)+'%</td><td><b>'+x.combinedPct.toFixed(1)+'%</b></td><td>'+peso(x.agentReward)+'</td><td>'+peso(x.bonus)+'</td><td><b>'+peso(x.total)+'</b></td><td><span class="badge '+eligibilityClass+'">'+eligibility+'</span></td><td class="small">'+esc(toGo)+'</td></tr>';}).join(''):'<tr><td colspan="9" class="small">No Subteam Leaders are configured.</td></tr>';
 }
 function exportExcel(){
   let rows=records.map(function(r){return{Date:r.date,Agent:r.agent,Status:r.status||'',Activity:r.activity,Count:Number(r.count||0),Points:Number(r.points||0),Notes:r.notes||''};});
@@ -2320,10 +2378,12 @@ function closeMobilePreview(){
 document.addEventListener('keydown',function(event){if(event.key==='Escape'&&document.getElementById('mobilePreviewModal').style.display!=='none')closeMobilePreview();});
 function init(){
   if(new URLSearchParams(location.search).get('mobilePreview')==='1')document.body.classList.add('mobile-preview-frame');
-  setupAgentHub();setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();
+  setupAgentHub();setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();restoreCalendarTools();scheduleWeeklyCalendarRefresh();
   agentHubView=uiState.agentView==='scorecard'?'scorecard':'leaderboard';
   coreHubView=uiState.coreView==='scorecard'||uiState.coreView==='subteam'?uiState.coreView:'leaderboard';
   restoreUiFields();
+  setSharedDateRange(document.getElementById('dashStart').value,document.getElementById('dashEnd').value);
+  renderDateFilteredViews();
   if(new URLSearchParams(location.search).get('view')==='agent'){
     try{sessionStorage.setItem('TAND_AGENT_VIEWER','1')}catch(e){}
     applyAgentViewerMode();
@@ -2421,7 +2481,7 @@ function lbSetRange(kind){
   if(kind==='all'){sEl.value='';eEl.value='';}
   else{const d=new Date(),y=d.getFullYear(),m=d.getMonth(),pad=n=>String(n).padStart(2,'0');
     sEl.value=y+'-'+pad(m+1)+'-01';eEl.value=y+'-'+pad(m+1)+'-'+pad(new Date(y,m+1,0).getDate());}
-  renderLeaderboard();
+  setSharedDateRange(sEl.value,eEl.value);renderDateFilteredViews();
 }
 function buildBoard(cols,rows){
   const map={};
@@ -2464,6 +2524,8 @@ function agentRefresh(){var page=document.getElementById('leaderboard');if(page&
 function coreRefresh(){var a=document.getElementById('coreactivity'),b=document.getElementById('coreboard');if(a&&a.classList.contains('active'))renderCoreActivity();if(b&&b.classList.contains('active')){if(coreHubView==='scorecard')renderSubteamScorecard();else if(coreHubView==='subteam')renderTeamScorecard();else renderCoreBoard();}}
 function coreLeaderList(){return agentList.filter(function(n){return Object.prototype.hasOwnProperty.call(coreMap,n);}).map(function(n){var sTxt=(coreMap[n]||'').trim();return {name:n,display:sTxt?sTxt:n};}).sort(function(a,b){return a.display.localeCompare(b.display);});}
 function coreFillNameSelect(sel,withAll){if(!sel)return;var v=sel.value||(uiState.fields&&uiState.fields[sel.id])||'';var list=coreLeaderList();sel.innerHTML=(withAll?'<option value="">All Subteams</option>':'<option value="">Select Subteam</option>')+list.map(function(c){return '<option value="'+esc(c.display)+'" '+(c.display===v?'selected':'')+'>'+esc(c.display)+'</option>';}).join('');}
+function coreActivityDailyMax(name){return norm(name).startsWith('daily sharing (main gc)')?1:0;}
+function enforceCoreActivityLimit(index){var activity=coreActs[index],input=document.getElementById('cc_'+index);if(!activity||!input)return;var max=coreActivityDailyMax(activity.name),count=Number(input.value||0);if(max&&count>max){input.value=max;alert(activity.name+' has a maximum of 1 count per day.');}updateCoreTotal();}
 function updateCoreTotal(){var grand=0;coreActs.forEach(function(a,i){var ci=document.getElementById('cc_'+i);if(!ci)return;var c=Number(ci.value||0),t=Number(a.points)*c;grand+=t;var te=document.getElementById('ct_'+i);if(te)te.textContent=t.toLocaleString();});var g=document.getElementById('coreGrand');if(g)g.textContent=grand.toLocaleString();}
 function toggleCoreManage(){document.getElementById('coreManageModal').style.display='flex';if(typeof renderCoreActivity==='function')renderCoreActivity();}
 function closeCoreManage(){document.getElementById('coreManageModal').style.display='none';}
@@ -2471,7 +2533,7 @@ function renderCoreActivity(){
   coreFillNameSelect(document.getElementById('coreName'),false);
   var cd=document.getElementById('coreDate');if(cd&&!cd.value)cd.value=new Date().toISOString().slice(0,10);
   var er=document.getElementById('coreEncodeRows');
-  if(er)er.innerHTML=coreActs.map(function(a,i){return '<tr><td>'+esc(a.name)+'</td><td>'+a.points+'</td><td><input type="number" min="0" id="cc_'+i+'" placeholder="0" oninput="updateCoreTotal()" style="width:90px"></td><td id="ct_'+i+'">0</td></tr>';}).join('')||'<tr><td colspan="4" class="small">No Subteam Leader activities are available. Add an activity below.</td></tr>';
+  if(er)er.innerHTML=coreActs.map(function(a,i){var max=coreActivityDailyMax(a.name);return '<tr><td>'+esc(a.name)+(max?' <span class="small">(max 1/day)</span>':'')+'</td><td>'+a.points+'</td><td><input type="number" min="0" '+(max?'max="'+max+'" ':'')+'id="cc_'+i+'" placeholder="0" oninput="enforceCoreActivityLimit('+i+')" style="width:90px"></td><td id="ct_'+i+'">0</td></tr>';}).join('')||'<tr><td colspan="4" class="small">No Subteam Leader activities are available. Add an activity below.</td></tr>';
   updateCoreTotal();
   var ar=document.getElementById('coreActRows');
   if(ar)ar.innerHTML=coreActs.map(function(a,i){return '<tr ondragover="event.preventDefault()" ondrop="cActDrop(event,'+i+')"><td class="drag-h" draggable="true" ondragstart="cActDrag(event,'+i+')">\u283f</td><td><input value="'+esc(a.name)+'" onchange="editCoreAct('+i+",'name',this.value)\"></td><td><input type=\"number\" min=\"0\" value=\""+a.points+'" onchange="editCoreAct('+i+",'points',this.value)\"></td><td><button class=\"danger\" onclick=\"removeCoreAct("+i+')">Delete</button></td></tr>';}).join('');
@@ -2490,6 +2552,8 @@ function saveCore(){
   var name=document.getElementById('coreName').value,date=document.getElementById('coreDate').value;
   if(!name)return alert('Select a Subteam Leader or Subteam. Assign Subteam Leaders in the Agents tab first if the list is empty.');
   if(!date)return alert('Select a date.');
+  var capped=coreActs.find(function(a,i){var input=document.getElementById('cc_'+i),max=coreActivityDailyMax(a.name);return input&&max&&Number(input.value||0)>max;});
+  if(capped)return alert(capped.name+' has a maximum of 1 count per day.');
   var added=0;
   coreActs.forEach(function(a,i){var ci=document.getElementById('cc_'+i);if(!ci)return;var c=Number(ci.value||0);if(c<=0)return;var per=Number(a.points),total=per*c;var key=[date,norm(name),norm(a.name)].join('|');var ex=coreRecords.find(function(r){return r.key===key;});if(ex){ex.count=c;ex.points=per;ex.total=total;}else{coreRecords.push({id:uid(),key:key,date:date,leader:name,activity:a.name,points:per,count:c,total:total});}added++;});
   if(!added)return alert('Enter a count for at least one activity.');
@@ -2514,15 +2578,19 @@ function toggleAllCoreRecords(on){coreRecords.slice().sort(function(a,b){return 
 function persistCoreRecordDeletion(message){write(KEYS.coreRecords,coreRecords);coreRefresh();if(cloudEnabled()){showToast('\u23f3 Saving...');Promise.resolve(pushConfig()).then(function(){showToast('\u2713 '+message);}).catch(function(){showToast('\u26a0 Deleted locally, but the change was not synced.');});}else showToast('\u2713 '+message);}
 function editCoreRecord(id){
   var record=coreRecords.find(function(r){return r.id===id;});if(!record)return;
+  var dateValue=prompt('Enter the corrected activity date (YYYY-MM-DD):',record.date);if(dateValue===null)return;
+  var date=String(dateValue).trim(),parsed=/^\d{4}-\d{2}-\d{2}$/.test(date)?new Date(date+'T00:00:00'):null;
+  if(!parsed||isNaN(parsed)||localDateValue(parsed)!==date)return alert('Enter a valid date using YYYY-MM-DD.');
   var value=prompt('Enter the corrected count for "'+record.activity+'":',record.count);if(value===null)return;
   var count=Number(String(value).trim());if(!Number.isInteger(count)||count<1)return alert('Enter a whole number greater than zero. Use Delete if you want to remove the record.');
-  record.count=count;record.total=Number(record.points||0)*count;write(KEYS.coreRecords,coreRecords);coreRefresh();
+  var max=coreActivityDailyMax(record.activity);if(max&&count>max)return alert(record.activity+' has a maximum of 1 count per day.');
+  record.date=date;record.count=count;record.total=Number(record.points||0)*count;write(KEYS.coreRecords,coreRecords);coreRefresh();
   if(cloudEnabled()){showToast('\u23f3 Saving correction...');Promise.resolve(pushConfig()).then(function(){showToast('\u2713 Record updated and synced!');}).catch(function(){showToast('\u26a0 Updated locally, but the change was not synced.');});}else showToast('\u2713 Record updated!');
 }
 function deleteCoreRecord(id){if(!confirm('Delete this record?'))return;coreRecords=coreRecords.filter(function(r){return r.id!==id;});markedCoreRecordIds.delete(id);persistCoreRecordDeletion('Deleted!');}
 function deleteMarkedCoreRecords(){var n=markedCoreRecordIds.size;if(!n)return;if(!confirm('Delete '+n+' marked core record'+(n===1?'':'s')+'? This cannot be undone.'))return;coreRecords=coreRecords.filter(function(r){return !markedCoreRecordIds.has(r.id);});markedCoreRecordIds.clear();persistCoreRecordDeletion(n+' marked record'+(n===1?'':'s')+' deleted!');}
 function deleteAllCoreRecords(){var n=coreRecords.length;if(!n)return alert('There are no Subteam Leader records to delete.');if(!confirm('Delete ALL '+n+' core records? This will erase the entire Subteam Leader activity history and cannot be undone.'))return;coreRecords=[];markedCoreRecordIds.clear();persistCoreRecordDeletion('All core records deleted!');}
-function coreSetRange(kind){var s=document.getElementById('coreStart'),e=document.getElementById('coreEnd');if(kind==='all'){s.value='';e.value='';}else{var d=new Date(),y=d.getFullYear(),m=d.getMonth(),pad=function(n){return String(n).padStart(2,'0');};s.value=y+'-'+pad(m+1)+'-01';e.value=y+'-'+pad(m+1)+'-'+pad(new Date(y,m+1,0).getDate());}renderCoreBoard();}
+function coreSetRange(kind){var s=document.getElementById('coreStart'),e=document.getElementById('coreEnd');if(kind==='all'){s.value='';e.value='';}else{var d=new Date(),y=d.getFullYear(),m=d.getMonth(),pad=function(n){return String(n).padStart(2,'0');};s.value=y+'-'+pad(m+1)+'-01';e.value=y+'-'+pad(m+1)+'-'+pad(new Date(y,m+1,0).getDate());}setSharedDateRange(s.value,e.value);renderDateFilteredViews();}
 function coreMedal(i){return i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';}
 function renderCoreBoard(){
   coreFillNameSelect(document.getElementById('coreFilter'),true);
