@@ -173,6 +173,7 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .score-head .medal.start{background:#dfe7f0}.score-head .medal.push{background:#e9505b}.score-head .medal.bronze{background:#bd7b43}.score-head .medal.silver{background:#d8dde5}.score-head .medal.gold{background:#e2b93b}.score-head .medal.diamond{background:#aee7ee}
 .score-identity-text{min-width:0}.score-eyebrow{margin-bottom:4px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:0;text-transform:uppercase}
 .score-identity h2{margin:0;max-width:100%;font-size:21px;line-height:1.2;letter-spacing:0;overflow-wrap:anywhere;color:var(--navy)}
+.score-rank{margin-top:8px;color:var(--navy);font-size:13px;font-weight:900}.score-chart-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.score-chart-heading h3{margin:0}.score-chart-heading label{display:flex;align-items:center;gap:8px;white-space:nowrap}.score-chart-heading select{width:auto;min-width:110px}@media(max-width:600px){.score-chart-heading{align-items:stretch;flex-direction:column}}
 .score-content{display:flex;align-items:center;min-width:0;padding:24px}
 .score-head .stats{width:100%;grid-template-columns:repeat(3,minmax(120px,1fr));gap:1px;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
 .score-head .stat{display:flex;flex-direction:column;justify-content:center;min-height:104px;padding:18px;border:0;border-radius:0;box-shadow:none;background:#fff}
@@ -319,7 +320,7 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
     </div>
     <div id="scoreCapture">
       <div class="card score-head">
-        <div class="score-identity"><div class="medal-shell"><div id="scoreMedal" class="medal push">💪</div></div><div class="score-identity-text"><div class="score-eyebrow">Agent scorecard</div><h2 id="scoreName">Select an agent</h2></div></div>
+        <div class="score-identity"><div class="medal-shell"><div id="scoreMedal" class="medal push">💪</div></div><div class="score-identity-text"><div class="score-eyebrow">Agent scorecard</div><h2 id="scoreName">Select an agent</h2><div id="scoreRank" class="score-rank">Overall rank: —</div></div></div>
         <div class="score-content"><div class="stats">
           <div class="stat"><strong id="scorePoints">0</strong><span>Total Points</span></div>
           <div class="stat"><strong id="scoreTarget">0</strong><span>Agent Target</span></div>
@@ -327,9 +328,11 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
           <div class="stat"><strong id="scoreLevel">Push Harder</strong><span>Performance Level</span></div>
         </div></div>
       </div>
+      <div class="card"><h3>Selling Activities Results</h3><div class="tablebox"><table><thead><tr><th>Activity</th><th>Count</th><th>Points</th></tr></thead><tbody id="scoreSellingRows"></tbody></table></div></div>
+      <div class="card"><h3>Recruitment Activities Results</h3><div class="tablebox"><table><thead><tr><th>Activity</th><th>Count</th><th>Points</th></tr></thead><tbody id="scoreRecruitingRows"></tbody></table></div></div>
       <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points</th><th>Notes</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
       <div class="charts">
-        <div class="card full"><h3>Monthly Bar Graph</h3><canvas id="scoreMonthlyChart"></canvas></div>
+        <div class="card full"><div class="score-chart-heading"><h3 id="scoreChartTitle">Daily Points Bar Graph</h3><label>View by<select id="scoreChartGranularity" onchange="renderScorecardChart()"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></label></div><canvas id="scoreMonthlyChart"></canvas></div>
         <div class="card full"><h3>Activity Breakdown</h3><canvas id="activityChart"></canvas></div>
       </div>
     </div>
@@ -1666,7 +1669,7 @@ function openRankedAgentScorecard(encodedName){
   selectAgentScorecard(decodeURIComponent(encodedName),lbStart.value,lbEnd.value);
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function renderDashboard(){let s=dashStart.value,e=dashEnd.value,a=dashAgent.value,rows=filterRows(s,e,a);let agents={};rows.forEach(r=>(agents[r.agent]??=[]).push(r));let summaries=Object.entries(agents).map(([name,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=agentTargetForRange(s,e,days),pct=target?points/target*100:0;return{name,points,days,target,pct,level:calcLevel(pct)}}).sort((x,y)=>y.pct-x.pct);let totalPoints=rows.reduce((t,r)=>t+Number(r.points||0),0),totalTarget=summaries.reduce((t,x)=>t+x.target,0),pct=totalTarget?totalPoints/totalTarget*100:0;teamPoints.textContent=totalPoints.toLocaleString();teamTarget.textContent=totalTarget.toLocaleString();teamPct.textContent=pct.toFixed(1)+'%';agentCount.textContent=summaries.length;
+function renderDashboard(){let s=dashStart.value,e=dashEnd.value,a=dashAgent.value,rows=filterRows(s,e,a);let agents={};rows.forEach(r=>(agents[r.agent]??=[]).push(r));let summaries=Object.entries(agents).map(([name,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=agentTargetForRange(s,e,days),pct=target?points/target*100:0;return{name,points,days,target,pct,level:calcLevel(pct)}}).sort((x,y)=>y.points-x.points||x.name.localeCompare(y.name));let totalPoints=rows.reduce((t,r)=>t+Number(r.points||0),0),totalTarget=summaries.reduce((t,x)=>t+x.target,0),pct=totalTarget?totalPoints/totalTarget*100:0;teamPoints.textContent=totalPoints.toLocaleString();teamTarget.textContent=totalTarget.toLocaleString();teamPct.textContent=pct.toFixed(1)+'%';agentCount.textContent=summaries.length;
 // 🏆 Rank list na may levels
 rankList.innerHTML=summaries.length?summaries.map((x,i)=>`
   <div class="rank-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
@@ -1686,9 +1689,23 @@ let dkeys=Object.keys(daily).sort();
 destroyChart('daily');charts.daily=new Chart(dailyChart,{type:'bar',data:{labels:dkeys,datasets:[{label:'Points',data:dkeys.map(k=>daily[k]),backgroundColor:'#e2691c',borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
 }
 function renderScorecard(){let a=scoreAgent.value,s=scoreStart.value,e=scoreEnd.value,rows=filterRows(s,e,a),points=rows.reduce((t,r)=>t+Number(r.points||0),0),target=agentTargetForRange(s,e,uniqueDays(rows)),pct=target?points/target*100:0,l=calcLevel(pct);scoreName.textContent=a||'Select an agent';scorePoints.textContent=points.toLocaleString();scoreTarget.textContent=target.toLocaleString();scorePct.textContent=pct.toFixed(1)+'%';scoreLevel.textContent=l.name;scoreMedal.className='medal '+l.cls;scoreMedal.textContent=l.icon;scoreRows.innerHTML=rows.sort((x,y)=>y.date.localeCompare(x.date)).map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.activity)}</td><td>${r.count}</td><td>${r.points}</td><td>${esc(r.notes)}</td></tr>`).join('');
-let monthly={};rows.forEach(r=>monthly[r.date.slice(0,7)]=(monthly[r.date.slice(0,7)]||0)+Number(r.points||0));destroyChart('scoreMonthly');charts.scoreMonthly=new Chart(scoreMonthlyChart,{type:'bar',data:{labels:Object.keys(monthly).sort(),datasets:[{label:'Points',data:Object.keys(monthly).sort().map(m=>monthly[m])}]},options:{responsive:true}});
+let ranked={};filterRows(s,e,'').forEach(r=>{let key=norm(r.agent);if(!ranked[key])ranked[key]={name:r.agent,points:0};ranked[key].points+=Number(r.points||0)});let ranking=Object.values(ranked).sort((x,y)=>y.points-x.points||x.name.localeCompare(y.name)),rankIndex=ranking.findIndex(x=>norm(x.name)===norm(a));scoreRank.textContent=rankIndex<0?'Overall rank: —':'Overall rank: #'+(rankIndex+1)+' of '+ranking.length;
+function activityResultRows(cols){return cols.map(c=>{let matching=rows.filter(r=>norm(r.activity).includes(c.match)),count=matching.reduce((t,r)=>t+Number(r.count||0),0),activityPoints=matching.reduce((t,r)=>t+Number(r.points||0),0);return '<tr><td>'+esc(c.label)+'</td><td>'+count.toLocaleString()+'</td><td><b>'+activityPoints.toLocaleString()+'</b></td></tr>'}).join('')}
+scoreSellingRows.innerHTML=activityResultRows([{label:'Client Presentation / Meetings',match:'client presentation'},{label:'Closing / Submitted Case',match:'closing'}]);scoreRecruitingRows.innerHTML=activityResultRows([{label:'MTM',match:'mtm'},{label:'Exam',match:'exam'},{label:'Coded',match:'coded'}]);
+renderScorecardChart();
 let byAct={};rows.forEach(r=>byAct[r.activity]=(byAct[r.activity]||0)+Number(r.points||0));destroyChart('activity');charts.activity=new Chart(activityChart,{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true}});
 agentMessage.value=a?`Hi ${a}, your KPI performance for the selected period is ${pct.toFixed(1)}%. You earned ${points.toLocaleString()} points against a target of ${target.toLocaleString()}. Your current level is ${l.name}. ${pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.'}`:'';
+}
+function renderScorecardChart(){
+  var s=scoreStart.value,e=scoreEnd.value,dates=selectedDateList(s,e),select=document.getElementById('scoreChartGranularity'),allowed=dates.length<=8?['daily']:dates.length<=31?['daily','weekly']:['daily','weekly','monthly'];
+  Array.from(select.options).forEach(function(option){option.disabled=!allowed.includes(option.value);option.hidden=option.disabled;});
+  if(!allowed.includes(select.value))select.value=dates.length>31?'monthly':dates.length>8?'weekly':'daily';
+  var mode=select.value,rows=filterRows(s,e,scoreAgent.value),totals={};
+  function bucket(date){if(mode==='daily')return date;if(mode==='monthly')return date.slice(0,7);var day=new Date(date+'T00:00:00');day.setDate(day.getDate()-(day.getDay()+6)%7);return localDateValue(day);}
+  dates.forEach(function(date){totals[bucket(date)]=0;});
+  rows.forEach(function(row){var key=bucket(row.date);totals[key]=(totals[key]||0)+Number(row.points||0);});
+  var keys=Object.keys(totals).sort();document.getElementById('scoreChartTitle').textContent=mode.charAt(0).toUpperCase()+mode.slice(1)+' Points Bar Graph';
+  destroyChart('scoreMonthly');charts.scoreMonthly=new Chart(scoreMonthlyChart,{type:'bar',data:{labels:keys,datasets:[{label:'Points',data:keys.map(function(key){return totals[key];}),backgroundColor:'#cf0b0b',borderRadius:5}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{title:function(items){var key=items[0]&&items[0].label;if(mode!=='weekly'||!key)return key;var end=new Date(key+'T00:00:00');end.setDate(end.getDate()+6);return key+' – '+localDateValue(end);}}}},scales:{x:{ticks:{maxRotation:65,minRotation:mode==='daily'&&keys.length>14?65:0,autoSkip:true,maxTicksLimit:mode==='daily'?24:20}},y:{beginAtZero:true}}}});
 }
 function leaderPerformance(name,s,e){
   var link=coreLeaderList().find(function(item){return item.display===name;}),agentName=link?link.name:'';
