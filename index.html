@@ -1436,6 +1436,11 @@ function calcLevel(p){if(p<=0)return{name:'Start Now',cls:'start',icon:'🚀'};i
 function inRange(r,s,e){return (!s||r.date>=s)&&(!e||r.date<=e)}
 function uniqueDays(rows){return new Set(rows.map(r=>r.date).filter(Boolean)).size}
 function filterRows(s,e,a){return records.filter(r=>inRange(r,s,e)&&(!a||norm(r.agent)===norm(a)))}
+function agentTargetForRange(start,end,fallbackDays){
+  var dates=selectedDateList(start,end),base=Number(settings.baseTarget||150);
+  if(!dates.length)return base*Number(fallbackDays||0);
+  return dates.filter(function(date){return date!=='2026-09-13';}).length*base;
+}
 function destroyChart(k){if(charts[k]){charts[k].destroy();delete charts[k]}}
 const AGENT_RESTRICTED_PAGES=['agents','activities','records','reports','settings'];
 const PAGE_META={
@@ -1661,7 +1666,7 @@ function openRankedAgentScorecard(encodedName){
   selectAgentScorecard(decodeURIComponent(encodedName),lbStart.value,lbEnd.value);
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function renderDashboard(){let s=dashStart.value,e=dashEnd.value,a=dashAgent.value,rows=filterRows(s,e,a);let agents={};rows.forEach(r=>(agents[r.agent]??=[]).push(r));let summaries=Object.entries(agents).map(([name,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=Number(settings.baseTarget||150)*days,pct=target?points/target*100:0;return{name,points,days,target,pct,level:calcLevel(pct)}}).sort((x,y)=>y.pct-x.pct);let totalPoints=rows.reduce((t,r)=>t+Number(r.points||0),0),totalTarget=summaries.reduce((t,x)=>t+x.target,0),pct=totalTarget?totalPoints/totalTarget*100:0;teamPoints.textContent=totalPoints.toLocaleString();teamTarget.textContent=totalTarget.toLocaleString();teamPct.textContent=pct.toFixed(1)+'%';agentCount.textContent=summaries.length;
+function renderDashboard(){let s=dashStart.value,e=dashEnd.value,a=dashAgent.value,rows=filterRows(s,e,a);let agents={};rows.forEach(r=>(agents[r.agent]??=[]).push(r));let summaries=Object.entries(agents).map(([name,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=agentTargetForRange(s,e,days),pct=target?points/target*100:0;return{name,points,days,target,pct,level:calcLevel(pct)}}).sort((x,y)=>y.pct-x.pct);let totalPoints=rows.reduce((t,r)=>t+Number(r.points||0),0),totalTarget=summaries.reduce((t,x)=>t+x.target,0),pct=totalTarget?totalPoints/totalTarget*100:0;teamPoints.textContent=totalPoints.toLocaleString();teamTarget.textContent=totalTarget.toLocaleString();teamPct.textContent=pct.toFixed(1)+'%';agentCount.textContent=summaries.length;
 // 🏆 Rank list na may levels
 rankList.innerHTML=summaries.length?summaries.map((x,i)=>`
   <div class="rank-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
@@ -1680,7 +1685,7 @@ let daily={};rows.forEach(r=>daily[r.date]=(daily[r.date]||0)+Number(r.points||0
 let dkeys=Object.keys(daily).sort();
 destroyChart('daily');charts.daily=new Chart(dailyChart,{type:'bar',data:{labels:dkeys,datasets:[{label:'Points',data:dkeys.map(k=>daily[k]),backgroundColor:'#e2691c',borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
 }
-function renderScorecard(){let a=scoreAgent.value,s=scoreStart.value,e=scoreEnd.value,rows=filterRows(s,e,a),points=rows.reduce((t,r)=>t+Number(r.points||0),0),days=selectedDateList(s,e).length,target=s==='2026-09-13'&&e==='2026-09-20'?1050:Number(settings.baseTarget||150)*days,pct=target?points/target*100:0,l=calcLevel(pct);scoreName.textContent=a||'Select an agent';scorePoints.textContent=points.toLocaleString();scoreTarget.textContent=target.toLocaleString();scorePct.textContent=pct.toFixed(1)+'%';scoreLevel.textContent=l.name;scoreMedal.className='medal '+l.cls;scoreMedal.textContent=l.icon;scoreRows.innerHTML=rows.sort((x,y)=>y.date.localeCompare(x.date)).map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.activity)}</td><td>${r.count}</td><td>${r.points}</td><td>${esc(r.notes)}</td></tr>`).join('');
+function renderScorecard(){let a=scoreAgent.value,s=scoreStart.value,e=scoreEnd.value,rows=filterRows(s,e,a),points=rows.reduce((t,r)=>t+Number(r.points||0),0),target=agentTargetForRange(s,e,uniqueDays(rows)),pct=target?points/target*100:0,l=calcLevel(pct);scoreName.textContent=a||'Select an agent';scorePoints.textContent=points.toLocaleString();scoreTarget.textContent=target.toLocaleString();scorePct.textContent=pct.toFixed(1)+'%';scoreLevel.textContent=l.name;scoreMedal.className='medal '+l.cls;scoreMedal.textContent=l.icon;scoreRows.innerHTML=rows.sort((x,y)=>y.date.localeCompare(x.date)).map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.activity)}</td><td>${r.count}</td><td>${r.points}</td><td>${esc(r.notes)}</td></tr>`).join('');
 let monthly={};rows.forEach(r=>monthly[r.date.slice(0,7)]=(monthly[r.date.slice(0,7)]||0)+Number(r.points||0));destroyChart('scoreMonthly');charts.scoreMonthly=new Chart(scoreMonthlyChart,{type:'bar',data:{labels:Object.keys(monthly).sort(),datasets:[{label:'Points',data:Object.keys(monthly).sort().map(m=>monthly[m])}]},options:{responsive:true}});
 let byAct={};rows.forEach(r=>byAct[r.activity]=(byAct[r.activity]||0)+Number(r.points||0));destroyChart('activity');charts.activity=new Chart(activityChart,{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true}});
 agentMessage.value=a?`Hi ${a}, your KPI performance for the selected period is ${pct.toFixed(1)}%. You earned ${points.toLocaleString()} points against a target of ${target.toLocaleString()}. Your current level is ${l.name}. ${pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.'}`:'';
@@ -1722,7 +1727,7 @@ function renderTeamScorecard(){
   var memberKeys=new Set(members.map(norm)),teamRows=records.filter(function(r){return inRange(r,start,end)&&memberKeys.has(norm(r.agent));}),base=Number(settings.baseTarget||150);
   var totalPoints=teamRows.reduce(function(t,r){return t+Number(r.points||0);},0),activeAgents=new Set(teamRows.map(function(r){return norm(r.agent);})).size,productiveDays=uniqueDays(teamRows);
   document.getElementById('teamScorePoints').textContent=totalPoints.toLocaleString();document.getElementById('teamScoreMembers').textContent=members.length.toLocaleString();document.getElementById('teamScoreActive').textContent=activeAgents.toLocaleString();document.getElementById('teamScoreDays').textContent=productiveDays.toLocaleString();
-  var summaries=members.map(function(agent){var rows=teamRows.filter(function(r){return norm(r.agent)===norm(agent);}),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),activities=rows.reduce(function(t,r){return t+Number(r.count||0);},0),target=dates.length*base,pct=target?points/target*100:0;return{agent:agent,days:uniqueDays(rows),activities:activities,points:points,target:target,pct:pct,level:calcLevel(pct)};}).sort(function(a,b){return b.points-a.points||a.agent.localeCompare(b.agent);});
+  var summaries=members.map(function(agent){var rows=teamRows.filter(function(r){return norm(r.agent)===norm(agent);}),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),activities=rows.reduce(function(t,r){return t+Number(r.count||0);},0),target=agentTargetForRange(start,end,uniqueDays(rows)),pct=target?points/target*100:0;return{agent:agent,days:uniqueDays(rows),activities:activities,points:points,target:target,pct:pct,level:calcLevel(pct)};}).sort(function(a,b){return b.points-a.points||a.agent.localeCompare(b.agent);});
   document.getElementById('teamScoreSummaryRows').innerHTML=summaries.length?summaries.map(function(x){return '<tr><td>'+esc(x.agent)+'</td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="7" class="small">No agents are assigned to this subteam.</td></tr>';
   var daily=[];members.forEach(function(agent){dates.slice().reverse().forEach(function(date){var rows=teamRows.filter(function(r){return r.date===date&&norm(r.agent)===norm(agent);}),activities=rows.reduce(function(t,r){return t+Number(r.count||0);},0),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),pct=base?points/base*100:0;daily.push({date:date,agent:agent,activities:activities,points:points,pct:pct,level:calcLevel(pct)});});});
   document.getElementById('teamScoreDailyRows').innerHTML=daily.length?daily.map(function(x){return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.agent)+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+base.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="7" class="small">Select a subteam and date range to view daily productivity.</td></tr>';
@@ -1763,7 +1768,7 @@ function populateReportMessageSelectors(){
   subSel.innerHTML='<option value="">Select Name</option>'+subs.map(function(n){return '<option value="'+esc(n)+'" '+(n===sv?'selected':'')+'>'+esc(leaderLabel(n))+'</option>';}).join('');
 }
 function generateAgentReportMessage(){
-  var name=document.getElementById('reportAgentMessageSelect').value,s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,name),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),days=uniqueDays(rows),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0,l=calcLevel(pct);
+  var name=document.getElementById('reportAgentMessageSelect').value,s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,name),points=rows.reduce(function(t,r){return t+Number(r.points||0);},0),days=uniqueDays(rows),target=agentTargetForRange(s,e,days),pct=target?points/target*100:0,l=calcLevel(pct);
   agentMessage.value=name?'Hi '+name+', your KPI performance for the selected period is '+pct.toFixed(1)+'%. You earned '+points.toLocaleString()+' points against a target of '+target.toLocaleString()+'. Your current level is '+l.name+'. '+(pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.') : '';
 }
 function generateSubteamReportMessage(){
@@ -1775,7 +1780,7 @@ function renderReports(){
   if(document.getElementById('reportAgentMessageSelect').value)generateAgentReportMessage();
   if(document.getElementById('reportSubteamMessageSelect').value)generateSubteamReportMessage();
   let s=dashStart.value,e=dashEnd.value,rows=filterRows(s,e,''),groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));
-  let list=Object.entries(groups).map(([agent,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{agent,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct);
+  let list=Object.entries(groups).map(([agent,rs])=>{let points=rs.reduce((t,r)=>t+Number(r.points||0),0),days=uniqueDays(rs),target=agentTargetForRange(s,e,days),pct=target?points/target*100:0;return{agent,points,days,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.pct-a.pct);
   reportRows.innerHTML=list.length?list.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.agent)}</td><td>${x.points.toLocaleString()}</td><td>${x.days}</td><td>${x.target.toLocaleString()}</td><td>${x.pct.toFixed(1)}%</td><td><span class="badge ${x.level.cls}">${x.level.name}</span></td></tr>`).join(''):'<tr><td colspan="7" class="small">No agent performance data is available for the selected date range.</td></tr>';
   let subNames=[...new Set(coreLeaderList().map(x=>x.display).concat(coreRecords.filter(r=>inRange(r,s,e)).map(r=>r.leader)))];
   let subList=subNames.map(name=>leaderPerformance(name,s,e)).filter(x=>x.points>0).sort((a,b)=>b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name));
@@ -2537,9 +2542,9 @@ function renderBoard(id,cols,data){
     return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td>'+esc(a.name)+'</td>'+cells+'<td><b>'+a.points.toLocaleString()+'</b></td></tr>';
   }).join('');
 }
-function renderOverallAgentLeaderboard(rows){
+function renderOverallAgentLeaderboard(rows,start,end){
   const groups={};rows.forEach(r=>(groups[r.agent]??=[]).push(r));
-  const list=Object.entries(groups).map(([name,rs])=>{const days=uniqueDays(rs),activities=rs.reduce((t,r)=>t+Number(r.count||0),0),points=rs.reduce((t,r)=>t+Number(r.points||0),0),target=days*Number(settings.baseTarget||150),pct=target?points/target*100:0;return{name,days,activities,points,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name));
+  const list=Object.entries(groups).map(([name,rs])=>{const days=uniqueDays(rs),activities=rs.reduce((t,r)=>t+Number(r.count||0),0),points=rs.reduce((t,r)=>t+Number(r.points||0),0),target=agentTargetForRange(start,end,days),pct=target?points/target*100:0;return{name,days,activities,points,target,pct,level:calcLevel(pct)}}).sort((a,b)=>b.points-a.points||b.pct-a.pct||a.name.localeCompare(b.name));
   const tb=document.getElementById('lbOverall');if(!tb)return;
   tb.innerHTML=list.length?list.map((x,i)=>{const m=lbMedal(i);return '<tr><td class="lb-rank">'+(m?'<span class="lb-medal">'+m+'</span>':(i+1))+'</td><td><button class="table-link" onclick="openRankedAgentScorecard(\''+encodeURIComponent(x.name)+'\')">'+esc(x.name)+'</button></td><td>'+x.days+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+x.target.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="8" class="small">No agent ranking data is available for this period.</td></tr>';
 }
@@ -2549,7 +2554,7 @@ function renderLeaderboard(){
   renderLeaderboard._init=1;
   const s=sEl?sEl.value:'',e=eEl?eEl.value:'';
   const rows=records.filter(r=>inRange(r,s,e));
-  renderOverallAgentLeaderboard(rows);
+  renderOverallAgentLeaderboard(rows,s,e);
   renderBoard('lbSelling',LB_BOARDS.selling,buildBoard(LB_BOARDS.selling,rows));
   renderBoard('lbRecruiting',LB_BOARDS.recruiting,buildBoard(LB_BOARDS.recruiting,rows));
 }
