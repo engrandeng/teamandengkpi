@@ -16,13 +16,13 @@
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 .app{display:grid;grid-template-columns:270px 1fr;min-height:100vh}.sidebar{background:#fff;color:var(--text);padding:28px 18px 22px;position:sticky;top:0;height:100vh;overflow-y:auto;overscroll-behavior:contain;border-right:1px solid var(--line);box-shadow:10px 0 30px rgba(6,108,124,.05)}.sidebar::-webkit-scrollbar{width:7px}.sidebar::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}.sidebar::-webkit-scrollbar-thumb:hover{background:var(--muted)}
 .brand{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;min-height:205px;padding:10px 8px 24px;margin-bottom:12px;border-bottom:1px solid var(--line)}.brand #brandLogo{display:none;width:160px;height:160px;object-fit:contain;object-position:center;border-radius:0;margin:0 auto 14px;background:transparent;padding:0;box-shadow:none}.brand #brandName{display:block;width:100%;font-size:22px;font-weight:900;line-height:1.12;letter-spacing:.2px;color:var(--navy);overflow-wrap:anywhere}.brand small{display:block;width:100%;color:var(--muted);font-size:12px;line-height:1.25;letter-spacing:1px;margin-top:7px;font-weight:800}
-.nav button{width:100%;border:0;background:transparent;color:#3b555d;text-align:left;padding:14px 16px;border-radius:14px;margin:6px 0;font-weight:800;cursor:pointer;transition:.18s ease}
-.nav button.active,.nav button:hover{background:linear-gradient(90deg,var(--navy),var(--navy2));color:#fff;box-shadow:0 10px 22px rgba(18,176,196,.18);transform:translateX(2px)}.main{padding:26px 28px;min-width:0}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:-26px -28px 24px;padding:22px 28px;background:#fff;border-bottom:1px solid var(--line)}.topbar h1{margin:0;color:var(--navy)}.topbar p{margin:5px 0 0;color:var(--muted)}
+.nav a{display:block;width:100%;border:0;background:transparent;color:#3b555d;text-align:left;text-decoration:none;padding:14px 16px;border-radius:14px;margin:6px 0;font-weight:800;cursor:pointer;transition:.18s ease}
+.nav a.active,.nav a:hover{background:linear-gradient(90deg,var(--navy),var(--navy2));color:#fff;box-shadow:0 10px 22px rgba(18,176,196,.18);transform:translateX(2px)}.main{padding:26px 28px;min-width:0}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:-26px -28px 24px;padding:22px 28px;background:#fff;border-bottom:1px solid var(--line)}.topbar h1{margin:0;color:var(--navy)}.topbar p{margin:5px 0 0;color:var(--muted)}
 .page{display:none}.page.active{display:block}.card{background:#fff;border-radius:22px;padding:20px;margin-bottom:18px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(6,108,124,.07)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}.stat{background:#fff;border-radius:20px;padding:18px;border:1px solid var(--line);box-shadow:0 7px 20px rgba(6,108,124,.07)}.stat strong{display:block;font-size:25px;color:var(--navy)}.stat span{font-size:12px;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.charts{display:grid;grid-template-columns:repeat(2,minmax(320px,1fr));gap:16px}.full{grid-column:1/-1}
 label{font-size:12px;font-weight:800;color:#344054}input,select,textarea,button{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;margin-top:5px;font-family:inherit;font-size:14px}input[type="date"]{font-family:Arial,Helvetica,sans-serif}textarea{min-height:90px;resize:vertical}
-.btn{border:0;background:linear-gradient(90deg,var(--navy),var(--navy2));color:#fff;font-weight:800;cursor:pointer}.btn2{border:0;background:var(--navy);color:#fff;font-weight:800;cursor:pointer}.ghost{background:#fff;color:var(--navy);border:1px solid var(--navy);font-weight:800;cursor:pointer}.danger{background:#ef4444;color:#fff;border:0;font-weight:800;cursor:pointer}
+.btn{border:0;background:linear-gradient(90deg,var(--navy),var(--navy2));color:#fff;font-weight:800;cursor:pointer}.btn2{border:0;background:var(--navy);color:#fff;font-weight:800;cursor:pointer}.ghost{background:#fff;color:var(--navy);border:1px solid var(--navy);font-weight:800;cursor:pointer}.danger{background:#ef4444;color:#fff;border:0;font-weight:800;cursor:pointer}.button-link,.topbar a.btn2{display:inline-flex;align-items:center;justify-content:center;border-radius:10px;text-decoration:none}
 .actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{width:auto;min-width:120px}.tablebox{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:460px}
 .records-toolbar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}.records-toolbar .filter-field{flex:1 1 240px;max-width:360px}.records-toolbar .sort-field{flex:0 1 240px}.records-toolbar>button{width:auto}.records-toolbar .records-result-count{margin-left:auto;padding:10px 0;color:var(--muted);font-size:12px;font-weight:800;white-space:nowrap}
 table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;border-bottom:1px solid #edf0f5;text-align:left;vertical-align:top}th{background:var(--navy);color:#fff;position:sticky;top:0}tr:hover{background:#f8fafc}
@@ -67,7 +67,7 @@ body.capturing-screenshot .screenshot-exclude{display:none!important}
 .medal{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font-size:28px;font-weight:900;margin:auto;border:5px solid rgba(255,255,255,.75);box-shadow:inset 0 4px 10px rgba(255,255,255,.75),inset 0 -7px 12px rgba(0,0,0,.2),0 10px 25px rgba(7,26,51,.2)}
 .medal.start{background:#dfe7f0;color:#344054}.medal.push{background:#ef4444;color:#fff}.medal.bronze{background:#b87333;color:#fff}.medal.silver{background:#cfd4dc;color:#182033}.medal.gold{background:#d4af37;color:#2d2100}.medal.diamond{background:#b9f3ff;color:#073344}
 .score-head{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center}.small{font-size:12px;color:var(--muted)}.notice{padding:10px 12px;border-radius:10px;background:#eff6ff;color:#1e3a8a;font-weight:700;margin-bottom:12px}.hidden{display:none!important}
-@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:sticky;top:0;z-index:50;height:auto;padding:12px 12px 8px;box-shadow:0 6px 18px rgba(6,108,124,.08)}.brand{min-height:0;flex-direction:row;gap:12px;padding:4px 4px 12px;margin-bottom:8px}.brand #brandLogo{width:52px;height:52px;margin:0}.brand #brandName{font-size:17px;text-align:left}.brand small{text-align:left;margin-top:2px;font-size:11px}.nav{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding-bottom:8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;cursor:grab}.nav.dragging{cursor:grabbing}.sidebar.dragging{cursor:grabbing;user-select:none}.nav::-webkit-scrollbar{height:6px}.nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}.nav button{width:auto;flex:0 0 auto;white-space:nowrap;margin:0;padding:11px 15px;scroll-snap-align:start}.nav button.active,.nav button:hover{transform:none}.charts{grid-template-columns:1fr}.main{padding:14px}.score-head{grid-template-columns:1fr}}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:sticky;top:0;z-index:50;height:auto;padding:12px 12px 8px;box-shadow:0 6px 18px rgba(6,108,124,.08)}.brand{min-height:0;flex-direction:row;gap:12px;padding:4px 4px 12px;margin-bottom:8px}.brand #brandLogo{width:52px;height:52px;margin:0}.brand #brandName{font-size:17px;text-align:left}.brand small{text-align:left;margin-top:2px;font-size:11px}.nav{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding-bottom:8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;cursor:grab}.nav.dragging{cursor:grabbing}.sidebar.dragging{cursor:grabbing;user-select:none}.nav::-webkit-scrollbar{height:6px}.nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}.nav a{width:auto;flex:0 0 auto;white-space:nowrap;margin:0;padding:11px 15px;scroll-snap-align:start}.nav a.active,.nav a:hover{transform:none}.charts{grid-template-columns:1fr}.main{padding:14px}.score-head{grid-template-columns:1fr}}
 
 /* ===== Agent Entry Form (shareable link view) ===== */
 #agentPortal{display:none;min-height:100vh;padding:26px 14px 60px;background:var(--bg)}
@@ -115,7 +115,7 @@ body.mobile-preview-frame .mobile-preview-launch{display:none!important}
 @media(max-width:520px){.proof-upload-link{width:100%;min-width:0}}
 
 /* Agent links provide reporting access without administrative editing controls. */
-body.agent-viewer .nav button[data-page="agents"],body.agent-viewer .nav button[data-page="activities"],body.agent-viewer .nav button[data-page="records"],body.agent-viewer .nav button[data-page="reports"],body.agent-viewer .nav button[data-page="settings"]{display:none}
+body.agent-viewer .nav a[data-page="agents"],body.agent-viewer .nav a[data-page="activities"],body.agent-viewer .nav a[data-page="records"],body.agent-viewer .nav a[data-page="reports"],body.agent-viewer .nav a[data-page="settings"]{display:none}
 body.agent-viewer .agent-form-actions .copy-form-btn{display:none}
 body.agent-viewer .admin-only{display:none!important}
 
@@ -130,8 +130,8 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .brand #brandName{font-size:21px;letter-spacing:-.4px}
 .brand small{font-size:10px;letter-spacing:1.6px}
 .nav{display:flex;flex-direction:column;gap:4px}
-.nav button{position:relative;margin:0;padding:12px 14px;border-radius:11px;font-size:13px;letter-spacing:0;transition:background .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
-.nav button.active{box-shadow:0 8px 20px rgba(23,50,78,.18)}
+.nav a{position:relative;margin:0;padding:12px 14px;border-radius:11px;font-size:13px;letter-spacing:0;transition:background .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+.nav a.active{box-shadow:0 8px 20px rgba(23,50,78,.18)}
 .dashboard-calendar-link{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 18px;border:1px solid var(--line);border-left:5px solid var(--navy2);border-radius:14px;background:linear-gradient(100deg,var(--surface-tint),#fff);box-shadow:var(--shadow-sm)}.dashboard-calendar-link strong{display:block;color:var(--navy);font-size:16px}.dashboard-calendar-link span{display:block;margin-top:3px;color:var(--muted);font-size:12px}.dashboard-calendar-link button{flex:0 0 auto}.calendar-week-button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 18px;border:1px solid var(--line);background:var(--surface-tint);color:var(--navy);font-size:17px;font-weight:900;text-align:left;cursor:pointer}.calendar-week-button[aria-expanded="true"] .calendar-chevron{transform:rotate(90deg)}.calendar-chevron{font-size:22px;transition:transform .2s}.calendar-detail{margin-top:16px}.calendar-legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px;font-size:12px;font-weight:800}.calendar-legend span{display:flex;align-items:center;gap:7px}.calendar-dot{width:13px;height:13px;border:1px solid var(--navy);border-radius:4px}.calendar-dot.pt{background:#d9f4f7}.calendar-dot.ft{background:#dff3e5}.calendar-table{min-width:930px}.calendar-table td{min-width:105px}.calendar-table .calendar-role{min-width:155px;background:var(--surface-tint);font-weight:900;color:var(--navy)}.calendar-shift{display:block;padding:8px;border-radius:9px;font-size:11px;font-weight:800;line-height:1.4}.calendar-shift.pt{background:#d9f4f7;border:1px solid #8bcbd2}.calendar-shift.ft{background:#dff3e5;border:1px solid #8fc89e}.calendar-pdf{width:100%;height:620px;border:1px solid var(--line);border-radius:12px;background:#f8fafc}.calendar-actions{display:flex;justify-content:flex-end;margin-bottom:12px}.calendar-actions a{text-decoration:none;display:inline-flex;align-items:center}.calendar-footnote{margin-top:12px;color:var(--muted);font-size:12px}@media(max-width:700px){.dashboard-calendar-link{align-items:flex-start;flex-direction:column}.dashboard-calendar-link button{width:100%}.calendar-pdf{height:480px}}
 .calendar-month-image{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#fff}.calendar-image-button{width:100%;min-height:0;margin:0;padding:0;border:0;background:transparent;cursor:zoom-in}.calendar-image-button:hover{transform:none!important}.calendar-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-bottom:12px}.calendar-actions a{text-decoration:none;display:inline-flex;align-items:center}.calendar-section-title{margin:0 0 5px}.calendar-section-intro{margin:0 0 15px;color:var(--muted);font-size:12px}.weekly-text-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.weekly-day{padding:15px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft)}.weekly-day h4{margin:0 0 9px;color:var(--navy);font-size:14px}.weekly-day ul{margin:0;padding-left:18px;color:var(--text);font-size:12px;line-height:1.55}.weekly-day li+li{margin-top:6px}.weekly-day .no-event{color:var(--muted);font-style:italic}.points-guide{display:grid;grid-template-columns:90px minmax(0,1fr) 78px;border:1px solid var(--line);border-radius:12px;overflow:hidden}.points-guide>div{padding:12px;border-bottom:1px solid var(--line);background:#fff}.points-guide>div:nth-last-child(-n+3){border-bottom:0}.points-guide .guide-head{background:var(--navy);color:#fff;font-size:11px;font-weight:900;text-transform:uppercase}.points-guide .guide-time{color:var(--muted);font-weight:800}.points-guide .guide-points{text-align:right;color:var(--navy);font-weight:900}.points-total{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding:13px 15px;border-radius:11px;background:var(--surface-tint);color:var(--navy);font-weight:900}.calendar-lightbox{position:fixed;inset:0;z-index:10050;display:flex;flex-direction:column;background:rgba(8,19,31,.94)}.calendar-lightbox-toolbar{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#fff;border-bottom:1px solid var(--line)}.calendar-lightbox-toolbar button,.calendar-lightbox-toolbar a{width:auto;min-width:44px;min-height:40px;margin:0;padding:10px 14px;text-decoration:none}.calendar-lightbox-stage{flex:1;overflow:auto;padding:24px;text-align:center}.calendar-lightbox-stage img{max-width:none;width:1100px;height:auto;transform-origin:top center;transition:width .16s ease}.calendar-close{position:absolute;right:12px}.calendar-download{position:absolute;left:12px}.calendar-zoom-value{min-width:54px;text-align:center;font-size:12px;font-weight:900}@media(max-width:700px){.points-guide{grid-template-columns:76px minmax(0,1fr) 64px}.calendar-lightbox-stage{padding:12px}.calendar-download,.calendar-close{position:static}}
 .resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.resource-card{display:flex;flex-direction:column;margin:0}.resource-card h3{margin:0 0 5px}.resource-card>p{margin:0 0 15px;color:var(--muted);font-size:12px}.resource-list{display:grid;gap:10px;margin-top:auto}.resource-link{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;padding:13px 14px;border:1px solid var(--line);border-radius:11px;background:var(--surface-soft);color:var(--navy);font-size:13px;font-weight:800;text-decoration:none;transition:.18s ease}.resource-link:after{content:"↗";flex:0 0 auto;font-size:17px}.resource-link:hover{border-color:var(--navy2);background:var(--surface-tint);box-shadow:var(--shadow-sm);transform:translateY(-1px)}.resource-link:focus-visible{outline:3px solid color-mix(in srgb,var(--navy2) 25%,transparent);outline-offset:2px}@media(max-width:950px){.resource-grid{grid-template-columns:1fr}}
@@ -147,13 +147,13 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .calendar-weekly-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.calendar-edit-toggle{width:auto!important;min-width:84px;min-height:32px;padding:5px 10px;font-size:11px;white-space:nowrap}.weekly-day[contenteditable="false"]{cursor:default}.calendar-editor-actions.hidden{display:none!important}@media(max-width:520px){.calendar-weekly-heading{align-items:flex-start}.calendar-edit-toggle{min-width:76px}}
 .points-guide{grid-template-columns:118px minmax(0,1fr) 92px;font-size:12px;line-height:1.35}.points-guide>div{display:flex;align-items:center;min-height:54px;padding:8px 11px}.points-guide>div:not(.guide-head):nth-child(3n+2){display:block;padding-top:9px;padding-bottom:9px}.points-guide>div:not(.guide-head):nth-child(3n+2) b{display:inline-block;margin-bottom:2px;font-size:12.5px;line-height:1.25}.points-guide .guide-head{min-height:38px;padding-top:7px;padding-bottom:7px;font-size:10px;letter-spacing:.02em}.points-guide .guide-time{color:#6f8091;font-size:11.5px;line-height:1.3;white-space:nowrap}.points-guide .guide-points{justify-content:flex-end;font-size:11.5px;line-height:1.25;white-space:nowrap}.points-total{margin-top:10px;padding:10px 13px;font-size:12px}@media(max-width:600px){.points-guide{grid-template-columns:102px minmax(0,1fr) 70px;font-size:11px}.points-guide>div{min-height:50px;padding:7px 8px}.points-guide>div:not(.guide-head):nth-child(3n+2) b{font-size:11.5px}.points-guide .guide-time,.points-guide .guide-points{font-size:10.5px}.points-total{align-items:flex-start;flex-direction:column}}
 .points-guide-four{grid-template-columns:118px minmax(0,1fr) 70px 88px}.points-guide-four>div:not(.guide-head):nth-child(3n+2){display:flex;padding:8px 11px}.points-guide-four>div:not(.guide-head):nth-child(4n+2){display:block;padding-top:9px;padding-bottom:9px}.points-guide-four>div:not(.guide-head):nth-child(4n+2) b{display:inline-block;margin-bottom:2px;font-size:12.5px;line-height:1.25}.points-guide-four>div:nth-last-child(-n+4){border-bottom:0}.points-guide .guide-category{justify-content:center;color:var(--navy);font-size:11px;font-weight:900;white-space:nowrap}@media(max-width:600px){.points-guide-four{grid-template-columns:94px minmax(0,1fr) 50px 62px}.points-guide-four>div:not(.guide-head):nth-child(4n+2){padding:7px 8px}.points-guide-four .guide-category{font-size:9.5px}}
-.nav button.active:before{content:"";position:absolute;left:7px;top:50%;width:3px;height:18px;border-radius:99px;background:#fff;transform:translateY(-50%)}
+.nav a.active:before{content:"";position:absolute;left:7px;top:50%;width:3px;height:18px;border-radius:99px;background:#fff;transform:translateY(-50%)}
 .main{padding:28px 32px 44px}
 .topbar{position:sticky;top:0;z-index:40;margin:-28px -32px 26px;padding:18px 32px;background:rgba(255,255,255,.96);box-shadow:0 1px 0 var(--line);backdrop-filter:blur(12px)}
 .topbar h1{font-size:25px;line-height:1.15;letter-spacing:-.7px}
 .topbar p{font-size:12px}
 .topbar .actions{justify-content:flex-end}
-.topbar-actions{align-items:center;flex-wrap:nowrap}.refresh-btn{width:auto!important;min-width:92px!important;min-height:36px;padding:7px 12px;font-size:12px}.calendar-header-btn{width:auto!important;min-width:164px!important;min-height:36px;padding:7px 13px;font-size:12px;white-space:nowrap}.agent-form-actions{display:flex;flex-direction:column;gap:6px;min-width:205px}.agent-form-actions button{width:100%;min-height:36px;margin:0;padding:7px 13px;font-size:12px}.copy-form-btn{font-size:12px!important;letter-spacing:.01em}
+.topbar-actions{align-items:center;flex-wrap:nowrap}.refresh-btn{width:auto!important;min-width:92px!important;min-height:36px;padding:7px 12px;font-size:12px}.calendar-header-btn{width:auto!important;min-width:164px!important;min-height:36px;padding:7px 13px;font-size:12px;white-space:nowrap}.agent-form-actions{display:flex;flex-direction:column;gap:6px;min-width:205px}.agent-form-actions button,.agent-form-actions a{width:100%;min-height:36px;margin:0;padding:7px 13px;font-size:12px}.copy-form-btn{font-size:12px!important;letter-spacing:.01em}
 .page.active{animation:page-in .28s ease both}
 @keyframes page-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .card{border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:16px;border:1px solid rgba(218,225,234,.9);box-shadow:var(--shadow-sm);transition:border-color .2s ease,box-shadow .2s ease}
@@ -174,6 +174,8 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .score-identity-text{min-width:0}.score-eyebrow{margin-bottom:4px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:0;text-transform:uppercase}
 .score-identity h2{margin:0;max-width:100%;font-size:21px;line-height:1.2;letter-spacing:0;overflow-wrap:anywhere;color:var(--navy)}
 .score-rank{margin-top:8px;color:var(--navy);font-size:13px;font-weight:900}.score-chart-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.score-chart-heading h3{margin:0}.score-chart-heading label{display:flex;align-items:center;gap:8px;white-space:nowrap}.score-chart-heading select{width:auto;min-width:110px}@media(max-width:600px){.score-chart-heading{align-items:stretch;flex-direction:column}}
+.activity-record-heading{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin-bottom:14px}.activity-record-heading h3{margin:0 auto 0 0}.activity-record-heading label{min-width:170px}.activity-record-heading input{margin-top:4px}.activity-record-heading button{width:auto;margin:0}.score-result-table table{table-layout:fixed}.score-result-table th:first-child,.score-result-table td:first-child{width:48%}.score-result-table th:not(:first-child),.score-result-table td:not(:first-child){width:17.333%;text-align:center}@media(max-width:600px){.score-result-table{overflow-x:visible}.score-result-table table{min-width:0;font-size:11px}.score-result-table th,.score-result-table td{padding:10px 6px;white-space:normal;overflow-wrap:anywhere}.score-result-table th:first-child,.score-result-table td:first-child{width:40%}.score-result-table th:not(:first-child),.score-result-table td:not(:first-child){width:20%}.activity-record-heading{align-items:stretch}.activity-record-heading h3{width:100%}.activity-record-heading label{flex:1}.activity-record-heading button{align-self:end}}
+.pointing-changes-list{margin:12px 0 18px;padding-left:20px;color:var(--text);line-height:1.5}.pointing-changes-list li+li{margin-top:7px}
 .score-content{display:flex;align-items:center;min-width:0;padding:24px}
 .score-head .stats{width:100%;grid-template-columns:repeat(3,minmax(120px,1fr));gap:1px;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
 .score-head .stat{display:flex;flex-direction:column;justify-content:center;min-height:104px;padding:18px;border:0;border-radius:0;box-shadow:none;background:#fff}
@@ -199,10 +201,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .actions{align-items:center;gap:9px}
 .actions button{min-width:unset}
 .core-view-tabs{display:inline-grid;grid-template-columns:repeat(var(--tab-count,2),minmax(150px,1fr));gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--surface-tint)}
-.core-view-tabs button{width:auto;min-height:38px;margin:0;padding:8px 16px;border:0;background:transparent;color:var(--navy);font-weight:800;box-shadow:none}
-.core-view-tabs button.active{background:#fff;box-shadow:0 3px 10px rgba(23,50,78,.12)}
+.core-view-tabs a{display:flex;align-items:center;justify-content:center;width:auto;min-height:38px;margin:0;padding:8px 16px;border:0;border-radius:10px;background:transparent;color:var(--navy);font-weight:800;text-decoration:none;box-shadow:none}
+.core-view-tabs a.active{background:#fff;box-shadow:0 3px 10px rgba(23,50,78,.12)}
 .hub-view-bar{display:flex;align-items:center;justify-content:space-between;gap:14px}
-@media(max-width:520px){.core-view-tabs{display:grid;grid-template-columns:1fr;width:100%}.core-view-tabs button{width:100%}}
+@media(max-width:520px){.core-view-tabs{display:grid;grid-template-columns:1fr;width:100%}.core-view-tabs a{width:100%}}
 .notice{border-left:4px solid var(--navy2);padding:12px 14px;background:var(--surface-tint);color:#294761;font-size:12px;line-height:1.55}
 .tablebox{border-radius:13px;border-color:#d8e0e9;background:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
 table{font-size:12px}
@@ -235,7 +237,7 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
 .act-row{border-color:#d9e2eb;box-shadow:var(--shadow-sm)}
 .toast{font-size:13px;box-shadow:0 14px 38px rgba(23,50,78,.28)}
 @media(max-width:1100px){.main{padding:22px}.topbar{margin:-22px -22px 22px;padding:17px 22px}.topbar{align-items:flex-start;flex-direction:column}.topbar .actions{width:100%;justify-content:flex-start}.topbar .actions>button{flex:0 0 auto}.agent-form-actions{min-width:205px}}
-@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{padding:10px 12px 7px}.brand{min-height:0;padding:3px 4px 10px}.brand #brandLogo{width:48px;height:48px}.nav{flex-direction:row}.main{padding:16px}.topbar{position:relative;margin:-16px -16px 18px;padding:16px}.card{padding:17px;border-radius:15px}.nav button.active:before{display:none}}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{padding:10px 12px 7px}.brand{min-height:0;padding:3px 4px 10px}.brand #brandLogo{width:48px;height:48px;margin:0}.nav{flex-direction:row}.main{padding:16px}.topbar{position:relative;margin:-16px -16px 18px;padding:16px}.card{padding:17px;border-radius:15px}.nav a.active:before{display:none}}
 @media(max-width:600px){.topbar h1{font-size:22px}.topbar-actions{align-items:stretch!important}.topbar-actions .refresh-btn,.topbar-actions .calendar-header-btn{width:100%!important;min-width:0!important;align-self:stretch}.agent-form-actions{grid-column:1/-1;flex:1;min-width:190px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{min-height:96px;padding:15px}.stat strong{font-size:23px}.card{padding:15px}.actions{align-items:stretch}.actions button{width:100%}.tablebox{border-radius:10px}th,td{padding:10px}.totals-bar{gap:9px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.page.active{animation:none}*{transition-duration:.01ms!important}}
 #resources .resource-card:nth-child(5):before{background:linear-gradient(90deg,#087f5b,#40c057)}
@@ -263,30 +265,30 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
     <small id="brandSubtitle" class="hidden"></small>
   </div>
   <div class="nav">
-    <button class="active" data-page="dashboard">Dashboard</button>
-    <button data-page="leaderboard">Agent Leaderboard</button>
-    <button data-page="agents">Agent List</button>
-    <button data-page="activities">Agent Activity KPI</button>
-    <button data-page="coreboard">Subteam Leaderboard</button>
-    <button data-page="coreactivity">Subteam Leader KPI</button>
-    <button data-page="records">Agent KPI Records</button>
-    <button data-page="incentives">Incentives</button>
-    <button data-page="teamcalendar">Team Calendar &amp; Schedule</button>
-    <button data-page="umandengschedule">UM Andeng Schedule</button>
-    <button data-page="resources">Resources and Tools</button>
-    <button data-page="faqs">FAQs</button>
-    <button data-page="reports">Reports</button>
-    <button data-page="settings">Settings</button>
+    <a class="active" data-page="dashboard" href="?page=dashboard">Dashboard</a>
+    <a data-page="leaderboard" href="?page=leaderboard">Agent Leaderboard</a>
+    <a data-page="agents" href="?page=agents">Agent List</a>
+    <a data-page="activities" href="?page=activities">Agent Activity KPI</a>
+    <a data-page="coreboard" href="?page=coreboard">Subteam Leaderboard</a>
+    <a data-page="coreactivity" href="?page=coreactivity">Subteam Leader KPI</a>
+    <a data-page="records" href="?page=records">Agent KPI Records</a>
+    <a data-page="incentives" href="?page=incentives">Incentives</a>
+    <a data-page="teamcalendar" href="?page=teamcalendar">Team Calendar &amp; Schedule</a>
+    <a data-page="umandengschedule" href="?page=umandengschedule">UM Andeng Schedule</a>
+    <a data-page="resources" href="?page=resources">Resources and Tools</a>
+    <a data-page="faqs" href="?page=faqs">FAQs</a>
+    <a data-page="reports" href="?page=reports">Reports</a>
+    <a data-page="settings" href="?page=settings">Settings</a>
   </div>
 </aside>
 <main class="main">
   <div class="topbar">
     <div><h1 id="pageTitle">Agent Performance Overview</h1><p id="appSubtitle">Track team activity, points, targets, and overall performance.</p></div>
     <div class="actions topbar-actions">
-      <button class="btn2 calendar-header-btn" onclick="document.querySelector('.nav button[data-page=&quot;teamcalendar&quot;]').click()" title="View activity and schedule guides">Go to Team Calendar &amp; Schedule</button>
+      <a class="btn2 calendar-header-btn" href="?page=teamcalendar" title="View activity and schedule guides">Go to Team Calendar &amp; Schedule</a>
       <button class="ghost refresh-btn" onclick="cloudLoad()" title="Refresh data">↻ Refresh</button>
       <div class="agent-form-actions">
-        <button class="ghost" onclick="openAgentForm()">Open Agent Form</button>
+        <a class="ghost button-link" href="?view=agent">Open Agent Form</a>
         <button class="btn2 copy-form-btn" onclick="copyAgentLink()">🔗 Copy Agent Form Link</button>
       </div>
     </div>
@@ -328,9 +330,9 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
           <div class="stat"><strong id="scoreLevel">Push Harder</strong><span>Performance Level</span></div>
         </div></div>
       </div>
-      <div class="card"><h3>Selling Activities Results</h3><div class="tablebox"><table><thead><tr><th>Activity</th><th>Count</th><th>Points</th></tr></thead><tbody id="scoreSellingRows"></tbody></table></div></div>
-      <div class="card"><h3>Recruitment Activities Results</h3><div class="tablebox"><table><thead><tr><th>Activity</th><th>Count</th><th>Points</th></tr></thead><tbody id="scoreRecruitingRows"></tbody></table></div></div>
-      <div class="card"><h3>Daily Activity Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points</th><th>Notes</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
+      <div class="card"><h3>Selling Activities Results</h3><div class="tablebox score-result-table"><table><thead><tr><th>Activity</th><th>Count</th><th>Points</th><th>Closing Rate</th></tr></thead><tbody id="scoreSellingRows"></tbody></table></div></div>
+      <div class="card"><h3>Recruitment Activities Results</h3><div class="tablebox score-result-table"><table><thead><tr><th>Activity</th><th>Count</th><th>Points</th><th>Conversion Rate</th></tr></thead><tbody id="scoreRecruitingRows"></tbody></table></div></div>
+      <div class="card"><div class="activity-record-heading"><h3>Daily Activity Records</h3><label>Filter by date<input type="date" id="scoreActivityDate" onchange="renderScorecardActivityRows()"></label><button class="ghost" type="button" onclick="clearScorecardActivityDate()">Show all dates</button></div><div class="tablebox"><table><thead><tr><th>Date</th><th>Activity</th><th>Count</th><th>Points</th><th>Notes</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
       <div class="charts">
         <div class="card full"><div class="score-chart-heading"><h3 id="scoreChartTitle">Daily Points Bar Graph</h3><label>View by<select id="scoreChartGranularity" onchange="renderScorecardChart()"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></label></div><canvas id="scoreMonthlyChart"></canvas></div>
         <div class="card full"><h3>Activity Breakdown</h3><canvas id="activityChart"></canvas></div>
@@ -392,8 +394,8 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
     <div class="card">
       <div class="hub-view-bar">
         <div class="core-view-tabs" role="tablist" aria-label="Agent performance views">
-          <button id="agentLeaderboardTab" class="active" role="tab" aria-selected="true" onclick="showAgentView('leaderboard')">Leaderboard</button>
-          <button id="agentScorecardTab" role="tab" aria-selected="false" onclick="showAgentView('scorecard')">Agent Scorecard</button>
+          <a id="agentLeaderboardTab" class="active" role="tab" aria-selected="true" href="?page=leaderboard&amp;agentView=leaderboard">Leaderboard</a>
+          <a id="agentScorecardTab" role="tab" aria-selected="false" href="?page=leaderboard&amp;agentView=scorecard">Agent Scorecard</a>
         </div>
         <button class="camera-btn" onclick="downloadScreenshot('agent')" title="Download the current Agent Leaderboard view as an image">📷</button>
       </div>
@@ -468,9 +470,9 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
     <div class="card">
       <div class="hub-view-bar">
         <div class="core-view-tabs" style="--tab-count:3" role="tablist" aria-label="Subteam performance views">
-          <button id="coreLeaderboardTab" class="active" role="tab" aria-selected="true" onclick="showCoreView('leaderboard')">Leaderboard</button>
-          <button id="coreScorecardTab" role="tab" aria-selected="false" onclick="showCoreView('scorecard')">Leader Scorecard</button>
-          <button id="subteamScorecardTab" role="tab" aria-selected="false" onclick="showCoreView('subteam')">Subteam Scorecard</button>
+          <a id="coreLeaderboardTab" class="active" role="tab" aria-selected="true" href="?page=coreboard&amp;coreView=leaderboard">Leaderboard</a>
+          <a id="coreScorecardTab" role="tab" aria-selected="false" href="?page=coreboard&amp;coreView=scorecard">Leader Scorecard</a>
+          <a id="subteamScorecardTab" role="tab" aria-selected="false" href="?page=coreboard&amp;coreView=subteam">Subteam Scorecard</a>
         </div>
         <button class="camera-btn" onclick="downloadScreenshot('subteam')" title="Download the current Subteam Leaderboard view as an image">📷</button>
       </div>
@@ -1170,6 +1172,9 @@ Please send your updated CV and reply “Confirmed” once you receive this mess
 
 <!-- ===== AGENT ENTRY FORM (shareable link: add ?view=agent to URL) ===== -->
 <div id="agentPortal">
+  <div id="pointingChangesModal" class="lbmodal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="pointingChangesTitle">
+    <div class="lbmodal-box"><h3 id="pointingChangesTitle">Pointing system updates</h3><p>There are changes in the pointing system:</p><ul id="pointingChangesList" class="pointing-changes-list"></ul><button class="btn" type="button" onclick="closePointingChanges()">I understand</button></div>
+  </div>
   <div class="portal-wrap">
     <div class="portal-brand">
       <img id="portalLogo" alt="Team Logo">
@@ -1512,7 +1517,7 @@ function updatePageMeta(page){var meta=PAGE_META[page]||PAGE_META.dashboard;docu
 function openResourcePage(page){
   if(!document.getElementById(page))page='resources';
   document.querySelectorAll('.page').forEach(function(el){el.classList.toggle('active',el.id===page);});
-  document.querySelectorAll('.nav button').forEach(function(button){button.classList.toggle('active',button.dataset.page==='resources');});
+  document.querySelectorAll('.nav [data-page]').forEach(function(button){button.classList.toggle('active',button.dataset.page==='resources');});
   updatePageMeta(page);
   window.scrollTo({top:0,left:0,behavior:'auto'});
 }
@@ -1619,7 +1624,8 @@ function scheduleWeeklyCalendarRefresh(){
 function saveWeeklyCalendar(){var editor=document.getElementById('weeklyCalendarEditor');if(!editor)return;setWeeklyEditorMode(false);var start=currentWeekStart();localStorage.setItem(WEEKLY_CALENDAR_KEY,JSON.stringify({version:WEEKLY_CALENDAR_VERSION,weekStart:weeklyDateKey(start),html:editor.innerHTML}));showToast('✓ Weekly calendar saved and locked');}
 function addWeeklyCalendarDay(){var editor=document.getElementById('weeklyCalendarEditor'),day=document.createElement('article');day.className='weekly-day';day.contentEditable='true';day.innerHTML='<h4>Edit date</h4><ul><li>Edit activity and time</li></ul>';editor.appendChild(day);day.focus();}
 document.addEventListener('change',function(event){rememberUiField(event.target);if(syncSharedDateRange(event.target))renderDateFilteredViews();});
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(b.dataset.page))return;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');updatePageMeta(b.dataset.page);if(b.dataset.page==='reports')renderReports();if(b.dataset.page==='incentives')renderIncentives();if(b.dataset.page==='teamcalendar')restoreCalendarTools();if(b.dataset.page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(b.dataset.page==='coreactivity')renderCoreActivity();if(b.dataset.page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}});
+function activatePage(page,updateUrl){var b=document.querySelector('.nav [data-page="'+page+'"]');if(!b||isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(page))return;document.querySelectorAll('.nav [data-page]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(page).classList.add('active');updatePageMeta(page);if(updateUrl){var u=new URL(location.href);u.searchParams.set('page',page);history.replaceState(null,'',u.toString())}if(page==='reports')renderReports();if(page==='incentives')renderIncentives();if(page==='teamcalendar')restoreCalendarTools();if(page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(page==='coreactivity')renderCoreActivity();if(page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}}
+document.querySelectorAll('.nav [data-page]').forEach(function(link){link.addEventListener('click',function(event){if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();activatePage(link.dataset.page,true);});});
 function seedDates(){let now=new Date(),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2),dateIds=['dashStart','scoreStart','subScoreStart','lbStart','coreStart','teamScoreStart','incentiveStart','dashEnd','scoreEnd','subScoreEnd','lbEnd','coreEnd','recDate','teamScoreEnd','incentiveEnd'];dateIds.forEach(function(id){var el=document.getElementById(id);if(el)el.value=today;});uiState.fields=uiState.fields||{};dateIds.forEach(function(id){if(id!=='recDate')uiState.fields[id]=today;});saveUiState();}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort((a,b)=>a.localeCompare(b));['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});let recordsFilter=document.getElementById('recordsAgentFilter');if(recordsFilter){let val=recordsFilter.value;recordsFilter.innerHTML='<option value="">All Agents</option>'+agents.map(a=>`<option value="${esc(a)}" ${a===val?'selected':''}>${esc(a)}</option>`).join('')}document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
 function renderAll(){setupResourcePages();renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderIncentives();renderAgents();agentRefresh();coreRefresh();renderResourceSpiels()}
@@ -1660,11 +1666,12 @@ function selectAgentScorecard(name,startDate,endDate){
   showAgentView('scorecard');
 }
 function openAgentScorecard(encodedName){
-  var name=decodeURIComponent(encodedName),startDate=dashStart.value,endDate=dashEnd.value,button=document.querySelector('.nav button[data-page="leaderboard"]');
+  var name=decodeURIComponent(encodedName),startDate=dashStart.value,endDate=dashEnd.value,button=document.querySelector('.nav [data-page="leaderboard"]');
   if(button)button.click();
   selectAgentScorecard(name,startDate,endDate);
   window.scrollTo({top:0,behavior:'smooth'});
 }
+function agentScorecardUrl(name,start,end){var u=new URL(location.href);u.searchParams.set('page','leaderboard');u.searchParams.set('agentView','scorecard');u.searchParams.set('agent',name);u.searchParams.set('start',start);u.searchParams.set('end',end);u.searchParams.delete('view');return u.toString();}
 function openRankedAgentScorecard(encodedName){
   selectAgentScorecard(decodeURIComponent(encodedName),lbStart.value,lbEnd.value);
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1675,7 +1682,7 @@ rankList.innerHTML=summaries.length?summaries.map((x,i)=>`
   <div class="rank-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
     <div class="rank-num">${i+1}</div>
     <div>
-      <div class="rank-name"><span class="agent-avatar" title="Agent avatar">${esc(agentAvatars[x.name]||'🙂')}</span><button class="rank-name-button" onclick="openAgentScorecard('${encodeURIComponent(x.name)}')">${esc(x.name)}</button> <span class="badge ${x.level.cls}">${x.level.icon} ${x.level.name}</span></div>
+      <div class="rank-name"><span class="agent-avatar" title="Agent avatar">${esc(agentAvatars[x.name]||'🙂')}</span><a class="rank-name-button" href="${esc(agentScorecardUrl(x.name,s,e))}" onclick="if(!event.metaKey&&!event.ctrlKey&&!event.shiftKey&&!event.altKey){event.preventDefault();openAgentScorecard('${encodeURIComponent(x.name)}')}">${esc(x.name)}</a> <span class="badge ${x.level.cls}">${x.level.icon} ${x.level.name}</span></div>
       <div class="rank-bar"><i style="width:${Math.min(100,x.pct).toFixed(1)}%"></i></div>
     </div>
     <div class="rank-pts"><strong>${x.points.toLocaleString()}</strong><div class="rank-sub">${x.pct.toFixed(1)}% of ${x.target.toLocaleString()} target</div></div>
@@ -1688,14 +1695,21 @@ let daily={};rows.forEach(r=>daily[r.date]=(daily[r.date]||0)+Number(r.points||0
 let dkeys=Object.keys(daily).sort();
 destroyChart('daily');charts.daily=new Chart(dailyChart,{type:'bar',data:{labels:dkeys,datasets:[{label:'Points',data:dkeys.map(k=>daily[k]),backgroundColor:'#e2691c',borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
 }
-function renderScorecard(){let a=scoreAgent.value,s=scoreStart.value,e=scoreEnd.value,rows=filterRows(s,e,a),points=rows.reduce((t,r)=>t+Number(r.points||0),0),target=agentTargetForRange(s,e,uniqueDays(rows)),pct=target?points/target*100:0,l=calcLevel(pct);scoreName.textContent=a||'Select an agent';scorePoints.textContent=points.toLocaleString();scoreTarget.textContent=target.toLocaleString();scorePct.textContent=pct.toFixed(1)+'%';scoreLevel.textContent=l.name;scoreMedal.className='medal '+l.cls;scoreMedal.textContent=l.icon;scoreRows.innerHTML=rows.sort((x,y)=>y.date.localeCompare(x.date)).map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.activity)}</td><td>${r.count}</td><td>${r.points}</td><td>${esc(r.notes)}</td></tr>`).join('');
+function renderScorecard(){let a=scoreAgent.value,s=scoreStart.value,e=scoreEnd.value,rows=filterRows(s,e,a),points=rows.reduce((t,r)=>t+Number(r.points||0),0),target=agentTargetForRange(s,e,uniqueDays(rows)),pct=target?points/target*100:0,l=calcLevel(pct);scoreName.textContent=a||'Select an agent';scorePoints.textContent=points.toLocaleString();scoreTarget.textContent=target.toLocaleString();scorePct.textContent=pct.toFixed(1)+'%';scoreLevel.textContent=l.name;scoreMedal.className='medal '+l.cls;scoreMedal.textContent=l.icon;let activityDate=document.getElementById('scoreActivityDate');activityDate.min=s||'';activityDate.max=e||'';if(activityDate.value&&((s&&activityDate.value<s)||(e&&activityDate.value>e)))activityDate.value='';renderScorecardActivityRows(rows);
 let ranked={};filterRows(s,e,'').forEach(r=>{let key=norm(r.agent);if(!ranked[key])ranked[key]={name:r.agent,points:0};ranked[key].points+=Number(r.points||0)});let ranking=Object.values(ranked).sort((x,y)=>y.points-x.points||x.name.localeCompare(y.name)),rankIndex=ranking.findIndex(x=>norm(x.name)===norm(a));scoreRank.textContent=rankIndex<0?'Overall rank: —':'Overall rank: #'+(rankIndex+1)+' of '+ranking.length;
-function activityResultRows(cols){return cols.map(c=>{let matching=rows.filter(r=>norm(r.activity).includes(c.match)),count=matching.reduce((t,r)=>t+Number(r.count||0),0),activityPoints=matching.reduce((t,r)=>t+Number(r.points||0),0);return '<tr><td>'+esc(c.label)+'</td><td>'+count.toLocaleString()+'</td><td><b>'+activityPoints.toLocaleString()+'</b></td></tr>'}).join('')}
-scoreSellingRows.innerHTML=activityResultRows([{label:'Client Presentation / Meetings',match:'client presentation'},{label:'Closing / Submitted Case',match:'closing'}]);scoreRecruitingRows.innerHTML=activityResultRows([{label:'MTM',match:'mtm'},{label:'Exam',match:'exam'},{label:'Coded',match:'coded'}]);
+function activityTotals(matches){let matching=rows.filter(r=>matches.some(match=>norm(r.activity).includes(match)));return{count:matching.reduce((t,r)=>t+Number(r.count||0),0),points:matching.reduce((t,r)=>t+Number(r.points||0),0)}}
+let presentations=activityTotals(['client presentation']),closings=activityTotals(['closing','submitted case']),closingRate=presentations.count?closings.count/presentations.count*100:0;scoreSellingRows.innerHTML=[{label:'Client Presentation / Meetings',data:presentations,rate:'—'},{label:'Closing / Submitted Case',data:closings,rate:closingRate.toFixed(1)+'%'}].map(x=>'<tr><td>'+esc(x.label)+'</td><td>'+x.data.count.toLocaleString()+'</td><td><b>'+x.data.points.toLocaleString()+'</b></td><td><b>'+x.rate+'</b></td></tr>').join('');
+let byb=activityTotals(['byb','tabletop','table top']),mtm=activityTotals(['mtm']),exam=activityTotals(['exam']),coded=activityTotals(['coded']),recruiting=[{label:'BYB Show-ups',data:byb,rate:'—'},{label:'MTM',data:mtm,rate:byb.count?(mtm.count/byb.count*100).toFixed(1)+'%':'0.0%'},{label:'Exam',data:exam,rate:mtm.count?(exam.count/mtm.count*100).toFixed(1)+'%':'0.0%'},{label:'Coded',data:coded,rate:exam.count?(coded.count/exam.count*100).toFixed(1)+'%':'0.0%'}];scoreRecruitingRows.innerHTML=recruiting.map(x=>'<tr><td>'+esc(x.label)+'</td><td>'+x.data.count.toLocaleString()+'</td><td><b>'+x.data.points.toLocaleString()+'</b></td><td><b>'+x.rate+'</b></td></tr>').join('');
 renderScorecardChart();
 let byAct={};rows.forEach(r=>byAct[r.activity]=(byAct[r.activity]||0)+Number(r.points||0));destroyChart('activity');charts.activity=new Chart(activityChart,{type:'doughnut',data:{labels:Object.keys(byAct),datasets:[{data:Object.values(byAct)}]},options:{responsive:true}});
 agentMessage.value=a?`Hi ${a}, your KPI performance for the selected period is ${pct.toFixed(1)}%. You earned ${points.toLocaleString()} points against a target of ${target.toLocaleString()}. Your current level is ${l.name}. ${pct<30?'Let us push harder and focus on consistent daily activities.':pct<71?'Good progress. Keep building your daily activity volume.':pct<150?'Great work. Maintain the momentum and aim for Diamond.':'Excellent work! You reached Diamond level. Keep leading by example.'}`:'';
 }
+function renderScorecardActivityRows(rows){
+  rows=rows||filterRows(scoreStart.value,scoreEnd.value,scoreAgent.value);var date=document.getElementById('scoreActivityDate').value;
+  if(date)rows=rows.filter(function(row){return row.date===date;});
+  scoreRows.innerHTML=rows.slice().sort(function(x,y){return y.date.localeCompare(x.date);}).map(function(r){return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.activity)+'</td><td>'+r.count+'</td><td>'+r.points+'</td><td>'+esc(r.notes)+'</td></tr>';}).join('')||'<tr><td colspan="5" class="small">No activities were recorded for this date.</td></tr>';
+}
+function clearScorecardActivityDate(){document.getElementById('scoreActivityDate').value='';renderScorecardActivityRows();}
 function renderScorecardChart(){
   var s=scoreStart.value,e=scoreEnd.value,dates=selectedDateList(s,e),select=document.getElementById('scoreChartGranularity'),allowed=dates.length<=8?['daily']:dates.length<=31?['daily','weekly']:['daily','weekly','monthly'];
   Array.from(select.options).forEach(function(option){option.disabled=!allowed.includes(option.value);option.hidden=option.disabled;});
@@ -1770,13 +1784,15 @@ records=records.filter(r=>r.id!==id);write(KEYS.records,records);renderAll()}
 function clearRecords(){
 if(cloudEnabled())return alert('Google Sheets mode is enabled. To clear all records, open the Google Sheet and delete the data rows there. Do not delete the header row.');
 if(confirm('Clear all standalone KPI records?')){records=[];write(KEYS.records,records);renderAll()}}
-function addActivity(){let name=activityName.value.trim(),points=Number(activityPoints.value);if(!name||points<0)return alert('Enter activity name and points.');if(activities.some(a=>norm(a.name)===norm(name)))return alert('Activity already exists.');activities.push({name,points});write(KEYS.activities,activities);pushConfig();activityName.value='';activityPoints.value='';renderAll()}
+function notePointingChange(message){settings.activityChanges=Array.isArray(settings.activityChanges)?settings.activityChanges:[];settings.activityChanges.unshift({message:message,date:new Date().toISOString()});settings.activityChanges=settings.activityChanges.slice(0,12);write(KEYS.settings,settings)}
+function refreshAgentFormActivities(){if(document.getElementById('afActList'))renderAgentForm();}
+function addActivity(){let name=activityName.value.trim(),points=Number(activityPoints.value);if(!name||points<0)return alert('Enter activity name and points.');if(activities.some(a=>norm(a.name)===norm(name)))return alert('Activity already exists.');activities.push({name,points});notePointingChange('Added '+name+' — '+points+' point'+(points===1?'':'s')+' each.');write(KEYS.activities,activities);pushConfig();activityName.value='';activityPoints.value='';renderAll();refreshAgentFormActivities()}
 function renderActivities(){activityRows.innerHTML=activities.map((a,i)=>`<tr ondragover="event.preventDefault()" ondrop="actDrop(event,${i})"><td class="drag-h" draggable="true" ondragstart="actDrag(event,${i})">⠿</td><td><input value="${esc(a.name)}" onchange="editActivity(${i},'name',this.value)"></td><td><input type="number" min="0" value="${a.points}" onchange="editActivity(${i},'points',this.value)"></td><td><button class="danger" onclick="removeActivity(${i})">Delete</button></td></tr>`).join('')}
 let _actDrag=null;
 function actDrag(e,i){_actDrag=i;e.dataTransfer.effectAllowed='move';}
 function actDrop(e,i){e.preventDefault();if(_actDrag===null||_actDrag===i)return;const m=activities.splice(_actDrag,1)[0];activities.splice(i,0,m);_actDrag=null;write(KEYS.activities,activities);pushConfig();renderAll();}
-function editActivity(i,k,v){activities[i][k]=k==='points'?Number(v):v.trim();write(KEYS.activities,activities);pushConfig();renderSelectors()}
-function removeActivity(i){if(confirm('Delete this activity? Existing records will stay unchanged.')){activities.splice(i,1);write(KEYS.activities,activities);pushConfig();renderAll()}}
+function editActivity(i,k,v){var before={name:activities[i].name,points:Number(activities[i].points||0)},next=k==='points'?Number(v):v.trim();activities[i][k]=next;if(k==='points'&&before.points!==next)notePointingChange(before.name+': '+before.points+' → '+next+' points.');if(k==='name'&&before.name!==next)notePointingChange('Renamed '+before.name+' to '+next+'.');write(KEYS.activities,activities);pushConfig();renderSelectors();refreshAgentFormActivities()}
+function removeActivity(i){if(confirm('Delete this activity? Existing records will stay unchanged.')){var removed=activities[i];activities.splice(i,1);notePointingChange('Removed '+removed.name+' ('+Number(removed.points||0)+' points).');write(KEYS.activities,activities);pushConfig();renderAll();refreshAgentFormActivities()}}
 function populateReportMessageSelectors(){
   var agentSel=document.getElementById('reportAgentMessageSelect'),subSel=document.getElementById('reportSubteamMessageSelect');if(!agentSel||!subSel)return;
   var av=agentSel.value,sv=subSel.value,agents=[...new Set([...agentList,...records.map(function(r){return r.agent;}).filter(Boolean)])].sort();
@@ -1944,7 +1960,14 @@ function renderAgentForm(){
       <div class="act-total" id="afTot_${i}">0</div>
     </div>`).join('');
   updateFormTotals();
+  showPointingChanges();
 }
+function showPointingChanges(){
+  if(!document.body.classList.contains('agent-mode'))return;var changes=Array.isArray(settings.activityChanges)&&settings.activityChanges.length?settings.activityChanges:activities.map(function(activity){return{message:activity.name+' — '+Number(activity.points||0)+' point'+(Number(activity.points||0)===1?'':'s')+'.'}}),modal=document.getElementById('pointingChangesModal');if(!changes.length||!modal)return;
+  var latest=(changes[0].date||'current')+'|'+activities.map(function(activity){return activity.name+':'+activity.points;}).join('|'),seen='';try{seen=sessionStorage.getItem('TAND_POINTING_CHANGES_SEEN')||''}catch(e){}
+  if(seen===latest)return;document.getElementById('pointingChangesList').innerHTML=changes.map(function(change){return '<li>'+esc(change.message)+'</li>';}).join('');modal.style.display='flex';modal.dataset.version=latest;
+}
+function closePointingChanges(){var modal=document.getElementById('pointingChangesModal'),version=modal.dataset.version||'';modal.style.display='none';try{sessionStorage.setItem('TAND_POINTING_CHANGES_SEEN',version)}catch(e){}}
 function updateAgentAvatarSelect(){
   var picker=document.getElementById('afAvatarPicker'),toggle=document.getElementById('afAvatarToggle'),name=document.getElementById('afName').value.trim();if(!picker||!toggle)return;
   var selected=name?(agentAvatars[name]||''):'';
@@ -2176,7 +2199,7 @@ function viewDashboard(){
   let u=new URL(location.href);u.searchParams.delete('view');
   history.replaceState(null,'',u.toString());
   renderAll();
-  let dashboardButton=document.querySelector('.nav button[data-page="dashboard"]');
+  let dashboardButton=document.querySelector('.nav [data-page="dashboard"]');
   if(dashboardButton)dashboardButton.click();
   window.scrollTo({top:0,left:0,behavior:'auto'});
 }
@@ -2384,6 +2407,9 @@ function showAgentView(view){
   if(showScorecard)renderScorecard();else renderLeaderboard();
 }
 function renderAgentHub(){showAgentView(agentHubView);}
+function bindHubLinks(){
+  [['agentLeaderboardTab','agent','leaderboard'],['agentScorecardTab','agent','scorecard'],['coreLeaderboardTab','core','leaderboard'],['coreScorecardTab','core','scorecard'],['subteamScorecardTab','core','subteam']].forEach(function(item){var link=document.getElementById(item[0]);if(!link)return;var u=new URL(location.href);u.searchParams.set('page',item[1]==='agent'?'leaderboard':'coreboard');u.searchParams.set(item[1]==='agent'?'agentView':'coreView',item[2]);u.searchParams.delete('view');link.href=u.toString();link.addEventListener('click',function(event){if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();if(item[1]==='agent')showAgentView(item[2]);else showCoreView(item[2]);});});
+}
 function setupCoreHub(){
   var source=document.getElementById('subteamscorecard'),target=document.getElementById('coreScorecardView');
   if(!source||!target)return;
@@ -2434,20 +2460,22 @@ function closeMobilePreview(){
   modal.style.display='none';frame.src='about:blank';document.body.style.overflow=document.body.dataset.previewOverflow||'';delete document.body.dataset.previewOverflow;
 }
 document.addEventListener('keydown',function(event){if(event.key==='Escape'&&document.getElementById('mobilePreviewModal').style.display!=='none')closeMobilePreview();});
+window.addEventListener('storage',function(event){if(event.key===KEYS.activities&&event.newValue){try{activities=JSON.parse(event.newValue)||activities}catch(e){}if(document.body.classList.contains('agent-mode'))renderAgentForm();}if(event.key===KEYS.settings&&event.newValue){try{settings={...settings,...JSON.parse(event.newValue)}}catch(e){}if(document.body.classList.contains('agent-mode'))renderAgentForm();}});
 function init(){
-  if(new URLSearchParams(location.search).get('mobilePreview')==='1')document.body.classList.add('mobile-preview-frame');
-  setupAgentHub();setupCoreHub();seedDates();loadSettingsToForm();applyBranding();renderAll();restoreCalendarTools();scheduleWeeklyCalendarRefresh();
-  agentHubView=uiState.agentView==='scorecard'?'scorecard':'leaderboard';
-  coreHubView=uiState.coreView==='scorecard'||uiState.coreView==='subteam'?uiState.coreView:'leaderboard';
+  var params=new URLSearchParams(location.search);if(params.get('mobilePreview')==='1')document.body.classList.add('mobile-preview-frame');
+  setupAgentHub();setupCoreHub();bindHubLinks();seedDates();loadSettingsToForm();applyBranding();renderAll();restoreCalendarTools();scheduleWeeklyCalendarRefresh();
+  agentHubView=params.get('agentView')==='scorecard'?'scorecard':uiState.agentView==='scorecard'?'scorecard':'leaderboard';
+  coreHubView=['scorecard','subteam'].includes(params.get('coreView'))?params.get('coreView'):uiState.coreView==='scorecard'||uiState.coreView==='subteam'?uiState.coreView:'leaderboard';
   restoreUiFields();
   setSharedDateRange(document.getElementById('dashStart').value,document.getElementById('dashEnd').value);
+  if(params.get('agent')){scoreAgent.value=params.get('agent');if(params.get('start'))scoreStart.value=params.get('start');if(params.get('end'))scoreEnd.value=params.get('end');}
   renderDateFilteredViews();
-  if(new URLSearchParams(location.search).get('view')==='agent'){
+  if(params.get('view')==='agent'){
     try{sessionStorage.setItem('TAND_AGENT_VIEWER','1')}catch(e){}
     applyAgentViewerMode();
     document.body.classList.add('agent-mode');
     renderAgentForm();
-  }else applyAgentViewerMode();
+  }else{applyAgentViewerMode();activatePage(params.get('page')||'dashboard',false);}
   if(cloudEnabled()){if(!teamAccessCode)showAccessGate();else cloudLoad(true).then(()=>{if(document.body.classList.contains('agent-mode'))updateFormTotals()});}
 }
 
@@ -2707,13 +2735,13 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
   .brand{min-height:0;flex-direction:row;justify-content:flex-start;gap:10px;padding:2px 4px 9px;margin:0 0 7px;text-align:left}
   .brand #brandLogo{width:42px;height:42px;flex:0 0 42px;margin:0}.brand #brandName{font-size:15px;text-align:left}.brand small{display:none!important}
   .nav{flex-direction:row;gap:6px;overflow-x:auto;padding:0 0 5px;scrollbar-width:thin;overscroll-behavior-x:contain}
-  .nav button{flex:0 0 auto;min-height:44px;padding:10px 13px;white-space:nowrap;font-size:12px}
+  .nav a{flex:0 0 auto;min-height:44px;padding:10px 13px;white-space:nowrap;font-size:12px}
   .main{min-width:0;padding:12px 12px calc(22px + env(safe-area-inset-bottom))}
   .topbar{position:relative;top:auto;z-index:1;align-items:stretch;flex-direction:column;margin:-12px -12px 14px;padding:14px 12px;gap:12px}
   .topbar h1{font-size:21px;line-height:1.2}.topbar p{font-size:11px;line-height:1.4}
   .topbar .topbar-actions{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(88px,.8fr);align-items:stretch;gap:8px;width:100%}
   .topbar-actions .refresh-btn{width:88px!important;min-width:0!important;min-height:44px;align-self:stretch!important}
-  .agent-form-actions{min-width:0;gap:7px}.agent-form-actions button{min-height:44px;padding:8px 10px;font-size:12px}
+  .agent-form-actions{min-width:0;gap:7px}.agent-form-actions button,.agent-form-actions a{min-height:44px;padding:8px 10px;font-size:12px}
   .card{padding:14px;margin-bottom:12px;border-radius:14px}.card:hover{box-shadow:var(--shadow-sm)}
   .grid{grid-template-columns:1fr;gap:11px}.charts,.dash-layout{grid-template-columns:1fr;gap:12px}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
@@ -2727,7 +2755,7 @@ th.lb-rank,td.lb-rank{text-align:center;width:64px;font-weight:800}
   .score-head .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.score-head .stat{min-height:86px;padding:13px}.score-head .stat strong{font-size:21px}
   .medal-shell{width:70px;height:70px;flex:0 0 70px}.score-head .medal{width:50px;height:50px;font-size:22px}
   .hub-view-bar{align-items:flex-start}.core-view-tabs{display:flex!important;grid-template-columns:none!important;width:calc(100% - 54px)!important;overflow-x:auto;padding:4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-  .core-view-tabs button{flex:0 0 auto;width:auto!important;min-width:138px;min-height:42px;scroll-snap-align:start;font-size:12px}
+  .core-view-tabs a{flex:0 0 auto;width:auto!important;min-width:138px;min-height:42px;scroll-snap-align:start;font-size:12px}
   .camera-btn{flex:0 0 44px;width:44px;height:44px;min-height:44px;margin:0}
   .lb-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lb-controls label{min-width:0}.lb-controls input{width:100%;margin:0}.lb-controls .compact-apply{width:100%;min-width:0}.quick-range-label{grid-column:1/-1;margin:2px 0 -3px}.lb-controls .range-shortcut{width:100%;min-width:0}
   .act-row{grid-template-columns:minmax(0,1fr) 72px 52px;gap:8px;padding:11px}.act-row input{min-width:0;padding:8px}.entry-total{padding:12px}
