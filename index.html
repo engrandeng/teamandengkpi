@@ -176,6 +176,7 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .score-rank{margin-top:8px;color:var(--navy);font-size:13px;font-weight:900}.score-chart-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.score-chart-heading h3{margin:0}.score-chart-heading label{display:flex;align-items:center;gap:8px;white-space:nowrap}.score-chart-heading select{width:auto;min-width:110px}@media(max-width:600px){.score-chart-heading{align-items:stretch;flex-direction:column}}
 .activity-record-heading{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin-bottom:14px}.activity-record-heading h3{margin:0 auto 0 0}.activity-record-heading label{min-width:170px}.activity-record-heading input{margin-top:4px}.activity-record-heading button{width:auto;margin:0}.score-result-table table{table-layout:fixed}.score-result-table th:first-child,.score-result-table td:first-child{width:48%}.score-result-table th:not(:first-child),.score-result-table td:not(:first-child){width:17.333%;text-align:center}@media(max-width:600px){.score-result-table{overflow-x:visible}.score-result-table table{min-width:0;font-size:11px}.score-result-table th,.score-result-table td{padding:10px 6px;white-space:normal;overflow-wrap:anywhere}.score-result-table th:first-child,.score-result-table td:first-child{width:40%}.score-result-table th:not(:first-child),.score-result-table td:not(:first-child){width:20%}.activity-record-heading{align-items:stretch}.activity-record-heading h3{width:100%}.activity-record-heading label{flex:1}.activity-record-heading button{align-self:end}}
 .pointing-update-box{max-width:650px!important;max-height:min(86vh,780px);overflow:auto;padding:28px!important;border-top:6px solid var(--red);background:linear-gradient(180deg,#fff8f7 0,#fff 120px)}.pointing-update-kicker{margin:0 0 5px;color:var(--red);font-size:12px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.pointing-update-box h3{font-size:25px!important;line-height:1.15}.pointing-update-intro{margin:8px 0 17px;color:var(--muted);font-size:14px;line-height:1.45}.pointing-changes-list{display:grid;gap:9px;margin:0 0 20px;padding:0;list-style:none;color:var(--text)}.pointing-changes-list li{padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:14px;line-height:1.35}.pointing-change-name{display:block;margin-bottom:3px;color:var(--navy);font-weight:900}.pointing-old{color:var(--muted);text-decoration:line-through}.pointing-arrow{padding:0 7px;color:var(--muted)}.pointing-new{color:var(--red);font-weight:900}.pointing-new-only{color:var(--red);font-weight:900}.pointing-update-note{margin:-7px 0 18px;color:var(--navy);font-size:13px;font-weight:800;text-align:center}@media(max-width:600px){.pointing-update-box{max-height:88dvh;padding:20px 16px calc(18px + env(safe-area-inset-bottom))!important}.pointing-update-box h3{font-size:21px!important}.pointing-update-intro{font-size:13px}.pointing-changes-list li{padding:10px 11px;font-size:13px}}
+.agent-activities-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:2px}.agent-activities-heading h3{margin:4px 0 2px}.notification-bell{position:relative;width:44px;min-width:44px;height:44px;min-height:44px;margin:0;padding:0;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--navy);font-size:20px;box-shadow:0 5px 14px rgba(23,50,78,.12)}.notification-bell:hover{background:var(--surface-tint);border-color:var(--red)}.notification-bell:after{content:"";position:absolute;right:5px;top:4px;width:9px;height:9px;border:2px solid #fff;border-radius:50%;background:var(--red)}
 .score-content{display:flex;align-items:center;min-width:0;padding:24px}
 .score-head .stats{width:100%;grid-template-columns:repeat(3,minmax(120px,1fr));gap:1px;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
 .score-head .stat{display:flex;flex-direction:column;justify-content:center;min-height:104px;padding:18px;border:0;border-radius:0;box-shadow:none;background:#fff}
@@ -217,6 +218,7 @@ tbody tr:last-child td{border-bottom:0}
 tfoot th{background:var(--navy);font-size:12px;border-top:1px solid rgba(255,255,255,.18)}
 td .danger{min-height:32px;padding:6px 11px;margin-top:0;font-size:11px}
 .record-actions{display:flex;gap:6px;align-items:center}.record-actions button{width:auto;min-width:58px;min-height:32px;margin:0;padding:6px 10px;font-size:11px}
+#recordEditor{scroll-margin-top:150px}#recordEditor.editing{border:2px solid var(--red);box-shadow:0 0 0 4px color-mix(in srgb,var(--red) 12%,transparent),var(--shadow-md)}
 #agentNameRows input[type="checkbox"]{width:17px;height:17px;min-height:0;margin:0;padding:0;vertical-align:middle;accent-color:var(--navy);cursor:pointer}
 #agentNameRows td{vertical-align:middle}
 #agentNameRows input:not([type="checkbox"]),#agentNameRows select,#agentNameRows .danger{min-height:40px;margin-top:0}
@@ -369,7 +371,7 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
   </section>
 
   <section id="records" class="page">
-    <div class="card grid">
+    <div id="recordEditor" class="card grid">
       <div><label>Date<input type="date" id="recDate"></label></div>
       <div><label>Agent<input id="recAgent" list="agentList"></label></div>
       <div><label>Activity<select id="recActivity"></select></label></div>
@@ -1172,8 +1174,8 @@ Please send your updated CV and reply “Confirmed” once you receive this mess
 
 <!-- ===== AGENT ENTRY FORM (shareable link: add ?view=agent to URL) ===== -->
 <div id="agentPortal">
-  <div id="pointingChangesModal" class="lbmodal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="pointingChangesTitle">
-    <div class="lbmodal-box pointing-update-box"><div class="pointing-update-kicker">Important update</div><h3 id="pointingChangesTitle">Earn more points from your key activities!</h3><p class="pointing-update-intro">We’ve refreshed selected activity points to better recognize your effort and progress. Here’s what changed:</p><ul id="pointingChangesList" class="pointing-changes-list"></ul><p class="pointing-update-note">Every activity moves you closer to your weekly goal. Keep going!</p><button class="btn" type="button" onclick="closePointingChanges()">Got it — let’s earn points!</button></div>
+  <div id="pointingChangesModal" class="lbmodal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="pointingChangesTitle" onclick="if(event.target===this)closePointingChanges()">
+    <div class="lbmodal-box pointing-update-box" onclick="event.stopPropagation()"><div class="pointing-update-kicker">Important update</div><h3 id="pointingChangesTitle">Earn more points from your key activities!</h3><p class="pointing-update-intro">We’ve refreshed selected activity points to better recognize your effort and progress. Here’s what changed:</p><ul id="pointingChangesList" class="pointing-changes-list"></ul><p class="pointing-update-note">Every activity moves you closer to your weekly goal. Keep going!</p><button class="btn" type="button" onclick="closePointingChanges()">Got it — let’s earn points!</button></div>
   </div>
   <div class="portal-wrap">
     <div class="portal-brand">
@@ -1197,7 +1199,7 @@ Please send your updated CV and reply “Confirmed” once you receive this mess
     </div>
 
     <div class="card">
-      <h3 style="margin:4px 0 2px">Activities</h3>
+      <div class="agent-activities-heading"><h3>Activities</h3><button class="notification-bell" type="button" onclick="reopenPointingChanges()" aria-label="View pointing system updates" title="View pointing system updates">🔔</button></div>
       <div class="small">Enter the number of activities only — points are computed automatically.</div>
       <div class="act-list" id="afActList"></div>
       <div class="entry-total">
@@ -1764,8 +1766,8 @@ function renderTeamScorecard(){
   document.getElementById('teamScoreDailyRows').innerHTML=daily.length?daily.map(function(x){return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.agent)+'</td><td>'+x.activities.toLocaleString()+'</td><td><b>'+x.points.toLocaleString()+'</b></td><td>'+base.toLocaleString()+'</td><td>'+x.pct.toFixed(1)+'%</td><td><span class="badge '+x.level.cls+'">'+x.level.name+'</span></td></tr>';}).join(''):'<tr><td colspan="7" class="small">Select a subteam and date range to view daily productivity.</td></tr>';
 }
 let editingRecordId='';
-function resetRecordForm(){editingRecordId='';recAgent.value='';recCount.value=1;recNotes.value='';recordSaveBtn.textContent='Add Record';recordCancelBtn.classList.add('hidden')}
-function editRecord(id){let row=records.find(r=>r.id===id);if(!row)return alert('This record is no longer available.');editingRecordId=id;recDate.value=row.date;recAgent.value=row.agent;recActivity.value=row.activity;recCount.value=row.count;recNotes.value=row.notes||'';recordSaveBtn.textContent='Save Changes';recordCancelBtn.classList.remove('hidden');document.getElementById('records').scrollIntoView({behavior:'smooth',block:'start'});recDate.focus()}
+function resetRecordForm(){editingRecordId='';recAgent.value='';recCount.value=1;recNotes.value='';recordSaveBtn.textContent='Add Record';recordCancelBtn.classList.add('hidden');var editor=document.getElementById('recordEditor');if(editor)editor.classList.remove('editing')}
+function editRecord(id){let row=records.find(r=>r.id===id);if(!row)return alert('This record is no longer available.');editingRecordId=id;recDate.value=row.date;recAgent.value=row.agent;if(!Array.from(recActivity.options).some(function(option){return option.value===row.activity;})){var legacyOption=document.createElement('option');legacyOption.value=row.activity;legacyOption.textContent=row.activity+' (existing record)';recActivity.appendChild(legacyOption);}recActivity.value=row.activity;recCount.value=row.count;recNotes.value=row.notes||'';recordSaveBtn.textContent='Save Changes';recordCancelBtn.classList.remove('hidden');var editor=document.getElementById('recordEditor');if(editor){editor.classList.add('editing');editor.scrollIntoView({behavior:'smooth',block:'center'});}showToast('Editing '+row.activity+' — update the fields, then select Save Changes.');setTimeout(function(){recDate.focus({preventScroll:true});},350)}
 function cancelRecordEdit(){resetRecordForm();showToast('Edit cancelled')}
 async function saveRecord(){let date=recDate.value,agent=recAgent.value.trim(),activity=recActivity.value,count=Number(recCount.value||0),notes=recNotes.value.trim(),cfg=getActivity(activity);if(!date||!agent||!activity||count<=0)return alert('Complete Date, Agent, Activity, and Count.');let key=[date,norm(agent),norm(activity),count,norm(notes)].join('|');if(records.some(r=>r.key===key&&r.id!==editingRecordId))return alert('Duplicate record detected.');let wasEditing=Boolean(editingRecordId),existing=editingRecordId&&records.find(r=>r.id===editingRecordId),row={id:existing?existing.id:uid(),key:key,date,agent,status:existing&&existing.status||'',activity,count,points:count*Number(cfg?.points||0),notes};
 if(cloudEnabled()){showToast(wasEditing?'⏳ Saving correction...':'⏳ Saving...');try{let out;if(wasEditing){out=await cloudPost({action:'update',id:editingRecordId,record:row});if(!out.ok&&out.error==='unknown action'){let replacement={...row,id:uid()};out=await cloudPost({action:'add',records:[replacement]});if(out.ok)out=await cloudPost({action:'delete',id:editingRecordId})}}else out=await cloudPost({action:'add',records:[row]});if(!out.ok)throw 0;resetRecordForm();await cloudLoad(true);showToast(wasEditing?'✓ Record updated!':'✓ Record saved!')}catch(e){showToast('⚠ The record could not be saved. Please try again.')}return}
@@ -1962,14 +1964,15 @@ function renderAgentForm(){
   updateFormTotals();
   showPointingChanges();
 }
+var pointingChangesShown=false;
 function showPointingChanges(){
-  if(!document.body.classList.contains('agent-mode'))return;var modal=document.getElementById('pointingChangesModal');if(!modal)return;
-  var latest='2026-09-pointing-update-v2',seen='';try{seen=sessionStorage.getItem('TAND_POINTING_CHANGES_SEEN')||''}catch(e){}
-  if(seen===latest)return;
+  if(!document.body.classList.contains('agent-mode')||pointingChangesShown)return;var modal=document.getElementById('pointingChangesModal');if(!modal)return;
+  var latest='2026-09-pointing-update-v2';
   var changes=[
     {name:'HNW Client Meeting',detail:'People earning ₱500K/month and up',next:100},
     {name:'Networking',detail:'Sports/business events, gatherings and reunions',old:10,next:30},
     {name:'Field Work',detail:'B2B, C2C, H2H, flyering, boothing, JFW, finsem, etc.',old:20,next:50},
+    {name:'Flyering / Boothing (Recruitment)',detail:'50 points for each completed activity',next:50},
     {name:'Approach (Recruitment)',old:5,next:2},
     {name:'Banker Tabletop / Interview',next:100},
     {name:'BYB / Tabletop',old:3,next:5},
@@ -1979,9 +1982,10 @@ function showPointingChanges(){
     {name:'Coded Recruit',old:100,next:200},
     {name:'Client Engagement',detail:'Random visits, asking for referrals, catch-ups, etc.',next:50}
   ];
-  document.getElementById('pointingChangesList').innerHTML=changes.map(function(change){var points=change.old!==undefined?'<span class="pointing-old">'+change.old+' pts</span><span class="pointing-arrow">→</span><span class="pointing-new">'+change.next+' pts</span>':'<span class="pointing-new-only">'+change.next+' points</span>';return '<li><span class="pointing-change-name">'+esc(change.name)+'</span>'+(change.detail?'<span class="small">'+esc(change.detail)+'</span><br>':'')+points+'</li>';}).join('');modal.style.display='flex';modal.dataset.version=latest;
+  document.getElementById('pointingChangesList').innerHTML=changes.map(function(change){var points=change.old!==undefined?'<span class="pointing-old">'+change.old+' pts</span><span class="pointing-arrow">→</span><span class="pointing-new">'+change.next+' pts</span>':'<span class="pointing-new-only">'+change.next+' points</span>';return '<li><span class="pointing-change-name">'+esc(change.name)+'</span>'+(change.detail?'<span class="small">'+esc(change.detail)+'</span><br>':'')+points+'</li>';}).join('');pointingChangesShown=true;modal.style.display='flex';modal.dataset.version=latest;
 }
-function closePointingChanges(){var modal=document.getElementById('pointingChangesModal'),version=modal.dataset.version||'';modal.style.display='none';try{sessionStorage.setItem('TAND_POINTING_CHANGES_SEEN',version)}catch(e){}}
+function closePointingChanges(){document.getElementById('pointingChangesModal').style.display='none';}
+function reopenPointingChanges(){pointingChangesShown=false;showPointingChanges();}
 function updateAgentAvatarSelect(){
   var picker=document.getElementById('afAvatarPicker'),toggle=document.getElementById('afAvatarToggle'),name=document.getElementById('afName').value.trim();if(!picker||!toggle)return;
   var selected=name?(agentAvatars[name]||''):'';
@@ -2203,6 +2207,7 @@ function copyAgentLink(){
   navigator.clipboard.writeText(link).then(()=>showToast('✓ Agent form link copied!')).catch(()=>prompt('Copy this link:',link));
 }
 function openAgentForm(){
+  pointingChangesShown=false;
   document.body.classList.add('agent-mode');
   renderAgentForm();
   history.replaceState(null,'',agentFormUrl());
