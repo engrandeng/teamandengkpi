@@ -1261,8 +1261,10 @@ function doGet(e) {
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
-  lock.tryLock(10000);
+  let locked = false;
   try {
+    locked = lock.tryLock(30000);
+    if (!locked) return json_({ ok: false, error: 'server busy; please retry' });
     const body = JSON.parse(e.postData.contents);
     if (!isAuthorized_(body.accessCode)) {
       return json_({ ok: false, error: 'unauthorized' });
@@ -1343,7 +1345,7 @@ function doPost(e) {
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {
-    lock.releaseLock();
+    if (locked) lock.releaseLock();
   }
 }
 
@@ -1557,20 +1559,41 @@ const DEFAULT_CALENDAR_ENTRIES={
   '2026-09-16':['Networking Fieldwork Day - All Full-Timers and UMs','Business Mastery + Activity: Prospecting and Engagement - 8:00-10:00 PM (PM Reg)'],
   '2026-09-17':['A2D Training Booster FTF: Legacy Building - 7:00-9:00 PM (ANEX, 16F Hive Makati)'],
   '2026-09-18':['Fine-Tuning Friday: Riders Review Part 1 - 7:00-9:00 PM'],
-  '2026-09-19':['MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (DM Marko)','Meet the Manager - 1:00-4:00 PM (UM Chester) - Join with AGSLIA','FIRSTLIA Grand BYB - 2:00-3:30 PM (UM Miguel, JUM Pring)']
+  '2026-09-19':['MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (DM Marko)','Meet the Manager - 1:00-4:00 PM (UM Chester) - Join with AGSLIA','FIRSTLIA Grand BYB - 2:00-3:30 PM (UM Miguel, JUM Pring)'],
+  '2026-09-20':['Rookie Training 2, Part 2 - 2:00-5:00 PM (JUM Yai)'],
+  '2026-09-21':['Monday Branch Meeting - 10:00 AM-12:00 NN (Team Angel)','Consistency Hour: Full-Timers - 1:30-3:30 PM (PM Kim)','Consistency Hour: Part-Timers - 7:30-9:30 PM (PM Kim)'],
+  '2026-09-22':['Day Huddle Virtual (A2D Training): Claims Process - 9:00 AM-12:00 NN','BYB - 6:00-7:00 PM (Join with AGSLIA)'],
+  '2026-09-23':['Networking Fieldwork Day - All Full-Timers and UMs','Business Mastery + Activity: How to Start Branding Effectively - 8:00-10:00 PM (UM Brendan)'],
+  '2026-09-24':['Cutoff','BYB - 6:00-7:00 PM (UM Angel)','A2D Sales Booster Zoom: TRAD Jumbo Case Producers - 7:00-9:00 PM'],
+  '2026-09-25':['Cutoff'],
+  '2026-09-26':['Cutoff','Rookie Training 3, Part 1 - 9:00 AM-12:00 NN (EDA)','Understanding Different Market Segments (via Zoom) - 1:00-4:00 PM (UM Chester, UM Miguel, UM Steph)','MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (BM Jude)','Meet the Manager - 1:00-4:00 PM (Golia)','BYB - 6:00-7:00 PM (UM Andeng)']
 };
 function calendarMonthFromText(text){var months='January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec',match=String(text||'').match(new RegExp('('+months+')[^0-9]{0,12}(20\\d{2})','i'));if(!match)return'';var date=new Date(match[1]+' 1, '+match[2]);return isNaN(date)?'':date.toLocaleString('en-US',{month:'long',year:'numeric'});}
 function fileDataUrl(file){return new Promise(function(resolve,reject){var reader=new FileReader();reader.onload=function(){resolve(reader.result)};reader.onerror=reject;reader.readAsDataURL(file);});}
 function calendarMonthInfo(month){var d=new Date(String(month||'')+' 1');if(isNaN(d))return null;return{year:d.getFullYear(),month:d.getMonth(),firstDay:new Date(d.getFullYear(),d.getMonth(),1).getDay(),days:new Date(d.getFullYear(),d.getMonth()+1,0).getDate()};}
 function calendarEntryKey(info,day){return info.year+'-'+String(info.month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');}
+function extractCalendarEntriesFromDayAnchors(items,month){
+  var info=calendarMonthInfo(month),entries={};if(!info)return entries;
+  var anchors=items.map(function(item){var text=item.text.replace(/\s+/g,' ').trim(),day=/^\d{1,2}$/.test(text)?Number(text):0;return day>=1&&day<=info.days?{day:day,x:item.x,top:item.top}:null;}).filter(Boolean);
+  var unique={};anchors.forEach(function(anchor){if(!unique[anchor.day]||anchor.top<unique[anchor.day].top)unique[anchor.day]=anchor;});anchors=Object.values(unique);if(anchors.length<Math.min(20,info.days))return entries;
+  var median=function(values){values=values.slice().sort(function(a,b){return a-b;});return values[Math.floor(values.length/2)];},colLefts=[],rowTops=[];
+  for(var col=0;col<7;col++){var xs=anchors.filter(function(anchor){return(info.firstDay+anchor.day-1)%7===col;}).map(function(anchor){return anchor.x;});if(xs.length)colLefts[col]=median(xs);}
+  var available=colLefts.filter(function(value){return Number.isFinite(value);}),step=available.length>1?(available[available.length-1]-available[0])/(available.length-1):0;if(!step)return entries;
+  for(var c=0;c<7;c++)if(!Number.isFinite(colLefts[c]))colLefts[c]=available[0]+c*step;
+  var rowCount=Math.ceil((info.firstDay+info.days)/7);for(var row=0;row<rowCount;row++){var ys=anchors.filter(function(anchor){return Math.floor((info.firstDay+anchor.day-1)/7)===row;}).map(function(anchor){return anchor.top;});if(ys.length)rowTops[row]=median(ys);}
+  var rowGaps=rowTops.slice(1).map(function(top,index){return top-rowTops[index];}).filter(function(gap){return gap>0;}),rowHeight=rowGaps.length?median(rowGaps):100;
+  items.forEach(function(item){var text=item.text.replace(/\s+/g,' ').trim();if(!text||/^\d{1,2}$/.test(text)||item.top<rowTops[0])return;var row=Math.min(rowCount-1,Math.max(0,Math.floor((item.top-rowTops[0])/rowHeight))),col=Math.min(6,Math.max(0,Math.round((item.x-colLefts[0])/step))),day=row*7+col-info.firstDay+1;if(day<1||day>info.days)return;var key=calendarEntryKey(info,day);(entries[key]||(entries[key]=[])).push({text:text,top:item.top,x:item.x});});
+  Object.keys(entries).forEach(function(key){var lines=[],line=null;entries[key].sort(function(a,b){return a.top-b.top||a.x-b.x;}).forEach(function(item){if(!line||Math.abs(item.top-line.top)>5){line={top:item.top,parts:[]};lines.push(line);}line.parts.push(item);});entries[key]=lines.map(function(group){return group.parts.sort(function(a,b){return a.x-b.x;}).map(function(item){return item.text;}).join(' ');}).filter(function(line){return line&&!/^note:?$/i.test(line);});});
+  return entries;
+}
 function extractPositionedCalendarEntries(items,width,height,month){
   var info=calendarMonthInfo(month),entries={};if(!info||!items.length)return entries;
   var weekdays=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'],heads=weekdays.map(function(day){return items.find(function(item){return item.text.toLowerCase()===day;});});
-  if(heads.some(function(item){return !item;}))return entries;
+  if(heads.some(function(item){return !item;}))return extractCalendarEntriesFromDayAnchors(items,month);
   var centers=heads.map(function(item){return item.x+item.width/2;}),step=(centers[6]-centers[0])/6,left=centers[0]-step/2,right=centers[6]+step/2,headerBottom=Math.max.apply(null,heads.map(function(item){return item.top+item.height;})),rows=Math.ceil((info.firstDay+info.days)/7),bottom=height*.93,rowHeight=(bottom-headerBottom)/rows;
   items.forEach(function(item){var text=item.text.replace(/\s+/g,' ').trim(),cx=item.x+item.width/2;if(!text||cx<left||cx>right||item.top<headerBottom||item.top>bottom)return;var col=Math.max(0,Math.min(6,Math.floor((cx-left)/step))),row=Math.max(0,Math.min(rows-1,Math.floor((item.top-headerBottom)/rowHeight))),day=row*7+col-info.firstDay+1;if(day<1||day>info.days||text===String(day))return;var key=calendarEntryKey(info,day);(entries[key]||(entries[key]=[])).push({text:text,top:item.top,x:item.x});});
   Object.keys(entries).forEach(function(key){var lines=[],line=null;entries[key].sort(function(a,b){return a.top-b.top||a.x-b.x;}).forEach(function(item){if(!line||Math.abs(item.top-line.top)>5){line={top:item.top,parts:[]};lines.push(line);}line.parts.push(item);});entries[key]=lines.map(function(row){return row.parts.sort(function(a,b){return a.x-b.x;}).map(function(item){return item.text;}).join(' ');}).filter(function(line){return !/^\d+$/.test(line)&&!/^note:?$/i.test(line);});});
-  return entries;
+  return Object.keys(entries).length?entries:extractCalendarEntriesFromDayAnchors(items,month);
 }
 async function extractPdfCalendarEntries(page,month){var viewport=page.getViewport({scale:1}),content=await page.getTextContent(),items=content.items.map(function(item){var h=Math.abs(item.height||item.transform[3]||10);return{text:String(item.str||''),x:item.transform[4],top:viewport.height-item.transform[5]-h,width:item.width||0,height:h};});return extractPositionedCalendarEntries(items,viewport.width,viewport.height,month);}
 function extractHtmlCalendarEntries(holder,month){var table=holder.querySelector('table'),rect=table&&table.getBoundingClientRect();if(!table||!rect)return{};var items=Array.from(table.querySelectorAll('td,th')).map(function(cell){var r=cell.getBoundingClientRect();return{text:cell.textContent||'',x:r.left-rect.left,top:r.top-rect.top,width:r.width,height:r.height};});return extractPositionedCalendarEntries(items,rect.width,rect.height,month);}
@@ -1606,7 +1629,7 @@ function weeklyScheduleHtml(start,calendarEntries){
     '<ul><li><b>Fine-Tuning Friday: Disability and Hospitalization</b> - 7:00-9:00 PM</li></ul>',
     '<ul><li><b>Unit Meeting</b> - 10:00 AM-12:00 NN</li><li><b>Rookie Training 1: Mindset</b> - 1:00-2:00 PM</li><li><b>Meet the Manager</b> - 2:00-4:00 PM</li><li><b>BYB</b> - 6:00-7:00 PM (UM Chester)</li></ul>'
   ];
-  var datedEntries=Object.assign({},DEFAULT_CALENDAR_ENTRIES,calendarEntries||{});
+  var datedEntries=Object.assign({},DEFAULT_CALENDAR_ENTRIES);Object.keys(calendarEntries||{}).forEach(function(key){if(Array.isArray(calendarEntries[key])&&calendarEntries[key].length)datedEntries[key]=calendarEntries[key];});
   if(Object.keys(datedEntries).length)schedules=schedules.map(function(fallback,index){var date=new Date(start);date.setDate(date.getDate()+index);var lines=datedEntries[weeklyDateKey(date)]||[];return lines.length?'<ul>'+lines.map(function(line){return '<li>'+esc(line)+'</li>';}).join('')+'</ul>':'<div class="no-event">No scheduled activity listed.</div>';});
   return schedules.map(function(schedule,index){var date=new Date(start);date.setDate(date.getDate()+index);return '<article class="weekly-day" contenteditable="false"><h4>'+date.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})+'</h4>'+schedule+'</article>';}).join('');
 }
@@ -1628,7 +1651,16 @@ function addWeeklyCalendarDay(){var editor=document.getElementById('weeklyCalend
 document.addEventListener('change',function(event){rememberUiField(event.target);if(syncSharedDateRange(event.target))renderDateFilteredViews();});
 function activatePage(page,updateUrl){var target=document.getElementById(page),b=document.querySelector('.nav [data-page="'+page+'"]');if(!target||isAgentViewer()&&AGENT_RESTRICTED_PAGES.includes(page))return;document.querySelectorAll('.nav [data-page]').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');else{var resourcesLink=document.querySelector('.nav [data-page="resources"]');if(resourcesLink)resourcesLink.classList.add('active')}document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));target.classList.add('active');updatePageMeta(page);if(updateUrl){var u=new URL(location.href);u.searchParams.set('page',page);history.replaceState(null,'',u.toString())}if(page==='reports')renderReports();if(page==='incentives')renderIncentives();if(page==='teamcalendar')restoreCalendarTools();if(page==='leaderboard'){restoreUiFields(['lbStart','lbEnd','scoreAgent','scoreStart','scoreEnd']);renderAgentHub()}if(page==='coreactivity')renderCoreActivity();if(page==='coreboard'){restoreUiFields(['coreStart','coreEnd','subScoreName','subScoreStart','subScoreEnd','teamScoreName','teamScoreStart','teamScoreEnd']);renderCoreHub()}}
 document.querySelectorAll('.nav [data-page]').forEach(function(link){link.addEventListener('click',function(event){if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();activatePage(link.dataset.page,true);});});
-function seedDates(){let now=new Date(),today=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2),dateIds=['dashStart','scoreStart','subScoreStart','lbStart','coreStart','teamScoreStart','incentiveStart','dashEnd','scoreEnd','subScoreEnd','lbEnd','coreEnd','recDate','teamScoreEnd','incentiveEnd'];dateIds.forEach(function(id){var el=document.getElementById(id);if(el)el.value=today;});uiState.fields=uiState.fields||{};dateIds.forEach(function(id){if(id!=='recDate')uiState.fields[id]=today;});saveUiState();}
+function seedDates(){
+  let now=new Date(),today=localDateValue(now),monthStart=today.slice(0,8)+'01';
+  let startIds=['dashStart','scoreStart','subScoreStart','lbStart','coreStart','teamScoreStart','incentiveStart'];
+  let endIds=['dashEnd','scoreEnd','subScoreEnd','lbEnd','coreEnd','teamScoreEnd','incentiveEnd'];
+  uiState.fields=uiState.fields||{};
+  startIds.forEach(function(id){var el=document.getElementById(id),saved=uiState.fields[id];if(el)el.value=saved!==undefined?saved:monthStart;if(saved===undefined)uiState.fields[id]=monthStart;});
+  endIds.forEach(function(id){var el=document.getElementById(id),saved=uiState.fields[id];if(el)el.value=saved!==undefined?saved:today;if(saved===undefined)uiState.fields[id]=today;});
+  var recordDate=document.getElementById('recDate');if(recordDate&&!recordDate.value)recordDate.value=today;
+  saveUiState();
+}
 function renderSelectors(){let agents=[...new Set([...agentList,...records.map(r=>r.agent).filter(Boolean)])].sort((a,b)=>a.localeCompare(b));['dashAgent','scoreAgent'].forEach(id=>{let el=document.getElementById(id),val=el.value;el.innerHTML=(id==='dashAgent'?'<option value="">All Agents</option>':'<option value="">Select Agent</option>')+agents.map(a=>`<option ${a===val?'selected':''}>${esc(a)}</option>`).join('')});let recordsFilter=document.getElementById('recordsAgentFilter');if(recordsFilter){let val=recordsFilter.value;recordsFilter.innerHTML='<option value="">All Agents</option>'+agents.map(a=>`<option value="${esc(a)}" ${a===val?'selected':''}>${esc(a)}</option>`).join('')}document.getElementById('agentList').innerHTML=agents.map(a=>`<option value="${esc(a)}">`).join('');document.getElementById('recActivity').innerHTML=activities.map(a=>`<option>${esc(a.name)}</option>`).join('')}
 function renderAll(){setupResourcePages();renderSelectors();renderDashboard();renderRecords();renderActivities();renderReports();renderIncentives();renderAgents();agentRefresh();coreRefresh();renderResourceSpiels()}
 function subteamNames(){return [...new Set(Object.values(coreMap).map(function(v){return String(v||'').trim();}).filter(Boolean))].sort(function(a,b){return a.localeCompare(b);});}
@@ -2049,6 +2081,7 @@ function showProofUploadPrompt(){
 function closeProofUploadPrompt(){document.getElementById('proofUploadModal').style.display='none';}
 async function submitAgentForm(confirmed){
   let name=afName.value.trim(),date=afDate.value,status=afStatus.value;
+  if(document.body.classList.contains('agent-mode')&&!cloudEnabled())return alert('Submission is unavailable because this agent form is not connected to Google Sheets. Please ask your administrator for the latest Agent Form link. Your activity has not been submitted.');
   if(!name)return alert('Select your name first.');
   if(!date)return alert('Please select a date.');
   if(date>localDateValue(new Date()))return alert('Future dates are not allowed. Please select today or an earlier date.');
@@ -2203,6 +2236,7 @@ function agentFormUrl(){
   u.hash='';return u.toString();
 }
 function copyAgentLink(){
+  if(!cloudEnabled())return alert('Set and save the Google Apps Script Web App URL first. This prevents agents from receiving a form that saves records only on their device.');
   let link=agentFormUrl();
   navigator.clipboard.writeText(link).then(()=>showToast('✓ Agent form link copied!')).catch(()=>prompt('Copy this link:',link));
 }

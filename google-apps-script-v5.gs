@@ -55,8 +55,10 @@ function doGet(e) {
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
-  lock.tryLock(10000);
+  let locked = false;
   try {
+    locked = lock.tryLock(30000);
+    if (!locked) return json_({ ok: false, error: 'server busy; please retry' });
     const body = JSON.parse(e.postData.contents);
     if (!isAuthorized_(body.accessCode)) {
       return json_({ ok: false, error: 'unauthorized' });
@@ -138,7 +140,7 @@ function doPost(e) {
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {
-    lock.releaseLock();
+    if (locked) lock.releaseLock();
   }
 }
 
