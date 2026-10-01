@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <rect width="1400" height="900" fill="#f7fafc"/>
+  <rect x="40" y="40" width="1320" height="820" rx="24" fill="#fff" stroke="#d8e1ea" stroke-width="3"/>
+  <text x="700" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="700" fill="#17324e">October 2026 Team Calendar</text>
+  <text x="700" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#637487">Team Andeng</text>
+  <g font-family="Arial, sans-serif" fill="#17324e" text-anchor="middle" font-size="20" font-weight="700">
+    <text x="140" y="215">Sunday</text><text x="327" y="215">Monday</text><text x="514" y="215">Tuesday</text><text x="701" y="215">Wednesday</text><text x="888" y="215">Thursday</text><text x="1075" y="215">Friday</text><text x="1262" y="215">Saturday</text>
+  </g>
+  <g fill="#fff" stroke="#d8e1ea" stroke-width="2">
+    <path d="M75 235h1309v595H75z"/><path d="M262 235v595M449 235v595M636 235v595M823 235v595M1010 235v595M1197 235v595M75 354h1309M75 473h1309M75 592h1309M75 711h1309"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#17324e">
+    <text x="842" y="270">1</text><text x="1029" y="270">2</text><text x="1216" y="270">3</text>
+    <text x="94" y="389">4</text><text x="281" y="389">5</text><text x="468" y="389">6</text><text x="655" y="389">7</text><text x="842" y="389">8</text><text x="1029" y="389">9</text><text x="1216" y="389">10</text>
+    <text x="94" y="508">11</text><text x="281" y="508">12</text><text x="468" y="508">13</text><text x="655" y="508">14</text><text x="842" y="508">15</text><text x="1029" y="508">16</text><text x="1216" y="508">17</text>
+    <text x="94" y="627">18</text><text x="281" y="627">19</text><text x="468" y="627">20</text><text x="655" y="627">21</text><text x="842" y="627">22</text><text x="1029" y="627">23</text><text x="1216" y="627">24</text>
+    <text x="94" y="746">25</text><text x="281" y="746">26</text><text x="468" y="746">27</text><text x="655" y="746">28</text><text x="842" y="746">29</text><text x="1029" y="746">30</text><text x="1216" y="746">31</text>
+  </g>
+</svg>

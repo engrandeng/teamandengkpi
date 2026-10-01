@@ -176,7 +176,7 @@ body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI"
 .score-rank{margin-top:8px;color:var(--navy);font-size:13px;font-weight:900}.score-chart-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.score-chart-heading h3{margin:0}.score-chart-heading label{display:flex;align-items:center;gap:8px;white-space:nowrap}.score-chart-heading select{width:auto;min-width:110px}@media(max-width:600px){.score-chart-heading{align-items:stretch;flex-direction:column}}
 .activity-record-heading{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin-bottom:14px}.activity-record-heading h3{margin:0 auto 0 0}.activity-record-heading label{min-width:170px}.activity-record-heading input{margin-top:4px}.activity-record-heading button{width:auto;margin:0}.score-result-table table{table-layout:fixed}.score-result-table th:first-child,.score-result-table td:first-child{width:48%}.score-result-table th:not(:first-child),.score-result-table td:not(:first-child){width:17.333%;text-align:center}@media(max-width:600px){.score-result-table{overflow-x:visible}.score-result-table table{min-width:0;font-size:11px}.score-result-table th,.score-result-table td{padding:10px 6px;white-space:normal;overflow-wrap:anywhere}.score-result-table th:first-child,.score-result-table td:first-child{width:40%}.score-result-table th:not(:first-child),.score-result-table td:not(:first-child){width:20%}.activity-record-heading{align-items:stretch}.activity-record-heading h3{width:100%}.activity-record-heading label{flex:1}.activity-record-heading button{align-self:end}}
 .pointing-update-box{max-width:650px!important;max-height:min(86vh,780px);overflow:auto;padding:28px!important;border-top:6px solid var(--red);background:linear-gradient(180deg,#fff8f7 0,#fff 120px)}.pointing-update-kicker{margin:0 0 5px;color:var(--red);font-size:12px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.pointing-update-box h3{font-size:25px!important;line-height:1.15}.pointing-update-intro{margin:8px 0 17px;color:var(--muted);font-size:14px;line-height:1.45}.pointing-changes-list{display:grid;gap:9px;margin:0 0 20px;padding:0;list-style:none;color:var(--text)}.pointing-changes-list li{padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:14px;line-height:1.35}.pointing-change-name{display:block;margin-bottom:3px;color:var(--navy);font-weight:900}.pointing-old{color:var(--muted);text-decoration:line-through}.pointing-arrow{padding:0 7px;color:var(--muted)}.pointing-new{color:var(--red);font-weight:900}.pointing-new-only{color:var(--red);font-weight:900}.pointing-update-note{margin:-7px 0 18px;color:var(--navy);font-size:13px;font-weight:800;text-align:center}@media(max-width:600px){.pointing-update-box{max-height:88dvh;padding:20px 16px calc(18px + env(safe-area-inset-bottom))!important}.pointing-update-box h3{font-size:21px!important}.pointing-update-intro{font-size:13px}.pointing-changes-list li{padding:10px 11px;font-size:13px}}
-.agent-activities-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:2px}.agent-activities-heading h3{margin:4px 0 2px}.notification-bell{position:relative;width:44px;min-width:44px;height:44px;min-height:44px;margin:0;padding:0;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--navy);font-size:20px;box-shadow:0 5px 14px rgba(23,50,78,.12)}.notification-bell:hover{background:var(--surface-tint);border-color:var(--red)}.notification-bell:after{content:"";position:absolute;right:5px;top:4px;width:9px;height:9px;border:2px solid #fff;border-radius:50%;background:var(--red)}
+.agent-activities-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:2px}.agent-activities-heading h3{margin:4px 0 2px}.notification-bell{position:relative;width:44px;min-width:44px;height:44px;min-height:44px;margin:0;padding:0;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--navy);font-size:20px;box-shadow:0 5px 14px rgba(23,50,78,.12);transform-origin:50% 8%}.notification-bell:hover{background:var(--surface-tint);border-color:var(--red)}.notification-bell:after{content:"";position:absolute;right:5px;top:4px;width:9px;height:9px;border:2px solid #fff;border-radius:50%;background:var(--red)}.notification-bell.notification-bell-attention{animation:notificationBellNudge 2.4s ease-in-out infinite}@keyframes notificationBellNudge{0%,72%,100%{transform:rotate(0)}76%{transform:rotate(-9deg)}80%{transform:rotate(8deg)}84%{transform:rotate(-5deg)}88%{transform:rotate(3deg)}92%{transform:rotate(0)}}@media(prefers-reduced-motion:reduce){.notification-bell.notification-bell-attention{animation:none;box-shadow:0 0 0 4px rgba(196,32,48,.14)}}
 .score-content{display:flex;align-items:center;min-width:0;padding:24px}
 .score-head .stats{width:100%;grid-template-columns:repeat(3,minmax(120px,1fr));gap:1px;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
 .score-head .stat{display:flex;flex-direction:column;justify-content:center;min-height:104px;padding:18px;border:0;border-radius:0;box-shadow:none;background:#fff}
@@ -603,12 +603,12 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
 
   <section id="teamcalendar" class="page">
     <div class="card">
-      <h3 id="calendarMonthTitle">September 2026 Team Calendar</h3>
-      <p class="calendar-section-intro">Upload a PDF or Excel calendar for a coming month. The title and preview update automatically on this device.</p>
-      <input id="calendarUpload" type="file" accept=".pdf,.xlsx,.xls" class="hidden" onchange="handleCalendarUpload(event)">
-      <div class="calendar-actions"><button class="btn2" onclick="document.getElementById('calendarUpload').click()">Upload calendar</button><button class="ghost" onclick="openCalendarPreview()">View and zoom</button><a id="calendarDownload" class="btn2" href="September-2026-Calendar-FIRSTLIA.pdf" download>Download calendar</a></div>
-      <button class="calendar-image-button" onclick="openCalendarPreview()" aria-label="Open the monthly calendar in a zoomable view"><img id="calendarMonthImage" class="calendar-month-image" src="september-2026-calendar.jpg" alt="September 2026 Team Calendar"></button>
-      <div id="calendarUploadStatus" class="calendar-upload-status">Current calendar: September 2026</div>
+      <h3 id="calendarMonthTitle">October 2026 Team Calendar</h3>
+      <p class="calendar-section-intro">Upload a PNG, JPEG, PDF, or Excel calendar. The title and preview update automatically on this device.</p>
+      <input id="calendarUpload" type="file" accept=".png,.jpg,.jpeg,image/png,image/jpeg,.pdf,.xlsx,.xls" class="hidden" onchange="handleCalendarUpload(event)">
+      <div class="calendar-actions"><button class="btn2" onclick="document.getElementById('calendarUpload').click()">Upload calendar</button><button class="ghost" onclick="openCalendarPreview()">View and zoom</button><a id="calendarDownload" class="btn2" href="October-2026-Calendar-FIRSTLIA.png" download>Download calendar</a></div>
+      <button class="calendar-image-button" onclick="openCalendarPreview()" aria-label="Open the monthly calendar in a zoomable view"><img id="calendarMonthImage" class="calendar-month-image" src="October-2026-Calendar-FIRSTLIA.png" alt="October 2026 Team Calendar"></button>
+      <div id="calendarUploadStatus" class="calendar-upload-status">Current calendar: October 2026</div>
     </div>
     <div class="card">
       <div class="calendar-weekly-heading"><h3 id="weeklyCalendarTitle" class="calendar-section-title">Weekly Calendar</h3><button id="weeklyEditToggle" class="ghost calendar-edit-toggle" onclick="toggleWeeklyCalendarEdit()" aria-pressed="false">🔒 Edit</button></div>
@@ -637,7 +637,7 @@ body.capturing-screenshot .tracker-title .camera-btn{visibility:hidden!important
       <div class="points-total"><span>Daily target: 200 points</span><span>Listed schedule: 180 Agent + 70 Leader = 250 points</span></div>
     </div>
   </section>
-  <div id="calendarLightbox" class="calendar-lightbox hidden" role="dialog" aria-modal="true" aria-label="Zoomable September 2026 calendar"><div class="calendar-lightbox-toolbar"><a class="btn2 calendar-download" href="September-2026-Calendar-FIRSTLIA.pdf" download>Download</a><button class="ghost" onclick="zoomCalendar(-.2)" aria-label="Zoom out">−</button><span id="calendarZoomValue" class="calendar-zoom-value">100%</span><button class="ghost" onclick="zoomCalendar(.2)" aria-label="Zoom in">+</button><button class="ghost" onclick="resetCalendarZoom()">Reset</button><button class="danger calendar-close" onclick="closeCalendarPreview()" aria-label="Close calendar preview">×</button></div><div class="calendar-lightbox-stage"><img id="calendarZoomImage" src="september-2026-calendar.jpg" alt="September 2026 Team Calendar enlarged"></div></div>
+  <div id="calendarLightbox" class="calendar-lightbox hidden" role="dialog" aria-modal="true" aria-label="Zoomable October 2026 calendar"><div class="calendar-lightbox-toolbar"><a class="btn2 calendar-download" href="October-2026-Calendar-FIRSTLIA.png" download>Download</a><button class="ghost" onclick="zoomCalendar(-.2)" aria-label="Zoom out">−</button><span id="calendarZoomValue" class="calendar-zoom-value">100%</span><button class="ghost" onclick="zoomCalendar(.2)" aria-label="Zoom in">+</button><button class="ghost" onclick="resetCalendarZoom()">Reset</button><button class="danger calendar-close" onclick="closeCalendarPreview()" aria-label="Close calendar preview">×</button></div><div class="calendar-lightbox-stage"><img id="calendarZoomImage" src="October-2026-Calendar-FIRSTLIA.png" alt="October 2026 Team Calendar enlarged"></div></div>
 
   <section id="umandengschedule" class="page">
     <div class="um-schedule-grid">
@@ -1175,7 +1175,7 @@ Please send your updated CV and reply “Confirmed” once you receive this mess
 <!-- ===== AGENT ENTRY FORM (shareable link: add ?view=agent to URL) ===== -->
 <div id="agentPortal">
   <div id="pointingChangesModal" class="lbmodal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="pointingChangesTitle" onclick="if(event.target===this)closePointingChanges()">
-    <div class="lbmodal-box pointing-update-box" onclick="event.stopPropagation()"><div class="pointing-update-kicker">Important update</div><h3 id="pointingChangesTitle">Earn more points from your key activities!</h3><p class="pointing-update-intro">We’ve refreshed selected activity points to better recognize your effort and progress. Here’s what changed:</p><ul id="pointingChangesList" class="pointing-changes-list"></ul><p class="pointing-update-note">Every activity moves you closer to your weekly goal. Keep going!</p><button class="btn" type="button" onclick="closePointingChanges()">Got it — let’s earn points!</button></div>
+    <div class="lbmodal-box pointing-update-box" onclick="event.stopPropagation()"><div class="pointing-update-kicker">Notifications</div><h3 id="pointingChangesTitle">Team announcements</h3><ul class="pointing-changes-list"><li><span class="pointing-change-name">October calendar is posted!</span>Check the Team Calendar &amp; Schedule page for this month’s activities.</li><li><span class="pointing-change-name">Book a 1:1 meeting with UM Andeng this month</span>Open the booking calendar from the Team Calendar &amp; Schedule page.</li><li><span class="pointing-change-name">Week 3 logging is open as a one-time exception</span>You may submit activities dated September 21–27, 2026 even though the deadline has passed.</li></ul><p class="pointing-update-intro">Pointing system updates:</p><ul id="pointingChangesList" class="pointing-changes-list"></ul><p class="pointing-update-note">Every activity moves you closer to your weekly goal. Keep going!</p><button class="btn" type="button" onclick="closePointingChanges()">Got it</button></div>
   </div>
   <div class="portal-wrap">
     <div class="portal-brand">
@@ -1199,7 +1199,7 @@ Please send your updated CV and reply “Confirmed” once you receive this mess
     </div>
 
     <div class="card">
-      <div class="agent-activities-heading"><h3>Activities</h3><button class="notification-bell" type="button" onclick="reopenPointingChanges()" aria-label="View pointing system updates" title="View pointing system updates">🔔</button></div>
+      <div class="agent-activities-heading"><h3>Activities</h3><button class="notification-bell" type="button" onclick="reopenPointingChanges()" aria-label="View team announcements and pointing system updates" title="View notifications">🔔</button></div>
       <div class="small">Enter the number of activities only — points are computed automatically.</div>
       <div class="act-list" id="afActList"></div>
       <div class="entry-total">
@@ -1552,7 +1552,7 @@ function zoomCalendar(delta){calendarZoom=Math.max(.4,Math.min(3,calendarZoom+de
 function resetCalendarZoom(){calendarZoom=1;applyCalendarZoom();}
 function applyCalendarZoom(){var image=document.getElementById('calendarZoomImage'),label=document.getElementById('calendarZoomValue');if(image)image.style.width=(1100*calendarZoom)+'px';if(label)label.textContent=Math.round(calendarZoom*100)+'%';}
 document.addEventListener('keydown',function(event){if(event.key!=='Escape')return;var lightbox=document.getElementById('calendarLightbox'),poster=document.getElementById('posterLightbox');if(lightbox&&!lightbox.classList.contains('hidden'))closeCalendarPreview();if(poster&&!poster.classList.contains('hidden'))closePosterViewer();});
-const CALENDAR_STATE_KEY='TAND_CALENDAR_STATE_V1',WEEKLY_CALENDAR_KEY='TAND_WEEKLY_CALENDAR_V1',WEEKLY_CALENDAR_VERSION=2;
+const CALENDAR_STATE_KEY='TAND_CALENDAR_STATE_OCT_2026_V1',WEEKLY_CALENDAR_KEY='TAND_WEEKLY_CALENDAR_V1',WEEKLY_CALENDAR_VERSION=3;
 const DEFAULT_CALENDAR_ENTRIES={
   '2026-09-14':['Bank to Bank Fieldwork Day - 9:30 AM-12:00 NN (UM Steph) - All Monday Agents','Consistency Hour: Full-Timers - 1:30-3:30 PM (PM Abba)','Consistency Hour: Part-Timers - 7:30-9:30 PM (PM Abba)'],
   '2026-09-15':['Day Huddle Virtual (A2D Training): Underwriting - 9:00 AM-12:00 NN','MBA Zoom - 10:00 AM-12:00 PM - All UMs and JUMs (UM Chester)','BYB - 6:00-7:00 PM (PM Ruby)','Agency Building Night - 8:00-9:30 PM (UM Kem)'],
@@ -1567,6 +1567,34 @@ const DEFAULT_CALENDAR_ENTRIES={
   '2026-09-24':['Cutoff','BYB - 6:00-7:00 PM (UM Angel)','A2D Sales Booster Zoom: TRAD Jumbo Case Producers - 7:00-9:00 PM'],
   '2026-09-25':['Cutoff'],
   '2026-09-26':['Cutoff','Rookie Training 3, Part 1 - 9:00 AM-12:00 NN (EDA)','Understanding Different Market Segments (via Zoom) - 1:00-4:00 PM (UM Chester, UM Miguel, UM Steph)','MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (BM Jude)','Meet the Manager - 1:00-4:00 PM (Golia)','BYB - 6:00-7:00 PM (UM Andeng)']
+  ,'2026-10-01':['BYB - 6:00-7:00 PM (UM Miguel) · ID: 898 0839 5468 · PW: dreamagain']
+  ,'2026-10-03':['MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (DM Marko)','Meet the Manager - 1:00-4:00 PM · Join with AGSLIA','BYB - 6:00-7:00 PM (UM Chester) · ID: 898 0839 5468 · PW: dreamagain']
+  ,'2026-10-05':['Bank to Bank Fieldwork Day - 9:30 AM-12:00 NN (UM Kem) · All Monday Agents']
+  ,'2026-10-06':['Day Huddle Virtual (A2D Training): Life Insurance Prospecting Strategies - 9:00 AM-12:00 NN · ID: 842 0626 8209 · PW: MDRT2027','Built to Lead - 8:00 AM-5:00 PM · Golia Office BGC · Full-Timers','BYB - 6:00-7:00 PM · Join with AGSLIA']
+  ,'2026-10-07':['Networking Fieldwork Day · All Full-Timers and UMs','Built to Lead - 8:00 AM-5:00 PM · Golia Office BGC · Full-Timers','Business Mastery + Activity: How to Set Client Meetings Effectively - 8:00-10:00 PM (UM Angel) · ID: 314 624 9401 · PW: FIRSTLIA#1']
+  ,'2026-10-08':['BYB - 6:00-7:00 PM (UM Andeng) · ID: 898 0839 5468 · PW: dreamagain','IC Exam Review - 7:00-9:00 PM (A2 Training Department) · ID: 874 2255 8608 · PW: LicensedFA']
+  ,'2026-10-09':['Fine-Tuning Friday: Social Media Branding - 7:00-9:00 PM · ID: 836 1190 6618 · PW: MDRT2027']
+  ,'2026-10-10':['Saturday Branch Meeting - 10:00 AM-12:00 NN · Group 2 · All Saturday Agents · ID: 314 624 9401 · PW: FIRSTLIA#1','BYB - 6:00-7:00 PM (UM Angel) · ID: 898 0839 5468 · PW: dreamagain','MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (BM Carlo)','Meet the Manager - 1:00-4:00 PM (UM Sweet) · ID: 314 624 9401 · PW: givebest']
+  ,'2026-10-12':['Monday Branch Meeting + VAST - 9:30 AM-12:00 NN (Team Chester) · All Monday Agents · ID: 314 624 9401 · PW: FIRSTLIA#1','Consistency Hour: Full-Timers - 1:30-3:30 PM (UM Ruby) · ID: 314 624 9401 · PW: CONSISTENT','Consistency Hour: Part-Timers - 7:30-9:30 PM (UM Ruby) · ID: 314 624 9401 · PW: CONSISTENT']
+  ,'2026-10-13':['Day Huddle Virtual (A2D Training): The Traditional Portfolio - 9:00 AM-12:00 NN · ID: 842 0626 8209 · PW: MDRT2027','MBA - 10:00 AM-12:00 PM · All UMs and JUMs (UM Andeng)','BYB - 6:00-7:00 PM (UM Bren) · ID: 898 0839 5468 · PW: dreamagain']
+  ,'2026-10-14':['Networking Fieldwork Day · All Full-Timers and UMs','Business Mastery + Activity: How to Do Follow-Ups - 8:00-10:00 PM (UM Kem) · ID: 314 624 9401 · PW: FIRSTLIA#1']
+  ,'2026-10-15':['A2D Training Booster FTF: Rising to the Top - 7:00-9:00 PM · ANEX, 16F Hive Makati']
+  ,'2026-10-16':['Fine-Tuning Friday: The Investment Portfolio - 7:00-9:00 PM · ID: 836 1190 6618 · PW: MDRT2027']
+  ,'2026-10-17':['Unit Meeting - 10:00 AM-12:00 NN · All Units','Rookie Training 2, Part 1 - 2:00-5:00 PM (Emman) · ID: 314 624 9401 · PW: learn','MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (DM Marko)','Meet the Manager - 1:00-4:00 PM (Golia) · ID: 830 988 6926 · PW: givebest','FIRSTLIA Grand BYB - 2:00-3:30 PM (UM Angel, PM Regine) · ID: 898 0839 5468 · PW: dreamagain']
+  ,'2026-10-18':['Rookie Training 2, Part 2 - 2:00-5:00 PM (Emman) · ID: 314 624 9401 · PW: learn']
+  ,'2026-10-19':['Monday Branch Meeting + VAST - 9:30 AM-12:00 NN (Team Sweet) · All Monday Agents · ID: 314 624 9401 · PW: FIRSTLIA#1','Consistency Hour: Full-Timers - 1:30-3:30 PM (PM Abba) · ID: 314 624 9401 · PW: CONSISTENT','Consistency Hour: Part-Timers - 7:30-9:30 PM (PM Abba) · ID: 314 624 9401 · PW: CONSISTENT']
+  ,'2026-10-20':['Day Huddle Virtual (A2D Training): Underwriting - 9:00 AM-12:00 NN · ID: 842 0626 8209 · PW: MDRT2027','BYB - 6:00-7:00 PM (UM Sweet) · ID: 898 0839 5468 · PW: dreamagain','Agency Building Night - 8:00-9:30 PM (UM Bren) · ID: 314 624 9401 · PW: agency']
+  ,'2026-10-21':['Networking Fieldwork Day · All Full-Timers and UMs','Business Mastery + Activity: Aftersales Transactions and Client Servicing Techniques - 8:00-10:00 PM (UM Bren and PM Kim) · ID: 314 624 9401 · PW: FIRSTLIA#1']
+  ,'2026-10-22':['BYB - 6:00-7:00 PM (UM Steph) · ID: 898 0839 5468 · PW: dreamagain','A2D Sales Booster Zoom - 7:00-9:00 PM']
+  ,'2026-10-23':['Fine-Tuning Friday: After Sales Management - 7:00-9:00 PM · ID: 836 1190 6618 · PW: MDRT2027']
+  ,'2026-10-24':['Rookie Training 3, Part 1 - 9:00 AM-12:00 PM (Romer) · ID: 314 624 9401 · PW: learn','Finsem for Government Employees: How to Make Your Bonus Work for You - 2:00-3:00 PM (UM Sweet) · Zoom','MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (BM Jude)','Meet the Manager - 1:00-4:00 PM (UM Miguel) · Join with AGSLIA','BYB - 6:00-7:00 PM (UM Kem) · ID: 898 0839 5468 · PW: dreamagain']
+  ,'2026-10-25':['Cutoff','Rookie Training 3, Part 2 - 2:00-5:00 PM (Romer) · ID: 314 624 9401 · PW: learn']
+  ,'2026-10-26':['Cutoff','MDRT Circle - 10:00 AM-12:00 NN · By Invitation','Consistency Hour: Full-Timers - 1:30-3:30 PM (PM Lorbs) · ID: 314 624 9401 · PW: CONSISTENT','Consistency Hour: Part-Timers - 7:30-9:30 PM (PM Lorbs) · ID: 314 624 9401 · PW: CONSISTENT']
+  ,'2026-10-27':['Cutoff',"Managers' Meeting - 10:00 AM-12:00 NN · All UMs",'BYB - 6:00-7:00 PM (PM Manuela) · ID: 898 0839 5468 · PW: dreamagain']
+  ,'2026-10-28':['Cutoff','Networking Fieldwork Day · All Full-Timers and UMs']
+  ,'2026-10-29':['Cutoff','BYB - 6:00-7:00 PM (UM Kem) · ID: 898 0839 5468 · PW: dreamagain','IC Exam Review - 7:00-9:00 PM (A2 Training Department) · ID: 874 2255 8608 · PW: LicensedFA']
+  ,'2026-10-30':['Cutoff']
+  ,'2026-10-31':['Cutoff','MTM Rookie Training 1 (Mindset) - 1:00-2:00 PM (BM Jude)','Meet the Manager - 1:00-4:00 PM (UM Miguel) · ID: 314 624 9401 · PW: givebest','BYB - 6:00-7:00 PM (UM Steph) · ID: 898 0839 5468 · PW: dreamagain']
 };
 function calendarMonthFromText(text){var months='January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec',match=String(text||'').match(new RegExp('('+months+')[^0-9]{0,12}(20\\d{2})','i'));if(!match)return'';var date=new Date(match[1]+' 1, '+match[2]);return isNaN(date)?'':date.toLocaleString('en-US',{month:'long',year:'numeric'});}
 function fileDataUrl(file){return new Promise(function(resolve,reject){var reader=new FileReader();reader.onload=function(){resolve(reader.result)};reader.onerror=reject;reader.readAsDataURL(file);});}
@@ -1597,12 +1625,26 @@ function extractPositionedCalendarEntries(items,width,height,month){
 }
 async function extractPdfCalendarEntries(page,month){var viewport=page.getViewport({scale:1}),content=await page.getTextContent(),items=content.items.map(function(item){var h=Math.abs(item.height||item.transform[3]||10);return{text:String(item.str||''),x:item.transform[4],top:viewport.height-item.transform[5]-h,width:item.width||0,height:h};});return extractPositionedCalendarEntries(items,viewport.width,viewport.height,month);}
 function extractHtmlCalendarEntries(holder,month){var table=holder.querySelector('table'),rect=table&&table.getBoundingClientRect();if(!table||!rect)return{};var items=Array.from(table.querySelectorAll('td,th')).map(function(cell){var r=cell.getBoundingClientRect();return{text:cell.textContent||'',x:r.left-rect.left,top:r.top-rect.top,width:r.width,height:r.height};});return extractPositionedCalendarEntries(items,rect.width,rect.height,month);}
+function loadTesseractJs(){
+  if(window.Tesseract)return Promise.resolve();
+  return new Promise(function(resolve,reject){var script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';script.onload=resolve;script.onerror=function(){reject(new Error('Image text reader could not be loaded. Check the internet connection and try again.'));};document.head.appendChild(script);});
+}
+async function extractImageCalendarEntries(imageSource,month,status){
+  await loadTesseractJs();
+  var result=await Tesseract.recognize(imageSource,'eng',{logger:function(progress){if(status&&progress.status==='recognizing text')status.textContent='Reading calendar activities... '+Math.round(progress.progress*100)+'%';}},{blocks:true}),data=result.data||{},words=data.words||[];
+  if(!words.length&&Array.isArray(data.blocks))data.blocks.forEach(function(block){(block.paragraphs||[]).forEach(function(paragraph){(paragraph.lines||[]).forEach(function(line){words=words.concat(line.words||[]);});});});
+  if(!month)month=calendarMonthFromText(data.text);
+  var items=words.map(function(word){var box=word.bbox||{};return{text:String(word.text||''),x:Number(box.x0||0),top:Number(box.y0||0),width:Math.max(0,Number(box.x1||0)-Number(box.x0||0)),height:Math.max(0,Number(box.y1||0)-Number(box.y0||0))};}).filter(function(item){return item.text.trim();});
+  var width=data.imageWidth||data.width||Math.max.apply(null,items.map(function(item){return item.x+item.width;}).concat([1])),height=data.imageHeight||data.height||Math.max.apply(null,items.map(function(item){return item.top+item.height;}).concat([1]));
+  return{month:month,entries:extractPositionedCalendarEntries(items,width,height,month)};
+}
 async function handleCalendarUpload(event){
   var file=event.target.files&&event.target.files[0],status=document.getElementById('calendarUploadStatus');if(!file)return;status.textContent='Preparing '+file.name+'...';
   try{var lower=file.name.toLowerCase(),month=calendarMonthFromText(file.name),preview='',entries={};
-    if(lower.endsWith('.pdf')){await loadPdfJs();var buffer=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data:buffer}).promise,page=await pdf.getPage(1),text=await page.getTextContent();if(!month)month=calendarMonthFromText(text.items.map(function(item){return item.str;}).join(' '));entries=await extractPdfCalendarEntries(page,month);var viewport=page.getViewport({scale:2.4}),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');canvas.width=viewport.width;canvas.height=viewport.height;await page.render({canvasContext:ctx,viewport:viewport}).promise;preview=canvas.toDataURL('image/jpeg',.94);
+    if(lower.endsWith('.png')||lower.endsWith('.jpg')||lower.endsWith('.jpeg')){preview=await fileDataUrl(file);var imageResult=await extractImageCalendarEntries(preview,month,status);month=imageResult.month||month||'October 2026';entries=imageResult.entries;
+    }else if(lower.endsWith('.pdf')){await loadPdfJs();var buffer=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data:buffer}).promise,page=await pdf.getPage(1),text=await page.getTextContent();if(!month)month=calendarMonthFromText(text.items.map(function(item){return item.str;}).join(' '));entries=await extractPdfCalendarEntries(page,month);var viewport=page.getViewport({scale:2.4}),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');canvas.width=viewport.width;canvas.height=viewport.height;await page.render({canvasContext:ctx,viewport:viewport}).promise;preview=canvas.toDataURL('image/jpeg',.94);
     }else if(lower.endsWith('.xlsx')||lower.endsWith('.xls')){var workbook=XLSX.read(await file.arrayBuffer(),{type:'array'}),sheet=workbook.Sheets[workbook.SheetNames[0]],rows=XLSX.utils.sheet_to_json(sheet,{header:1,blankrows:false});if(!month)month=calendarMonthFromText(rows.flat().join(' '));var holder=document.createElement('div');holder.style.cssText='position:fixed;left:-12000px;top:0;width:1400px;padding:30px;background:#fff;color:#111;z-index:-1';holder.innerHTML=XLSX.utils.sheet_to_html(sheet);holder.querySelectorAll('table').forEach(function(t){t.style.cssText='width:100%;border-collapse:collapse;font:14px Arial'});holder.querySelectorAll('td,th').forEach(function(c){c.style.cssText='border:1px solid #b8c2cc;padding:8px;white-space:pre-wrap'});document.body.appendChild(holder);entries=extractHtmlCalendarEntries(holder,month);var shot=await html2canvas(holder,{backgroundColor:'#ffffff',scale:1.4});preview=shot.toDataURL('image/jpeg',.92);holder.remove();
-    }else throw new Error('Choose a PDF, XLSX, or XLS file.');
+    }else throw new Error('Choose a PNG, JPEG, PDF, XLSX, or XLS file.');
     if(!month)month='Uploaded Calendar';var source=await fileDataUrl(file),state={month:month,title:month+' Team Calendar',preview:preview,source:source,fileName:file.name,entries:entries};applyUploadedCalendar(state);localStorage.removeItem(WEEKLY_CALENDAR_KEY);
     try{localStorage.setItem(CALENDAR_STATE_KEY,JSON.stringify(state));status.textContent='Current calendar: '+month+' - weekly activities automated';}catch(storageError){status.textContent='Calendar loaded. The file is too large to save permanently on this device.';}restoreCalendarTools();showToast('✓ Calendar and weekly activities updated');
   }catch(error){status.textContent='Upload failed: '+(error.message||'Could not read this calendar.');}finally{event.target.value='';}
@@ -1629,7 +1671,7 @@ function weeklyScheduleHtml(start,calendarEntries){
     '<ul><li><b>Fine-Tuning Friday: Disability and Hospitalization</b> - 7:00-9:00 PM</li></ul>',
     '<ul><li><b>Unit Meeting</b> - 10:00 AM-12:00 NN</li><li><b>Rookie Training 1: Mindset</b> - 1:00-2:00 PM</li><li><b>Meet the Manager</b> - 2:00-4:00 PM</li><li><b>BYB</b> - 6:00-7:00 PM (UM Chester)</li></ul>'
   ];
-  var datedEntries=Object.assign({},DEFAULT_CALENDAR_ENTRIES);Object.keys(calendarEntries||{}).forEach(function(key){if(Array.isArray(calendarEntries[key])&&calendarEntries[key].length)datedEntries[key]=calendarEntries[key];});
+  var datedEntries={};Object.keys(calendarEntries||{}).forEach(function(key){if(Array.isArray(calendarEntries[key])&&calendarEntries[key].length)datedEntries[key]=calendarEntries[key];});Object.assign(datedEntries,DEFAULT_CALENDAR_ENTRIES);
   if(Object.keys(datedEntries).length)schedules=schedules.map(function(fallback,index){var date=new Date(start);date.setDate(date.getDate()+index);var lines=datedEntries[weeklyDateKey(date)]||[];return lines.length?'<ul>'+lines.map(function(line){return '<li>'+esc(line)+'</li>';}).join('')+'</ul>':'<div class="no-event">No scheduled activity listed.</div>';});
   return schedules.map(function(schedule,index){var date=new Date(start);date.setDate(date.getDate()+index);return '<article class="weekly-day" contenteditable="false"><h4>'+date.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})+'</h4>'+schedule+'</article>';}).join('');
 }
@@ -1640,6 +1682,15 @@ function restoreCalendarTools(){
   if(editor)editor.innerHTML=saved&&saved.version===WEEKLY_CALENDAR_VERSION&&saved.weekStart===key&&saved.html?saved.html:weeklyScheduleHtml(start,state&&state.entries);
   if(title)title.textContent=weeklyTitle(start);
   setWeeklyEditorMode(false);
+  repairStoredImageCalendar(state);
+}
+var repairingStoredImageCalendar=false;
+async function repairStoredImageCalendar(state){
+  if(repairingStoredImageCalendar||!state||!state.source||Object.keys(state.entries||{}).length||!/^image\/(png|jpeg)/i.test(String(state.source).slice(0,30)))return;
+  repairingStoredImageCalendar=true;var status=document.getElementById('calendarUploadStatus');if(status)status.textContent='Reading activities from the uploaded calendar...';
+  try{var result=await extractImageCalendarEntries(state.source,state.month,status);state.month=result.month||state.month;state.title=state.month+' Team Calendar';state.entries=result.entries;localStorage.setItem(CALENDAR_STATE_KEY,JSON.stringify(state));localStorage.removeItem(WEEKLY_CALENDAR_KEY);applyUploadedCalendar(state);var editor=document.getElementById('weeklyCalendarEditor'),start=currentWeekStart();if(editor)editor.innerHTML=weeklyScheduleHtml(start,state.entries);if(status)status.textContent='Current calendar: '+state.month+' - weekly activities automated';}
+  catch(error){if(status)status.textContent='Calendar image loaded, but its activities could not be read automatically. Re-upload a clearer image or use PDF/Excel.';}
+  finally{repairingStoredImageCalendar=false;}
 }
 function scheduleWeeklyCalendarRefresh(){
   var now=new Date(),next=new Date(now);next.setHours(0,0,1,0);next.setDate(next.getDate()+((7-next.getDay())%7||7));
@@ -1994,7 +2045,7 @@ function renderAgentForm(){
       <div class="act-total" id="afTot_${i}">0</div>
     </div>`).join('');
   updateFormTotals();
-  showPointingChanges();
+  updateNotificationBell();
 }
 var pointingChangesShown=false;
 function showPointingChanges(){
@@ -2017,7 +2068,11 @@ function showPointingChanges(){
   document.getElementById('pointingChangesList').innerHTML=changes.map(function(change){var points=change.old!==undefined?'<span class="pointing-old">'+change.old+' pts</span><span class="pointing-arrow">→</span><span class="pointing-new">'+change.next+' pts</span>':'<span class="pointing-new-only">'+change.next+' points</span>';return '<li><span class="pointing-change-name">'+esc(change.name)+'</span>'+(change.detail?'<span class="small">'+esc(change.detail)+'</span><br>':'')+points+'</li>';}).join('');pointingChangesShown=true;modal.style.display='flex';modal.dataset.version=latest;
 }
 function closePointingChanges(){document.getElementById('pointingChangesModal').style.display='none';}
-function reopenPointingChanges(){pointingChangesShown=false;showPointingChanges();}
+function updateNotificationBell(){
+  var bell=document.querySelector('.notification-bell'),today=localDateValue(new Date());if(!bell)return;
+  bell.classList.toggle('notification-bell-attention',today>='2026-10-01'&&today<='2026-10-07');
+}
+function reopenPointingChanges(){var bell=document.querySelector('.notification-bell');if(bell)bell.classList.remove('notification-bell-attention');pointingChangesShown=false;showPointingChanges();}
 function updateAgentAvatarSelect(){
   var picker=document.getElementById('afAvatarPicker'),toggle=document.getElementById('afAvatarToggle'),name=document.getElementById('afName').value.trim();if(!picker||!toggle)return;
   var selected=name?(agentAvatars[name]||''):'';
@@ -2065,6 +2120,12 @@ function localDateValue(date){
   let y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),d=String(date.getDate()).padStart(2,'0');
   return y+'-'+m+'-'+d;
 }
+function agentSubmissionDateAllowed(value){
+  var now=new Date(),today=localDateValue(now),monday=new Date(now);monday.setHours(12,0,0,0);monday.setDate(now.getDate()-((now.getDay()+6)%7));
+  var inCurrentWeek=value>=localDateValue(monday)&&value<=today;
+  var weekThreeException=today>='2026-10-01'&&today<='2026-10-07'&&value>='2026-09-21'&&value<='2026-09-27';
+  return inCurrentWeek||weekThreeException;
+}
 function formatReviewDate(value){
   let parts=value.split('-');
   if(parts.length!==3)return value;
@@ -2085,6 +2146,7 @@ async function submitAgentForm(confirmed){
   if(!name)return alert('Select your name first.');
   if(!date)return alert('Please select a date.');
   if(date>localDateValue(new Date()))return alert('Future dates are not allowed. Please select today or an earlier date.');
+  if(!agentSubmissionDateAllowed(date))return alert('That activity date is past the logging deadline. As a one-time exception through October 7, Week 3 activities dated September 21–27, 2026 are allowed.');
   let entries=[];
   activities.forEach((a,i)=>{
     let el=document.getElementById('afCount_'+i);if(!el)return;
